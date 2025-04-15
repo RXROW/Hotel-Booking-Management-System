@@ -66,3 +66,38 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+
+.MuiTextField-root {
+  background-color: #F5F6F8;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  padding: 5px 10px;
+}
+
+
+.MuiInput-root:before,
+.MuiInput-root:after {
+  border-bottom: none !important;
+}
+
+
+.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+
+.MuiInputBase-root {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.MuiInputBase-input {
+  padding: 12px 14px !important;
+}
