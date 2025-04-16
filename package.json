@@ -12,6 +12,7 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@fontsource/poppins": "^5.2.5",
     "@fontsource/roboto": "^5.2.5",
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@mui/icons-material": "^7.0.2",
@@ -25,6 +26,7 @@
     "i18next-browser-languagedetector": "^8.0.4",
     "i18next-http-backend": "^3.0.2",
     "jwt-decode": "^4.0.0",
+    "prettier": "^3.5.3",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-chartjs-2": "^5.3.0",
@@ -50,5 +52,10 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 2
   }
 }
