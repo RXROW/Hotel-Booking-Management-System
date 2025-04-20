@@ -1,5 +1,7 @@
+
 import { Box, Snackbar, Alert, Link } from "@mui/material";
 import Grid from "@mui/material/Grid";
+
 import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
 import { FormProvider, useForm } from "react-hook-form";
@@ -11,12 +13,14 @@ import {
 } from "../../../../services/vaildation/validation";
 import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
+
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../../Context/AuthContext";
 import { USERS_URL } from "../../../../services/apis/apisUrls";
 import { publicInstance } from "../../../../services/apis/apisConfig";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 
 const Login = () => {
   const { saveLoginData } = useContext(AuthContext);
@@ -58,11 +62,13 @@ const Login = () => {
   };
 
   return (
+
     <Grid container spacing={2} sx={{ height: "100%", px: 1 }}>
-      <Grid  >
+      <Grid item size={{ xs: 6, md: 6 }}>
+
 
         <Box component="div" sx={{ p: 3 }}>
-          <TitleAuth title="Sign up" />
+          <TitleAuth title="Sign In" />
           <FormProvider {...methods}>
             <ReusableForm onSubmit={methods.handleSubmit(onSubmit)}>
               <FormInput
@@ -82,6 +88,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 iconeye={getPasswordAdornment("password")}
               />
+
               <Box sx={{ textAlign: 'right', mb: 2 }}>
                 <Link
                   component="button"
@@ -92,6 +99,7 @@ const Login = () => {
                   Forgot Password?
                 </Link>
               </Box>
+
               <ButtonForm isSubmitting={methods.formState.isSubmitting}>
                 Login
               </ButtonForm>
@@ -99,6 +107,7 @@ const Login = () => {
           </FormProvider>
         </Box>
       </Grid>
+
 
       <Snackbar
         open={openSnackbar}
@@ -115,6 +124,7 @@ const Login = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+
     </Grid>
   );
 };

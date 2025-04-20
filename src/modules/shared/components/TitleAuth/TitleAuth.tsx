@@ -5,7 +5,7 @@ interface TitleAuthProps {
   title: string;
 }
 const TitleAuth = ({ title }: TitleAuthProps) => {
-  const compara = title === "Sign up" ? true : false;
+  const compara = title === "Sign In" ? true : false;
   const navigate = useNavigate();
   const handleClick = () => {
     if (compara) navigate("/register");

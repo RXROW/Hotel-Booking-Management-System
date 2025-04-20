@@ -120,6 +120,7 @@ export default function Register() {
     }
   };
 
+
   const onSubmit = async (data: User) => {
     console.log(data);
     const formData = new FormData();
@@ -153,6 +154,7 @@ export default function Register() {
       }
     }
   };
+
 
   const inputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
