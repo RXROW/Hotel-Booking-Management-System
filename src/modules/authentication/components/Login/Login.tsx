@@ -1,3 +1,4 @@
+
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import authImage from "../../../../assets/imges/auth.jpg";
@@ -74,3 +75,4 @@ const Login = () => {
 };
 
 export default Login;
+
