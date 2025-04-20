@@ -1,3 +1,4 @@
+
 import { Outlet, useLocation } from 'react-router-dom'
 import { Box, Grid, Typography } from '@mui/material'
 import loginBg from '../../../../assets/imges/login-bg.png'
@@ -35,8 +36,10 @@ const AuthLayout = () => {
     }
   }
 
+
   return (
     <>
+
 
       <Box
         sx={{
@@ -111,7 +114,7 @@ const AuthLayout = () => {
         </Grid>
       </Box>
     </>
-  )
-}
+  );
+};
 
-export default AuthLayout
+export default AuthLayout;
