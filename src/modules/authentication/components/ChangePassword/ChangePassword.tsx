@@ -1,7 +1,9 @@
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
-// import authImage from "../../../../assets/imges/auth.jpg";
-import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
+
+ 
+ import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
+
 import Commonheader from "../../../shared/components/commonheader/Commonheader";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
 import { FormProvider, useForm } from "react-hook-form";
@@ -12,7 +14,7 @@ import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
 import { useEffect } from "react";
 const ChangePassword = () => {
-  const methods = useForm<ChangeData>({
+  const methods = useForm<any>({
     defaultValues: {
       oldPassword: "",
       newPassword: "",
