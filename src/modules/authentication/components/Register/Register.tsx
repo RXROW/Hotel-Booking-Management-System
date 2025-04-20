@@ -46,7 +46,7 @@ const Register = () => {
   };
 
   return (
-    <Box sx={{ maxWidth: 500, mx: "auto", p: 4 }}>
+    <Box sx={{  mx: "auto"}}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
         Sign up
       </Typography>

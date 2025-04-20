@@ -1,7 +1,7 @@
 
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import authImage from "../../../../assets/imges/auth.jpg";
+// import authImage from "../../../../assets/imges/auth.jpg";
 import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
 import Commonheader from "../../../shared/components/commonheader/Commonheader";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
@@ -14,6 +14,7 @@ import {
 } from "../../../../services/vaildation/validation";
 import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
+import { Link } from "react-router-dom";
 const Login = () => {
   const methods = useForm({
     defaultValues: {
@@ -28,9 +29,9 @@ const Login = () => {
   return (
     <Grid container spacing={2} sx={{ height: "100vh", px: 1 }}>
       <Grid item size={{ xs: 6, md: 6 }}>
-        <Commonheader />
+        {/* <Commonheader /> */}
         <Box component="div" sx={{ p: 3 }}>
-          <TitleAuth title="Sign up" />
+          <TitleAuth title="Sign In" />
           <FormProvider {...methods}>
             <ReusableForm onSubmit={methods.handleSubmit(handleSubmit)}>
               <FormInput
@@ -50,25 +51,24 @@ const Login = () => {
                 placeholder="Enter your password"
                 iconeye={getPasswordAdornment("password")}
               />
+
+<Box display="flex" justifyContent="flex-end">
+  <Typography
+    component={Link}
+    to="/forget-password"
+    sx={{ textDecoration: 'none', color: 'primary.main' }}
+  >
+    Forget Password?
+  </Typography>
+</Box>
+
+              
               <ButtonForm isSubmitting={methods.formState.isSubmitting}>
                 Login
               </ButtonForm>
             </ReusableForm>
           </FormProvider>
         </Box>
-      </Grid>
-      <Grid item size={{ xs: 6, md: 6 }}>
-        <Box
-          component="img"
-          src={authImage}
-          alt="Authentication"
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: 2,
-          }}
-        />
       </Grid>
     </Grid>
   );

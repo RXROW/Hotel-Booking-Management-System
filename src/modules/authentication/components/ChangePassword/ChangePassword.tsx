@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import authImage from "../../../../assets/imges/auth.jpg";
+// import authImage from "../../../../assets/imges/auth.jpg";
 import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
 import Commonheader from "../../../shared/components/commonheader/Commonheader";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
@@ -35,7 +35,7 @@ const ChangePassword = () => {
   return (
     <Grid container spacing={2} sx={{ height: "100vh", px: 1 }}>
       <Grid item size={{ xs: 6, md: 6 }}>
-        <Commonheader />
+        {/* <Commonheader /> */}
         <Box component="div" sx={{ p: 3 }}>
           <TitleAuth title="Change Password" />
           <FormProvider {...methods}>
@@ -73,19 +73,6 @@ const ChangePassword = () => {
             </ReusableForm>
           </FormProvider>
         </Box>
-      </Grid>
-      <Grid item size={{ xs: 6, md: 6 }}>
-        <Box
-          component="img"
-          src={authImage}
-          alt="Authentication"
-          sx={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: 2,
-          }}
-        />
       </Grid>
     </Grid>
   );

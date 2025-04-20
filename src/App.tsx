@@ -7,7 +7,7 @@ import ForgetPassword from './modules/authentication/components/ForgetPassword/F
 import ResetPassword from './modules/authentication/components/ResetPassword/ResetPassword'
 import ChangePassword from './modules/authentication/components/ChangePassword/ChangePassword'
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
-import '@fontsource/poppins/400.css';
+// import '@fontsource/poppins/400.css';
 
 function App() {
   let routes = createBrowserRouter([

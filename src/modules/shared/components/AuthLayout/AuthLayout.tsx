@@ -33,6 +33,8 @@ const AuthLayout = () => {
         return `Forget Password`
       case '/reset-password':
         return `Reset Password`
+      case '/change-password':
+        return `Change Password`
     }
   }
 
@@ -70,7 +72,7 @@ const AuthLayout = () => {
             Stay<span style={{ color: 'black' }}>cation.</span>
           </Typography>
 
-          <Box sx={{ width: '100%', maxWidth: '400px' }}>
+          <Box sx={{ width: '80%',padding:"10px" , marginTop:"50px" }}>
             <Outlet />
           </Box>
         </Box>
