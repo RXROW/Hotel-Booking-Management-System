@@ -8,12 +8,13 @@ import ResetPassword from './modules/authentication/components/ResetPassword/Res
 import ChangePassword from './modules/authentication/components/ChangePassword/ChangePassword'
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 import '@fontsource/poppins/400.css';
+import AuthContextProvider from './Context/AuthContext'
 
 function App() {
   let routes = createBrowserRouter([
     {
       path: '/',
-      element: <AuthLayout/>,
+      element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
@@ -22,15 +23,14 @@ function App() {
         { path: "forget-password", element: <ForgetPassword /> },
         { path: "reset-password", element: <ResetPassword /> },
         { path: "change-password", element: <ChangePassword /> },
-        
+
       ]
     }])
 
   return (
-    <>
-              <RouterProvider router={routes}></RouterProvider>
-
-    </>
+    <AuthContextProvider>
+      <RouterProvider router={routes} />
+    </AuthContextProvider>
   )
 }
 
