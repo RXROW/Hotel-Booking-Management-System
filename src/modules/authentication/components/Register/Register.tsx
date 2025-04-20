@@ -166,8 +166,8 @@ export default function Register() {
   return (
     <Container
       sx={{
-        paddingTop: "5rem",
-        marginX: { xs: "1rem", sm: "2rem", md: "5rem" },
+        paddingTop: "2rem",
+        
       }}
     >
       <Typography variant="h4">Sign up</Typography>
