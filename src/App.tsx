@@ -10,6 +10,8 @@ import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 
 // import '@fontsource/poppins/400.css';
 import AuthContextProvider from './Context/AuthContext'
+import Dashboard from './modules/Dashboard/Dashboard'
+import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
 
 
 function App() {
@@ -27,7 +29,17 @@ function App() {
         { path: "change-password", element: <ChangePassword /> },
 
       ]
-    }])
+    },{
+      path: '/dashboard',
+      element:  
+                  <MasterLayout/>,
+      errorElement: <NotFound/>,
+      children: [
+        {index: true, element: <Dashboard/>},
+        {path: 'dashboard', element: <Dashboard/>},
+      ]
+    }
+  ])
 
   return (
     <AuthContextProvider>

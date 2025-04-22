@@ -1,8 +1,8 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { jwtDecode } from "jwt-decode";
-import { createContext, useEffect, useState } from "react";
-import { publicInstance } from "../services/apis/apisConfig";
+import { createContext, useContext, useEffect, useState } from "react";
+import { privateInstance} from "../services/apis/apisConfig";
 import { USERS_URL } from "../services/apis/apisUrls";
 
 
@@ -26,9 +26,11 @@ export default function AuthContextProvider(props: any) {
     };
 
     const getCurrentUser = () => {
-        publicInstance
+        privateInstance
             .get(USERS_URL.GET_USER_PROFILE(loginData?._id))
             .then((response) => {
+                console.log(loginData)
+                console.log("LOG IN INFO :", response?.data?.data?.user);
                 setUserName(response?.data?.data?.user?.userName);
                 setProfileImage(response?.data?.data.user.profileImage);
 
@@ -57,3 +59,11 @@ export default function AuthContextProvider(props: any) {
         </AuthContext.Provider>
     );
 }
+
+export function useAuthContext() {
+    const context = useContext(AuthContext);
+    if (!context) {
+      throw new Error("useAuthContext must be used within an AuthContextProvider");
+    }
+    return context;
+  }

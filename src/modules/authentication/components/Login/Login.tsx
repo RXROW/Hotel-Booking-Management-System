@@ -1,5 +1,5 @@
 
-import { Box, Snackbar, Alert, Link } from "@mui/material";
+import { Box, Snackbar, Alert} from "@mui/material";
 import Grid from "@mui/material/Grid";
 
 import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
@@ -15,11 +15,11 @@ import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
 
 import { useContext, useState } from "react";
-import { AuthContext } from "../../../../Context/AuthContext";
+import { AuthContext } from "../../../../context/AuthContext";
 import { USERS_URL } from "../../../../services/apis/apisUrls";
 import { publicInstance } from "../../../../services/apis/apisConfig";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
@@ -91,10 +91,8 @@ const Login = () => {
 
               <Box sx={{ textAlign: 'right', mb: 2 }}>
                 <Link
-                  component="button"
-                  variant="body2"
-                  onClick={() => navigate('/forget-password')}
-                  sx={{ textDecoration: 'none' }}
+                to={"/forgot-password"}
+                style={{ textDecoration: "none", color: "#000" }}
                 >
                   Forgot Password?
                 </Link>
