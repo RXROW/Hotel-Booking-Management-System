@@ -9,7 +9,7 @@ import {
     Box,
   } from "@mui/material";
   import CloseIcon from '@mui/icons-material/Close';
-  import DeleteIMG from '../../../../assets/imges/DeleteIMG.png';
+  import DeleteIMG from '../../../../assets/imges/DeleteConfirm.png';
   
   interface DeleteConfirmationProps {
       open: boolean;
