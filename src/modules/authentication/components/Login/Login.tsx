@@ -46,6 +46,7 @@ const Login = () => {
     try {
       const response = await publicInstance.post(USERS_URL.LOGIN, data);
       localStorage.setItem('token', response?.data?.data?.token.split(' ')[1]);
+      console.log(response?.data?.data?.token.split(' ')[1])
       saveLoginData();
       setSnackbarMessage("Login successful");
       setSnackbarSeverity("success");
