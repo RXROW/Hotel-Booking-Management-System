@@ -4,29 +4,26 @@ import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { Delete, Edit, MoreHoriz, Visibility } from '@mui/icons-material'
 import { ListItemIcon, ListItemText } from '@mui/material'
-import DeleteConfirmation from '../DeleteConfirmation/DeleteConfirmation'
 
-export default function DropdownMenu({ onAction }) {
+export default function DropdownMenu({ facility, onAction }:any) {
   const options = [
-    { label: 'View', icon: <Visibility />, action: 'view' },
-    { label: 'Edit', icon: <Edit />, action: 'edit' },
-    { label: 'Delete', icon: <Delete />, action: 'delete' },
+    { label: 'View', icon: <Visibility sx={{color:"#0675cac7"}} />, action: 'view' },
+    { label: 'Edit', icon: <Edit sx={{color:"#0675cac7"}} />, action: 'edit' },
+    { label: 'Delete', icon: <Delete sx={{color:"#0675cac7"}} />, action: 'delete' },
   ]
-
-  const [showConfirmDelete, setShowConfirmDelete] = React.useState(false)
 
   const ITEM_HEIGHT = 40
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget)
   }
-  const handleClose = (action: string) => {
+
+  const handleClose = (action?: string) => {
     setAnchorEl(null)
-    if (action === 'delete') {
-      setShowConfirmDelete(true)
-    } else if (action && onAction) {
-      onAction(action)
+    if (action && onAction) {
+      onAction(action,facility)
     }
   }
 
@@ -49,7 +46,7 @@ export default function DropdownMenu({ onAction }) {
         }}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={() => handleClose()}
         slotProps={{
           paper: {
             style: {
@@ -65,20 +62,11 @@ export default function DropdownMenu({ onAction }) {
             key={option.action}
             onClick={() => handleClose(option.action)}
           >
-            <ListItemIcon color="#203FC7">{option.icon}</ListItemIcon>
+            <ListItemIcon>{option.icon}</ListItemIcon>
             <ListItemText>{option.label}</ListItemText>
           </MenuItem>
         ))}
       </Menu>
-
-      <DeleteConfirmation
-        open={showConfirmDelete}
-        onClose={() => setShowConfirmDelete(false)}
-        onConfirm={() => {
-          if (onAction) onAction('delete')
-          setShowConfirmDelete(false)
-        }}
-      />
     </>
   )
 }

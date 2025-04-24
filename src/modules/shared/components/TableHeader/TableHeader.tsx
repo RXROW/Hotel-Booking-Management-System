@@ -1,9 +1,11 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography, Button } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-export default function TableHeader({ TextButton = 'Room', HeaderText = "Room" }) {
+export default function TableHeader({ TextButton = '', HeaderText = "", onClick }) {
+  const isFacility = TextButton.toLowerCase() === 'facility'
+
   return (
-    <Grid style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Grid style={{ display: 'flex', justifyContent: 'space-between' , alignItems:"center",marginBottom:"50px",marginTop:"5px"}}>
       <Box>
         <Typography variant="h5" color="initial">
           {HeaderText} Table Details
@@ -13,19 +15,37 @@ export default function TableHeader({ TextButton = 'Room', HeaderText = "Room" }
         </Typography>
       </Box>
       <Box>
-        <Link
-          style={{
-            textDecoration: 'none',
-            color: 'white',
-            backgroundColor: '#203FC7',
-            paddingInline: '20px',
-            paddingBlock: '10px',
-            borderRadius: '8px',
-          }}
-          to="/add-table"
-        >
-          Add New {TextButton}
-        </Link>
+        {isFacility ? (
+          <Button
+            onClick={onClick}
+            style={{
+              textDecoration: 'none',
+              color: 'white',
+              backgroundColor: '#203FC7',
+              paddingInline: '20px',
+              paddingBlock: '10px',
+              borderRadius: '8px',
+              paddingLeft: "30px",
+              paddingRight: "30px",
+            }}
+          >
+            Add New {TextButton}
+          </Button>
+        ) : (
+          <Link
+            style={{
+              textDecoration: 'none',
+              color: 'white',
+              backgroundColor: '#203FC7',
+              paddingInline: '20px',
+              paddingBlock: '10px',
+                borderRadius: '8px',
+            }}
+            to="/add-table"
+          >
+            Add New {TextButton}
+          </Link>
+        )}
       </Box>
     </Grid>
   )
