@@ -9,9 +9,11 @@ import ChangePassword from './modules/authentication/components/ChangePassword/C
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 
 // import '@fontsource/poppins/400.css';
-import AuthContextProvider from './Context/AuthContext'
+import AuthContextProvider from './context/AuthContext'
 import Dashboard from './modules/Dashboard/Dashboard'
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
+import FacilitiesList from './modules/Facilities/FacilitiesList'
+import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
 
 
 function App() {
@@ -32,11 +34,16 @@ function App() {
     },{
       path: '/dashboard',
       element:  
-                  <MasterLayout/>,
+        <ProtectedRoute>
+
+          <MasterLayout/>
+        </ProtectedRoute>,
       errorElement: <NotFound/>,
       children: [
         {index: true, element: <Dashboard/>},
-        {path: 'dashboard', element: <Dashboard/>},
+        { path: 'dashboard', element: <Dashboard /> },
+        { path: 'facilities', element: <FacilitiesList /> },
+        
       ]
     }
   ])

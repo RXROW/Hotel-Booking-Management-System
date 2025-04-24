@@ -90,7 +90,7 @@ export default function SidebarComponent({ onToggle, collapsed }: SidebarProps) 
     { label: "Rooms", path: "/rooms", icon: <RoomsIcon /> },
     { label: "Ads", path: "/advertisments", icon: <AdsIcon /> },
     { label: "Bookings", path: "/booking", icon: <BookingsIcon /> },
-    { label: "Facilities", path: "/facilities", icon: <FacilitiesIcon /> },
+    { label: "Facilities", path: "facilities", icon: <FacilitiesIcon /> },
     { label: "Change Password", path: "/change-password", icon: <ChangePasswordIcon /> }, 
   ];
 
