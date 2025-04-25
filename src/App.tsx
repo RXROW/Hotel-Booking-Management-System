@@ -9,9 +9,12 @@ import ChangePassword from './modules/authentication/components/ChangePassword/C
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 
 // import '@fontsource/poppins/400.css';
-import AuthContextProvider from './Context/AuthContext'
+
 import Dashboard from './modules/Dashboard/Dashboard'
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
+import AuthContextProvider from './context/AuthContext'
+import RoomsList from './modules/Rooms/RoomsList/RoomsList'
+import RoomsData from './modules/Rooms/RoomsData/RoomsData'
 
 
 function App() {
@@ -38,6 +41,9 @@ function App() {
       children: [
         {index: true, element: <Dashboard/>},
         {path: 'dashboard', element: <Dashboard/>},
+        {path: 'rooms', element: <RoomsList/>},
+        {path: 'rooms/rooms-Data', element: <RoomsData/>},
+        {path: 'rooms/:roomid', element: <RoomsData/>},
       ]
     }
   ])

@@ -52,6 +52,7 @@ const Login = () => {
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
       navigate('/dashboard');
+      // navigate('/dashboard');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         setSnackbarMessage(error.response?.data?.message || 'Cannot Log in');
