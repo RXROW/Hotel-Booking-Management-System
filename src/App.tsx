@@ -15,6 +15,8 @@ import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
 import FacilitiesList from './modules/Facilities/FacilitiesList'
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
 import Advertisements from './modules/Advertisements/Advertisements'
+import UsersList from './modules/Users/UsersList'
+import BookingList from './modules/Booking/BookingList'
 
 
 function App() {
@@ -45,6 +47,9 @@ function App() {
         { path: 'dashboard', element: <Dashboard /> },
         { path: 'facilities', element: <FacilitiesList /> },
         { path: 'advertisements', element: <Advertisements /> },
+        { path: 'users', element: <UsersList /> },
+        { path: 'booking', element: <BookingList /> },
+        
       ],
     },
   ])
