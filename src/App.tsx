@@ -14,6 +14,7 @@ import Dashboard from './modules/Dashboard/Dashboard'
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
 import FacilitiesList from './modules/Facilities/FacilitiesList'
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
+import Advertisements from './modules/Advertisements/Advertisements'
 
 
 function App() {
@@ -24,28 +25,28 @@ function App() {
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
-        { path: "login", element: <Login /> },
-        { path: "register", element: <Register /> },
-        { path: "forget-password", element: <ForgetPassword /> },
-        { path: "reset-password", element: <ResetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
-
-      ]
-    },{
+        { path: 'login', element: <Login /> },
+        { path: 'register', element: <Register /> },
+        { path: 'forget-password', element: <ForgetPassword /> },
+        { path: 'reset-password', element: <ResetPassword /> },
+        { path: 'change-password', element: <ChangePassword /> },
+      ],
+    },
+    {
       path: '/dashboard',
-      element:  
+      element: (
         <ProtectedRoute>
-
-          <MasterLayout/>
-        </ProtectedRoute>,
-      errorElement: <NotFound/>,
+          <MasterLayout />
+        </ProtectedRoute>
+      ),
+      errorElement: <NotFound />,
       children: [
-        {index: true, element: <Dashboard/>},
+        { index: true, element: <Dashboard /> },
         { path: 'dashboard', element: <Dashboard /> },
         { path: 'facilities', element: <FacilitiesList /> },
-        
-      ]
-    }
+        { path: 'advertisements', element: <Advertisements /> },
+      ],
+    },
   ])
 
   return (
