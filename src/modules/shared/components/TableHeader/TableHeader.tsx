@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function TableHeader({ TextButton = '', HeaderText = "", onClick }) {
   const isFacility = TextButton.toLowerCase() === 'facility'
+  const isAds = TextButton === 'Ads'
 
   return (
     <Grid style={{ display: 'flex', justifyContent: 'space-between' , alignItems:"center",marginBottom:"50px",marginTop:"5px"}}>
@@ -15,7 +16,7 @@ export default function TableHeader({ TextButton = '', HeaderText = "", onClick 
         </Typography>
       </Box>
       <Box>
-        {isFacility ? (
+        {isFacility || isAds ? (
           <Button
             onClick={onClick}
             style={{

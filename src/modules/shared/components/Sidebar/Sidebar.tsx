@@ -86,10 +86,10 @@ export default function SidebarComponent({ onToggle, collapsed }: SidebarProps) 
 
   const menuItems: MenuItemConfig[] = [
     { label: "Home", path: "/dashboard", icon: <HomeIcon /> },
-    { label: "Users", path: "/users", icon: <UsersIcon /> },
-    { label: "Rooms", path: "/rooms", icon: <RoomsIcon /> },
-    { label: "Ads", path: "/advertisments", icon: <AdsIcon /> },
-    { label: "Bookings", path: "/booking", icon: <BookingsIcon /> },
+    { label: "Users", path: "users", icon: <UsersIcon /> },
+    { label: "Rooms", path: "rooms", icon: <RoomsIcon /> },
+    { label: "Ads", path: "advertisements", icon: <AdsIcon /> },
+    { label: "Bookings", path: "booking", icon: <BookingsIcon /> },
     { label: "Facilities", path: "facilities", icon: <FacilitiesIcon /> },
     { label: "Change Password", path: "/change-password", icon: <ChangePasswordIcon /> }, 
   ];
@@ -104,7 +104,7 @@ export default function SidebarComponent({ onToggle, collapsed }: SidebarProps) 
       <IconButton
         onClick={onToggle}
         sx={{
-          transform: collapsed ? "rotate(180deg)" : "rotate(0deg)",
+          transform: collapsed ? "rotate(0deg)" : "rotate(180deg)",
           transition: "all 0.3s",
           position: "absolute",
           right: collapsed ? "170px" : "5px",

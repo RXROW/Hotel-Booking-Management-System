@@ -22,7 +22,14 @@ import {
 } from "@mui/icons-material";
 import { privateInstance } from "../../services/apis/apisConfig";
 import { DASHBOARD_URL } from "../../services/apis/apisUrls";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+} from 'recharts'
 
 interface BookingData {
   completed: number;
