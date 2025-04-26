@@ -109,6 +109,7 @@ export default function RoomsData() {
     });
   }
  
+
  images.forEach((image) => {
       if (image.file) {
       formata.append("imgs", image.file);
@@ -150,6 +151,7 @@ export default function RoomsData() {
       setValue("facilities", facilityIds);
     }
     // Handle images
+console.log(response.images)
     if (response.images && Array.isArray(response.images)) {
       const imagesPreviews = response.images.map((img: string) => ({
         url: img, // Keep the full image URL/path
@@ -206,11 +208,10 @@ const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   const newImages: ImagePreview[] = files.map((file) => ({
     url: URL.createObjectURL(file),
     name: file.name,
-    file: file,
-    isExisting: false // Mark as new image
+    file
   }));
-  
-  setImages((prevImages) => [...prevImages, ...newImages]);
+// setImages(newImages)
+    setImages((prevImages) => [...prevImages, ...newImages]);
 
 };
 // Add delete handler

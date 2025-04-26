@@ -15,11 +15,11 @@ import { privateInstance } from "../../../services/apis/apisConfig";
 import { ROOMS_URL } from "../../../services/apis/apisUrls";
 import ReusableModal from "../../shared/components/ResuableView/ReusableModal";
 import { useNavigate } from "react-router-dom";
-function RoomList() {
+function RoomList()  {
  const [data, setData] = useState<IRoom[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [currentroom, setcurrentroom] = useState<IRoom | null>(null);
+  const [currentroom, setcurrentroom] = useState<IRoom | null>([]);
   const [RoomId, setRoomId] = useState<string>("");
   const navigate = useNavigate();
    const fetchRooms = useCallback(async (): Promise<void> => {
@@ -153,7 +153,7 @@ function RoomList() {
                     Delet
                   </span>
                   <span onClick={() => GetCurrentRoom(room)}>View</span>
-                  <span onClick={() => handleroomTask(room._id)}>Edit</span>
+                  <span onClick={() => handleEditroom(room._id)}>Edit</span>
                 </TableCell>
               </StyledTableRow>
             ))}
