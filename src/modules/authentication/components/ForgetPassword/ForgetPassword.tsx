@@ -59,7 +59,7 @@ const ForgetPassword = () => {
           }}
         >
           <Typography variant="h4" component="h1" fontWeight="bold" mb={1}>
-            Forgot password
+            Forget password
           </Typography>
 
           <Box sx={{ mb: 4 }}>

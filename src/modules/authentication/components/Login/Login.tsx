@@ -93,7 +93,7 @@ const Login = () => {
 
               <Box sx={{ textAlign: 'right', mb: 2 }}>
                 <Link
-                to={"/forgot-password"}
+                to={"/forget-password"}
                 style={{ textDecoration: "none", color: "#000" }}
                 >
                   Forgot Password?

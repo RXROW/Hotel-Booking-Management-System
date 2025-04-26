@@ -206,7 +206,7 @@ const handleChange = (event: SelectChangeEvent<typeof selectedFacilities>) => {
 const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   const files = Array.from(event.target.files || []);
   const newImages: ImagePreview[] = files.map((file) => ({
-    url: URL.createObjectURL(file),
+    url: URL.createObjectURL(file), 
     name: file.name,
     file
   }));
