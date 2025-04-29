@@ -106,3 +106,7 @@ body {
 .MuiInputBase-input {
   padding: 12px 14px !important;
 }
+
+.UserNav Link{
+    color: aqua;
+}

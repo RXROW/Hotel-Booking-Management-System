@@ -139,7 +139,7 @@ export default function Register() {
       );
       if (response.status === 201) {
         showSnackbar(response?.data?.message || "User created successfully", "success");
-        navigate("/login");
+        navigate("login");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -183,7 +183,7 @@ export default function Register() {
         If you already have an account register You can{" "}
         <Link
           component={RouterLink}
-          to={"/login"}
+          to={"/auth"}
           sx={{ color: "#EB5148", fontWeight: "600", textDecoration: "none" }}
         >
           Login here !

@@ -144,7 +144,7 @@ const [openViewModal, setOpenViewModal] = useState(false);
         }
           />
           
-          <ViewModal
+          {/* <ViewModal
   open={openViewModal}
   onClose={() => setOpenViewModal(false)}
   title="User Details"
@@ -156,7 +156,22 @@ const [openViewModal, setOpenViewModal] = useState(false);
     Verified: selectedUser?.verified ? 'Yes' : 'No',
     Country: selectedUser?.country || 'N/A',
   }}
+/> */}
+      <ViewModal
+  open={openViewModal}
+  onClose={() => setOpenViewModal(false)}
+  title="User Details"
+  data={{
+    Image: selectedUser?.profileImage || '',
+    Username: selectedUser?.userName || 'N/A',
+    Email: selectedUser?.email || 'N/A',
+    Phone: selectedUser?.phoneNumber || 'N/A',
+    Role: selectedUser?.role || 'N/A',
+    Verified: selectedUser?.verified ? 'Yes' : 'No',
+    Country: selectedUser?.country || 'N/A',
+  }}
 />
+
       </Box>
       
   );

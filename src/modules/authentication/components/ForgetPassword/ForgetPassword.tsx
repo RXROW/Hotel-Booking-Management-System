@@ -68,7 +68,7 @@ const ForgetPassword = () => {
             </Typography>
             <Typography variant="body1" component="p">
               You can{" "}
-              <Link href="/login" sx={{ color: "#f44336", textDecoration: "none", fontWeight: "medium" }}>
+              <Link href="/auth" sx={{ color: "#f44336", textDecoration: "none", fontWeight: "medium" }}>
                 Login here !
               </Link>
             </Typography>
