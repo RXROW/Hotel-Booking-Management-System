@@ -8,8 +8,8 @@ const TitleAuth = ({ title }: TitleAuthProps) => {
   const compara = title === "Sign In" ? true : false;
   const navigate = useNavigate();
   const handleClick = () => {
-    if (compara) navigate("/register");
-    else navigate("/login");
+    if (compara) navigate("register");
+    else navigate("login");
   };
   return (
     <>

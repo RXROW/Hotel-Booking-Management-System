@@ -11,11 +11,11 @@ const AuthLayout = () => {
 
   const getBackgroundImage = () => {
     switch (location.pathname) {
-      case '/register':
+      case '/auth/register':
         return `url(${registerBg})`
-      case '/login':
+      case '/auth/login':
         return `url(${loginBg})`
-      case '/':
+      case '/auth':
         return `url(${loginBg})`
       default:
         return `url(${forgetResetBg})`
@@ -23,17 +23,17 @@ const AuthLayout = () => {
   }
   const rightSectionText = () => {
     switch (location.pathname) {
-      case '/register':
+      case '/auth/register':
         return `Sign up to Roamhome`
-      case '/login':
+      case '/auth/login':
         return `Sign in to Roamhome`
-      case '/':
+      case '/auth':
         return `Sign in to Roamhome`
-      case '/forget-password':
+      case '/auth/forget-password':
         return `Forget Password`
-      case '/reset-password':
+      case '/auth/reset-password':
         return `Reset Password`
-      case '/change-password':
+      case '/auth/change-password':
         return `Change Password`
     }
   }

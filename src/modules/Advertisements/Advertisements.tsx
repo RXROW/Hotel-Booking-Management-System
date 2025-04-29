@@ -10,6 +10,7 @@ import DeleteConfirmation from '../shared/components/DeleteConfirmation/DeleteCo
 import AdvertisementsForm from './AdvertisementsForm/AdvertisementsForm'
 import ViewModal from '../shared/components/ViewModal/ViewModal'
 import DropdownMenu from '../shared/components/DropdownMenu/DropdownMenu'
+import { toast } from 'react-toastify'
 
 const formatDate = (date: string) => {
   const d = new Date(date)
@@ -92,32 +93,64 @@ export default function Advertisements() {
   }, [size, page])
 
 
+  // const handleSubmitAd = async () => {
+  //   try {
+  //     if (isEditing && editingId) {
+  //       await privateInstance.put(ADS_URL.UPDATE_ADS(editingId), {
+  //         room: selectedRoomId,
+  //         discount,
+  //         isActive,
+  //       })
+  //     } else {
+  //       await privateInstance.post(ADS_URL.CREATE_ADS, {
+  //         room: selectedRoomId,
+  //         discount,
+  //         isActive,
+  //       })
+  //     }
+
+  //     setFormModalOpen(false)
+  //     setSelectedRoomId('')
+  //     setDiscount(0)
+  //     setIsActive(false)
+  //     setEditingId(null)
+  //     getAds({ size, page })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+
   const handleSubmitAd = async () => {
     try {
+      let res;
       if (isEditing && editingId) {
-        await privateInstance.put(ADS_URL.UPDATE_ADS(editingId), {
+        res = await privateInstance.put(ADS_URL.UPDATE_ADS(editingId), {
           room: selectedRoomId,
           discount,
           isActive,
-        })
+        });
       } else {
-        await privateInstance.post(ADS_URL.CREATE_ADS, {
+        res = await privateInstance.post(ADS_URL.CREATE_ADS, {
           room: selectedRoomId,
           discount,
           isActive,
-        })
+        });
       }
-
-      setFormModalOpen(false)
-      setSelectedRoomId('')
-      setDiscount(0)
-      setIsActive(false)
-      setEditingId(null)
-      getAds({ size, page })
+  
+      toast.success(res?.data?.message || 'Operation successful');
+  
+      setFormModalOpen(false);
+      setSelectedRoomId('');
+      setDiscount(0);
+      setIsActive(false);
+      setEditingId(null);
+      getAds({ size, page });
     } catch (error) {
-      console.log(error)
+      toast.error(error?.response?.data?.message || 'An error occurred');
+      console.log(error);
     }
-  }
+  };
+  
 
   const handleDeleteAd = async () => {
     if (!adToDeleteId) return
@@ -125,6 +158,7 @@ export default function Advertisements() {
       await privateInstance.delete(ADS_URL.DELETE_ADS(adToDeleteId))
       setOpenDeleteModal(false)
       setAdToDeleteId(null)
+      toast.success('Ad deleted successfully')
       getAds({ size, page })
     } catch (error) {
       console.log(error)

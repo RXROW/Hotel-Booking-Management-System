@@ -17,21 +17,24 @@ import ProtectedRoute from './modules/shared/components/ProtectedRoute/Protected
 import Advertisements from './modules/Advertisements/Advertisements'
 import UsersList from './modules/Users/UsersList'
 import BookingList from './modules/Booking/BookingList'
+import UserLayout from './modules/shared/components/UserLayout/UserLayout'
+import HomePage from './modules/Home/HomePage/HomePage'
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
   let routes = createBrowserRouter([
     {
-      path: '/',
+      path: '/auth',
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
-        { path: 'login', element: <Login /> },
-        { path: 'register', element: <Register /> },
-        { path: 'forget-password', element: <ForgetPassword /> },
-        { path: 'reset-password', element: <ResetPassword /> },
-        { path: 'change-password', element: <ChangePassword /> },
+        { path: '/auth/login', element: <Login /> },
+        { path: '/auth/register', element: <Register /> },
+        { path: '/auth/forget-password', element: <ForgetPassword /> },
+        { path: '/auth/reset-password', element: <ResetPassword /> },
+        { path: '/auth/change-password', element: <ChangePassword /> },
       ],
     },
     {
@@ -51,11 +54,25 @@ function App() {
         { path: 'booking', element: <BookingList /> },
         
       ],
-    },
+    },{
+      path: '/',
+      element: <UserLayout/>,
+      errorElement: <NotFound/>,
+      children: [
+        {index: true, element: <HomePage/>},
+        {path: 'home', element: <HomePage/>},
+        // {path: 'explore-all-rooms', element: <Explore/>},
+        // {path: 'details-page/:roomId', element: <DetailsPage/>},
+        // {path: 'favorites', element: <ProtectedRouteIsUser><Favorites/></ProtectedRouteIsUser>},
+        // {path: 'payment', element: <Elements stripe={stripePromise}> <ProtectedRouteIsUser><Payment/></ProtectedRouteIsUser> </Elements>},
+        // {path: 'payment-done', element: <ProtectedRouteIsUser><PaymentDone/></ProtectedRouteIsUser>}
+      ]
+    }
   ])
 
   return (
     <AuthContextProvider>
+      <ToastContainer/>
       <RouterProvider router={routes} />
     </AuthContextProvider>
   )

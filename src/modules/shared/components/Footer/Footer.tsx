@@ -2,7 +2,7 @@ import { Box, Container, Grid, Typography, Link } from "@mui/material";
 
 export default function Footer() {
   return (
-    <Box>
+    <Box sx={{paddingY:10}}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           {/* Logo and Description */}
