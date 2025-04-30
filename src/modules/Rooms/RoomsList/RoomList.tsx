@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { Box } from '@mui/material'
