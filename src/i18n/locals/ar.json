@@ -1,0 +1,59 @@
+{
+  "common": {
+    "selectLanguage": "اختيار اللغة"
+  },
+  "Authentication": {
+    "title": {
+      "signIn": "تسجيل الدخول",
+      "signUp": "إنشاء حساب",
+      "forgetPassword": "نسيت كلمة المرور",
+      "resetPassword": "إعادة تعيين كلمة المرور",
+      "changePassword": "تغيير كلمة المرور"
+    },
+    "description": {
+      "register": "إذا لم يكن لديك حساب",
+      "login": "إذا كان لديك حساب بالفعل",
+      "changePassword": "إذا كنت لا ترغب في تغيير كلمة المرور"
+    },
+    "text": {
+      "youCan": "يمكنك",
+      "image": "منزل فريد مثلك.",
+      "headingimage": "تسجيل الدخول "
+    },
+    "link": {
+      "register": "! اإنشاء حساب هنا",
+      "login": "!تسجيل الدخول هنا!"
+    },
+    "form": {
+      "CountryLabel": "الدولة",
+      "CountryPlaceholder": " أدخل دولتك",
+      "PhoneNumberLabel": "رقم الهاتف",
+      "PhoneNumberPlaceholder": " أدخل رقمك  الحالي ",
+      "UserNameLabel": " اسم المستخدم",
+      "UserNamePlaceholder": "أدخل اسمك",
+      "otpLabel": "رمز التحقق",
+      "otpPlaceholder": "ادخل رمز التحقق",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "oldpasswordLabel": "كلمة المرور الحالي",
+      "oldpasswordPlaceholder": "أدخل كلمة المرور الحالية",
+      "newpasswordLabel": "كلمة مرور جديدة",
+      "newconfirmpasswordPlaceholder": "أدخل كلمة المررو الجديدة ",
+      "newconfirmpasswordLabel": "تاكيد كلمة المررو الجديدة",
+      "newpasswordPlaceholder": "قم بتاكيد كلمة المرور الجديدة",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": " أدخل كلمة المرور",
+      "Confirm PasswordLabel": "تاكيد كلمة المرور",
+      "ConfirmpasswordPlaceholder": " قم بتاكيد كلمة المرور",
+      "imagePlaceholder": "أضغط لتحميل صورة شخصية",
+      "forgotPasswordLink": "نسيت كلمة المرور؟"
+    },
+    "button": {
+      "login": "تسجيل الدخول",
+      "signup": "انشاء حساب",
+      "sendmail": "تاكيد الحساب",
+      "reset": "تغيير",
+      "changepassword": "تغيير كلمة المررو"
+    }
+  }
+}

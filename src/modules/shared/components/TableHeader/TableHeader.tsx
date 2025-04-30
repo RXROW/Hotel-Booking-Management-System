@@ -1,12 +1,24 @@
-import { Box, Grid, Typography, Button } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Box, Grid, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 
-export default function TableHeader({ TextButton = '', HeaderText = "", onClick }) {
-  const isFacility = TextButton.toLowerCase() === 'facility'
-  const isAds = TextButton === 'Ads'
+export default function TableHeader({
+  TextButton = "",
+  HeaderText = "",
+  onClick,
+}) {
+  const isFacility = TextButton.toLowerCase() === "facility";
+  const isAds = TextButton === "Ads";
 
   return (
-    <Grid style={{ display: 'flex', justifyContent: 'space-between' , alignItems:"center",marginBottom:"50px",marginTop:"5px"}}>
+    <Grid
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "50px",
+        marginTop: "5px",
+      }}
+    >
       <Box>
         <Typography variant="h5" color="initial">
           {HeaderText} Table Details
@@ -20,12 +32,12 @@ export default function TableHeader({ TextButton = '', HeaderText = "", onClick 
           <Button
             onClick={onClick}
             style={{
-              textDecoration: 'none',
-              color: 'white',
-              backgroundColor: '#203FC7',
-              paddingInline: '20px',
-              paddingBlock: '10px',
-              borderRadius: '8px',
+              textDecoration: "none",
+              color: "white",
+              backgroundColor: "#203FC7",
+              paddingInline: "20px",
+              paddingBlock: "10px",
+              borderRadius: "8px",
               paddingLeft: "30px",
               paddingRight: "30px",
             }}
@@ -35,19 +47,19 @@ export default function TableHeader({ TextButton = '', HeaderText = "", onClick 
         ) : (
           <Link
             style={{
-              textDecoration: 'none',
-              color: 'white',
-              backgroundColor: '#203FC7',
-              paddingInline: '20px',
-              paddingBlock: '10px',
-                borderRadius: '8px',
+              textDecoration: "none",
+              color: "white",
+              backgroundColor: "#203FC7",
+              paddingInline: "20px",
+              paddingBlock: "10px",
+              borderRadius: "8px",
             }}
-            to="/add-table"
+            to="rooms-Data"
           >
             Add New {TextButton}
           </Link>
         )}
       </Box>
     </Grid>
-  )
+  );
 }

@@ -1,9 +1,15 @@
-import { Box, Container, Link, Typography, Snackbar, Alert, Button } from "@mui/material";
+import {
+  Box,
+  Container,
+  Link,
+  Typography,
+  Snackbar,
+  Alert,
+  Button,
+} from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { useForm, FormProvider } from "react-hook-form";
-import {
-  getValidationRules,
-} from "../../../../services/validations";
+import { getValidationRules } from "../../../../services/vaildation/validations";
 import { USERS_URL } from "../../../../services/apis/apisUrls";
 import axios from "axios";
 import useObjectUrl from "../../../../hooks/useObjectUrl";
@@ -13,6 +19,12 @@ import { publicInstance } from "../../../../services/apis/apisConfig";
 import { FormInput } from "../../../shared/components/FormInput/FormInput";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment } from "@mui/material";
+import usePasswordToggle from "../../../../hooks/PasswordToggle";
+import CustomSnackbar from "../../../shared/components/Snackbar/Snackbar";
+import useSnackbar from "../../../../hooks/useSnackbar";
+import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
+import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
+import { useTranslation } from "react-i18next";
 
 interface RegisterResponse {
   success: boolean;
@@ -31,23 +43,8 @@ export type User = {
 };
 
 export default function Register() {
-  const [snackbar, setSnackbar] = useState<{
-    open: boolean;
-    message: string;
-    severity: "success" | "error";
-  }>({
-    open: false,
-    message: "",
-    severity: "success",
-  });
-
-  const [showPasswords, setShowPasswords] = useState({
-    password: false,
-    confirmPassword: false,
-  });
-
+  const { t } = useTranslation();
   const [imagePreview, setImagePreview] = useState<string>("");
-
   const methods = useForm<User>({
     defaultValues: {
       profileImage: new DataTransfer().files,
@@ -62,51 +59,19 @@ export default function Register() {
   });
 
   const {
-    formState: { errors, isSubmitting },
-    handleSubmit,
+    formState: { errors },
     watch,
     setValue,
   } = methods;
-
+  const { snackbarState, showSnackbar, hideSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const validationRules = getValidationRules(watch);
   const selectedImg = watch("profileImage");
-
-  const handleCloseSnackbar = () => {
-    setSnackbar({ ...snackbar, open: false });
-  };
-
-  const showSnackbar = (message: string, severity: "success" | "error") => {
-    setSnackbar({
-      open: true,
-      message,
-      severity,
-    });
-  };
-
-  const handleClickShowPassword = (field: "password" | "confirmPassword") => {
-    setShowPasswords((prev) => ({
-      ...prev,
-      [field]: !prev[field],
-    }));
-  };
-
-  const getPasswordAdornment = (field: "password" | "confirmPassword") => (
-    <InputAdornment position="end">
-      <IconButton
-        aria-label="toggle password visibility"
-        onClick={() => handleClickShowPassword(field)}
-        edge="end"
-      >
-        {showPasswords[field] ? <VisibilityOff /> : <Visibility />}
-      </IconButton>
-    </InputAdornment>
-  );
-
+  const { showPasswords, getPasswordAdornment } = usePasswordToggle();
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      if (file.type.startsWith('image/')) {
+      if (file.type.startsWith("image/")) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setImagePreview(reader.result as string);
@@ -115,11 +80,10 @@ export default function Register() {
         setValue("profileImage", event.target.files);
       } else {
         showSnackbar("Please select a valid image file", "error");
-        event.target.value = '';
+        event.target.value = "";
       }
     }
   };
-
 
   const onSubmit = async (data: User) => {
     console.log(data);
@@ -138,14 +102,17 @@ export default function Register() {
         formData
       );
       if (response.status === 201) {
-        showSnackbar(response?.data?.message || "User created successfully", "success");
+        showSnackbar(
+          response?.data?.message || "User created successfully",
+          "success"
+        );
         navigate("/login");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         showSnackbar(
           error.response?.data?.message ||
-          "Failed to Register. Please try again.",
+            "Failed to Register. Please try again.",
           "error"
         );
       } else {
@@ -155,7 +122,6 @@ export default function Register() {
     }
   };
 
-
   const inputRef = useRef<HTMLInputElement>(null);
   const handleButtonClick = () => {
     if (inputRef.current) {
@@ -164,46 +130,22 @@ export default function Register() {
   };
 
   return (
-    <Container
-      sx={{
-        paddingTop: "2rem",
-        
-      }}
-    >
-      <Typography variant="h4">Sign up</Typography>
-      <Typography
-        variant="body1"
-        sx={{
-          maxWidth: "310px",
-          paddingTop: "1rem",
-          wordSpacing: "1px",
-          lineHeight: "1.6",
-        }}
-      >
-        If you already have an account register You can{" "}
-        <Link
-          component={RouterLink}
-          to={"/login"}
-          sx={{ color: "#EB5148", fontWeight: "600", textDecoration: "none" }}
-        >
-          Login here !
-        </Link>
-      </Typography>
+    <>
+      <TitleAuth title={t("Authentication.title.signUp")} />
       <FormProvider {...methods}>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <ReusableForm onSubmit={methods.handleSubmit(onSubmit)}>
           <Box
             sx={{
               paddingTop: "1.625rem",
             }}
           >
             <FormInput
-              label="User Name"
+              label={t("Authentication.form.UserNameLabel")}
               name="userName"
               type="text"
               rules={validationRules.userName}
-              placeholder="Please type here ..."
+              placeholder={t("Authentication.form.UserNamePlaceholder")}
             />
-
             <Box
               sx={{
                 display: "flex",
@@ -213,47 +155,43 @@ export default function Register() {
               }}
             >
               <FormInput
-                label="Phone Number"
+                label={t("Authentication.form.PhoneNumberLabel")}
                 name="phoneNumber"
                 type="tel"
                 rules={validationRules.phoneNumber}
-                placeholder="Please type here ..."
+                placeholder={t("Authentication.form.PhoneNumberPlaceholder")}
               />
               <FormInput
-                label="Country"
+                label={t("Authentication.form.CountryLabel")}
                 name="country"
                 type="text"
                 rules={validationRules.country}
-                placeholder="Please type here ..."
+                placeholder={t("Authentication.form.CountryPlaceholder")}
               />
             </Box>
-
             <FormInput
-              label="Email Address"
+              label={t("Authentication.form.emailLabel")}
               name="email"
               type="email"
               rules={validationRules.email}
-              placeholder="Please type here ..."
+              placeholder={t("Authentication.form.emailPlaceholder")}
             />
-
             <FormInput
-              label="Password"
+              label={t("Authentication.form.passwordLabel")}
               name="password"
-              type={showPasswords.password ? "text" : "password"}
+              type={showPasswords.password}
               rules={validationRules.password}
-              placeholder="Enter your password"
+              placeholder={t("Authentication.form.passwordPlaceholder")}
               iconeye={getPasswordAdornment("password")}
             />
-
             <FormInput
-              label="Confirm Password"
+              label={t("Authentication.form.Confirm PasswordLabel")}
               name="confirmPassword"
-              type={showPasswords.confirmPassword ? "text" : "password"}
+              type={showPasswords.confirmPassword}
               rules={validationRules.confirmPassword}
-              placeholder="Confirm your password"
+              placeholder={t("Authentication.form.ConfirmpasswordPlaceholder")}
               iconeye={getPasswordAdornment("confirmPassword")}
             />
-
             <Box sx={{ mb: 2 }}>
               <input
                 type="file"
@@ -286,7 +224,7 @@ export default function Register() {
                     }}
                   />
                 ) : (
-                  "Click to upload profile image"
+                  `${t("Authentication.form.imagePlaceholder")}`
                 )}
               </Button>
               {errors?.profileImage && (
@@ -295,31 +233,20 @@ export default function Register() {
                 </Typography>
               )}
             </Box>
-
             <Box sx={{ mt: "10px" }}>
-              <FormButton isSubmitting={isSubmitting}>
-                Sign up
+              <FormButton isSubmitting={methods.formState.isSubmitting}>
+                {t("Authentication.button.signup")}
               </FormButton>
             </Box>
           </Box>
-        </form>
+        </ReusableForm>
       </FormProvider>
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity={snackbar.severity}
-          variant="filled"
-          sx={{ width: "100%" }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+      <CustomSnackbar
+        open={snackbarState.open}
+        message={snackbarState.message}
+        severity={snackbarState.severity}
+        onClose={hideSnackbar}
+      />
+    </>
   );
 }
-

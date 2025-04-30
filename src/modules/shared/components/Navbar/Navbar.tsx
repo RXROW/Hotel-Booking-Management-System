@@ -1,4 +1,3 @@
- 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useContext, useState } from "react";
 import {
@@ -15,16 +14,15 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import { useNavigate, useSearchParams } from "react-router-dom"; 
-import { AuthContext } from "../../../../context/AuthContext";
-import { LanguageOutlined } from '@mui/icons-material'
-import { useTranslation } from 'react-i18next'
-
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { AuthContext } from "../../../../context/AuthContext.js";
+import { LanguageOutlined } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const Navbar: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const { logout, userName, profileImage }: any = useContext(AuthContext);
-  const { i18n } = useTranslation()
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -90,18 +88,18 @@ const Navbar: React.FC = () => {
           </IconButton>
         </Box>
         <IconButton
-            onClick={() => {
-             if (i18n.language === 'en') {
-                i18n.changeLanguage('ar')
-                localStorage.setItem('lng', 'ar')
-                 } else {
-              i18n.changeLanguage('en')
-                  localStorage.setItem('lng', 'en')
-                 }
-        }}
-           >
-           <LanguageOutlined style={{ fontSize: '36px', color: 'black' }} />
-     </IconButton>
+          onClick={() => {
+            if (i18n.language === "en") {
+              i18n.changeLanguage("ar");
+              localStorage.setItem("lng", "ar");
+            } else {
+              i18n.changeLanguage("en");
+              localStorage.setItem("lng", "en");
+            }
+          }}
+        >
+          <LanguageOutlined style={{ fontSize: "36px", color: "black" }} />
+        </IconButton>
 
         {/* Dropdown Menu */}
         <Menu
