@@ -1,0 +1,485 @@
+import {
+  Box,
+  Checkbox,
+  Chip,
+  colors,
+  FormControlLabel,
+  FormGroup,
+  Grid,
+  IconButton,
+  ListItemText,
+  TextField,
+  Typography,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useEffect, useRef, useState } from "react";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import Button from "@mui/material/Button";
+import { Theme, useTheme } from "@mui/material/styles";
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import axios from "axios";
+import FormHelperText from "@mui/material/FormHelperText";
+
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+import { toast } from "react-toastify";
+
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { TapAndPlayOutlined } from "@mui/icons-material";
+import { privateInstance } from "../../../services/apis/apisConfig";
+import {
+  FACILITIES_URL,
+  IMAGE_URL,
+  ROOMS_URL,
+} from "../../../services/apis/apisUrls";
+import { ImagePreview } from "../../../interfaces/Roomsinterface";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
+
+// end sec select
+
+interface facility {
+  _id: string;
+  userName: string;
+  name: string;
+}
+
+interface IFormRoom {
+  _id: number;
+  roomNumber: string;
+  price: number;
+  capacity: number;
+  discount: number;
+  imgs: string[];
+  facilities: [];
+}
+
+export default function RoomsData() {
+  const params = useParams();
+  const roomid = params.roomid;
+  console.log(roomid);
+  const [images, setImages] = useState<ImagePreview[]>([]);
+  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
+  const MAX_IMAGES = 2;
+  const [Allfacility, setAllFacility] = React.useState<facility[]>([]);
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<IFormRoom>();
+
+  const onSubmit: SubmitHandler<IFormRoom> = async (data) => {
+    const formata = new FormData();
+    formata.append("roomNumber", data.roomNumber);
+    formata.append("capacity", data.capacity.toString());
+    formata.append("discount", data.discount.toString());
+
+    if (data.facilities && Array.isArray(data.facilities)) {
+      data.facilities.forEach((facility) => {
+        formata.append("facilities", facility);
+      });
+    }
+
+    images.forEach((image) => {
+      if (image.file) {
+        formata.append("imgs", image.file);
+      }
+    });
+    formata.append("price", data.price.toString());
+    try {
+      if (roomid) {
+        const responce = await privateInstance.put(
+          ROOMS_URL.UPDATE_ROOM(roomid),
+          formata
+        );
+        navigate(-1);
+        console.log(responce);
+        console.log("Updata");
+      } else {
+        const responce = await privateInstance.post(
+          ROOMS_URL.CREATE_ROOM,
+          formata
+        );
+        navigate(-1);
+      }
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
+  const getTaskById = async (): Promise<void> => {
+    try {
+      if (!roomid) return;
+      const res = await privateInstance.get(ROOMS_URL.GET_ROOM(roomid));
+      console.log(res);
+      const response = res?.data?.data?.room;
+      console.log(response);
+      setValue("roomNumber", response.roomNumber);
+      setValue("price", response.price);
+      setValue("capacity", response.capacity);
+      setValue("discount", response.discount);
+      setValue("facilities", response.facilities);
+      console.log(response);
+      if (response.facilities && Array.isArray(response.facilities)) {
+        const facilityIds = response.facilities.map(
+          (facility: any) => facility._id
+        );
+        setSelectedFacilities(facilityIds);
+        setValue("facilities", facilityIds);
+      }
+      // Handle images
+      console.log(response.images);
+      if (response.images && Array.isArray(response.images)) {
+        const imagesPreviews = response.images.map((img: string) => ({
+          url: img, // Keep the full image URL/path
+          name: img.split("/").pop() || "",
+          file: null,
+          isExisting: true,
+        }));
+        setImages(imagesPreviews);
+        setValue("imgs", response.images);
+      }
+      console.log(images);
+    } catch (error) {
+      console.error(error || "Failed to get data");
+    }
+  };
+
+  useEffect(() => {
+    if (roomid) {
+      getTaskById();
+    }
+  }, [roomid, setValue]);
+
+  const getFacility = async () => {
+    const res = await privateInstance.get(FACILITIES_URL.GET_FACILITIES);
+    setAllFacility(res.data.data.facilities);
+  };
+  useEffect(() => {
+    getFacility();
+  }, []);
+
+  const handleChange = (
+    event: SelectChangeEvent<typeof selectedFacilities>
+  ) => {
+    const {
+      target: { value },
+    } = event;
+    // Handle both string and array values
+    const newValue = typeof value === "string" ? value.split(",") : value;
+    // Update both states
+    setSelectedFacilities(newValue);
+    setValue("facilities", newValue);
+  };
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const newImages: ImagePreview[] = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+      file,
+    }));
+    // setImages(newImages)
+    setImages((prevImages) => [...prevImages, ...newImages]);
+  };
+  // Add delete handler
+  const handleDeleteImage = (index: number) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
+  return (
+    <>
+      <Grid container spacing={2} mt={10}>
+        <Grid size={{ md: 8, sm: 12 }} offset={{ md: 2, sm: 0 }}>
+          <Typography sx={{ fontWeight: "bold", mb: 3 }} variant="h5">
+            {roomid ? "Edit Room Data" : "Create Room Data"}
+          </Typography>
+          <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <InputLabel htmlFor="room-number">Room Number</InputLabel>
+            <TextField
+              id="room-number"
+              fullWidth
+              variant="outlined"
+              type="text"
+              sx={{ marginBottom: "1rem", border: 0 }}
+              {...register("roomNumber", {
+                required: "Room number is required",
+              })}
+              error={!!errors.roomNumber}
+              helperText={errors.roomNumber ? errors.roomNumber.message : ""}
+            />
+            <Grid container spacing={2} sx={{ marginBottom: "20px" }}>
+              {/* Discount Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel htmlFor="Discount" sx={{ border: 0 }}>
+                    Discount
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="Discount"
+                    variant="outlined"
+                    type="number"
+                    {...register("discount", {
+                      required: "Discount is required",
+                    })}
+                    error={!!errors.discount}
+                    helperText={errors.discount ? errors.discount.message : ""}
+                  />
+                </Box>
+              </Grid>
+              {/* Facility Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <InputLabel htmlFor="demo-multiple-name">Facilities</InputLabel>
+                <FormControl
+                  sx={{
+                    border: "0",
+                    width: { md: "100%", sm: "100%" },
+                  }}
+                >
+                  <Select
+                    labelId="demo-multiple-name-label"
+                    id="demo-multiple-name"
+                    multiple
+                    fullWidth
+                    value={selectedFacilities}
+                    {...register("facilities", {
+                      required: "facilities is required",
+                    })}
+                    error={!!errors.facilities}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="facility" />}
+                    MenuProps={MenuProps}
+                  >
+                    {Allfacility.map((fac) => (
+                      <MenuItem key={fac._id} value={fac._id}>
+                        {fac.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              {/* Discount Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel htmlFor="price" sx={{ border: 0 }}>
+                    price
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="price"
+                    variant="outlined"
+                    type="text"
+                    {...register("price", {
+                      required: "price is required",
+                    })}
+                    error={!!errors.price}
+                    helperText={errors.price ? errors.price.message : ""}
+                  />
+                </Box>
+              </Grid>
+              {/* Facility Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel
+                    htmlFor="Capacity"
+                    sx={{ color: "", marginRight: "1rem" }}
+                  >
+                    Capacity
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="Capacity"
+                    variant="outlined"
+                    type="number"
+                    {...register("capacity", {
+                      required: "capacity is required",
+                    })}
+                    error={!!errors.capacity}
+                    helperText={errors.capacity ? errors.capacity.message : ""} // Display error message
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+            <Box sx={{ mx: "20" }}>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                disabled={images.length >= MAX_IMAGES}
+                sx={{
+                  fontWeight: "900",
+                  color: "#fff",
+                  width: "100%",
+                  margin: " 20px 0 ",
+                  backgroundColor: "#1976d2",
+                  lineHeight: "10vh",
+                  boxShadow: "none",
+                  opacity: images.length >= MAX_IMAGES ? 0.7 : 1,
+                }}
+              >
+                {images.length >= MAX_IMAGES
+                  ? "Maximum images reached"
+                  : `Upload Images (${images.length}/${MAX_IMAGES})`}
+                <VisuallyHiddenInput
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  {...register("imgs")}
+                  onChange={handleFileChange}
+                  disabled={images.length >= MAX_IMAGES}
+                />
+              </Button>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 2,
+                  mt: 2,
+                }}
+              >
+                {images.map((image, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: "relative",
+                      width: 100,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: "relative",
+                        width: 100,
+                        height: 100,
+                      }}
+                    >
+                      <img
+                        src={image.url}
+                        alt={`uploaded-${image.name}`}
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          borderRadius: "4px",
+                        }}
+                      />
+                      <IconButton
+                        onClick={() => handleDeleteImage(index)}
+                        sx={{
+                          position: "absolute",
+                          top: -8,
+                          right: -8,
+                          backgroundColor: "white",
+                          "&:hover": { backgroundColor: "#f5f5f5" },
+                        }}
+                      >
+                        <DeleteIcon fontSize="small" color="error" />
+                      </IconButton>
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        width: "100%",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        textAlign: "center",
+                        color: "text.secondary",
+                      }}
+                    >
+                      {image.name}
+                    </Typography>
+                  </Box>
+                ))}
+                {Array.from({ length: MAX_IMAGES - images.length }).map(
+                  (_, index) => (
+                    <Box
+                      key={`empty-${index}`}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        border: "2px dashed #ccc",
+                        borderRadius: "4px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography color="textSecondary">
+                        {index + images.length + 1}
+                      </Typography>
+                    </Box>
+                  )
+                )}
+              </Box>
+            </Box>
+            <Button
+              variant="outlined"
+              sx={{ mt: "1rem", mr: "1rem", padding: "0.5rem 2rem" }}
+            >
+              <Link
+                to="/dashboard/rooms"
+                style={{
+                  color: "var(--primary-color)",
+                  textDecoration: "none",
+                }}
+              >
+                cancel
+              </Link>
+            </Button>
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                mt: "1rem",
+                mr: "1rem",
+                padding: "0.5rem 3rem",
+              }}
+            >
+              save
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </>
+  );
+}

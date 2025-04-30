@@ -2,6 +2,7 @@ import {
   Box,
   Checkbox,
   Chip,
+  CircularProgress,
   colors,
   FormControlLabel,
   FormGroup,
@@ -10,34 +11,42 @@ import {
   ListItemText,
   TextField,
   Typography,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useEffect, useRef, useState } from "react";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import Button from "@mui/material/Button";
-import { Theme, useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import axios from "axios";
-import FormHelperText from "@mui/material/FormHelperText";
+} from '@mui/material'
+import DeleteIcon from '@mui/icons-material/Delete'
+import React, { useEffect, useRef, useState } from 'react'
+import { styled } from '@mui/material/styles'
+import Paper from '@mui/material/Paper'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import Button from '@mui/material/Button'
+import { Theme, useTheme } from '@mui/material/styles'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
+import axios from 'axios'
+import FormHelperText from '@mui/material/FormHelperText'
 
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify'
 
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { TapAndPlayOutlined } from "@mui/icons-material";
-import { privateInstance } from "../../../services/apis/apisConfig";
-import { FACILITIES_URL, IMAGE_URL, ROOMS_URL } from "../../../services/apis/apisUrls";
-import { ImagePreview } from "../../../interfaces/Roomsinterface";
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { TapAndPlayOutlined } from '@mui/icons-material'
+import { privateInstance } from '../../../services/apis/apisConfig'
+import {
+  FACILITIES_URL,
+  IMAGE_URL,
+  ROOMS_URL,
+} from '../../../services/apis/apisUrls'
+import {
+  Facility,
+  FormRoom,
+  ImagePreview,
+} from '../../../interfaces/Roomsinterface'
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
+const ITEM_HEIGHT = 48
+const ITEM_PADDING_TOP = 8
 const MenuProps = {
   PaperProps: {
     style: {
@@ -45,7 +54,7 @@ const MenuProps = {
       width: 250,
     },
   },
-};
+}
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -57,113 +66,99 @@ const VisuallyHiddenInput = styled('input')({
   left: 0,
   whiteSpace: 'nowrap',
   width: 1,
-});
-
-
+})
 
 // end sec select
 
-interface facility {
-  _id: string;
-  userName: string;
-  name: string;
-}
-
-  interface IFormRoom {
-    _id: number;
-    roomNumber: string;
-    price: number;
-    capacity: number;
-    discount: number;
-    imgs: string[];
-    facilities: [];
-  }
-
 export default function RoomsData() {
-  const params = useParams();
-  const roomid=params.roomid;
-  console.log(roomid)
-  const [selectedFiles, setSelectedFiles] = useState([]);
-  const [images, setImages] = useState<ImagePreview[]>([]);
-  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
-  const MAX_IMAGES = 2;
-  const [Allfacility, setAllFacility] = React.useState<facility[]>([]);
-  const navigate = useNavigate();
+  const params = useParams()
+  const roomid = params.roomid
+  const [images, setImages] = useState<ImagePreview[]>([])
+  const [selectedFacilities, setSelectedFacilities] = useState<string[]>([])
+  const MAX_IMAGES = 2
+  const [Allfacility, setAllFacility] = React.useState<Facility[]>([])
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
-  } = useForm<IFormRoom>();
-
-
-  const onSubmit: SubmitHandler<IFormRoom> = async (data) => {
-    const formata = new FormData();
-    formata.append("roomNumber", data.roomNumber);
-    formata.append("capacity", data.capacity.toString());
-    formata.append("discount", data.discount.toString());
-  
-     if (data.facilities && Array.isArray(data.facilities)) {
-    data.facilities.forEach((facility) => {
-     formata.append("facilities", facility);
-    });
-  }
- 
-
- images.forEach((image) => {
-      if (image.file) {
-      formata.append("imgs", image.file);
-    }
-  });
-    formata.append("price", data.price.toString());
+    formState: { errors, isSubmitting },
+  } = useForm<FormRoom>()
+  const convertImageUrlToFile = async (url: string): Promise<File | null> => {
     try {
-    console.log(data)
-    if(roomid){
-       const responce = await privateInstance.put(ROOMS_URL.UPDATE_ROOM(roomid),formata);
-       console.log(responce)
-       console.log("Updata")
-    } else{
-       const responce = await privateInstance.post(ROOMS_URL.CREATE_ROOM,formata);
-       console.log("success")
+      const response = await fetch(url)
+      const blob = await response.blob()
+      const filename = url.split('/').pop() || `image-${Date.now()}.jpg`
+      return new File([blob], filename, { type: blob.type || 'image/jpeg' })
+    } catch (error) {
+      console.error('Error converting image URL to File:', error)
+      return null
+    }
+  }
+  const onSubmit: SubmitHandler<FormRoom> = async (data) => {
+    const formata = new FormData()
+    formata.append('roomNumber', data.roomNumber)
+    formata.append('capacity', data.capacity.toString())
+    formata.append('discount', data.discount.toString())
+    if (selectedFacilities) {
+      selectedFacilities.forEach((facilityId) =>
+        formata.append('facilities[]', facilityId),
+      )
+    }
+    data.imgs.forEach((file) => {
+      formata.append('imgs', file)
+    })
+    formata.append('price', data.price.toString())
+    try {
+      if (roomid) {
+        const responce = await privateInstance.put(
+          ROOMS_URL.UPDATE_ROOM(roomid),
+          formata,
+        )
+        navigate(-1)
+        console.log(responce)
+        console.log('Updata')
+      } else {
+        const responce = await privateInstance.post(
+          ROOMS_URL.CREATE_ROOM,
+          formata,
+        )
+        navigate(-1)
       }
     } catch (error: any) {
       console.log(error.message)
     }
-  };  
-    const getTaskById = async (): Promise<void> => {
+  }
+  const getRoomById = async (): Promise<void> => {
     try {
       if (!roomid) return
-      const res = await privateInstance.get(
-       ROOMS_URL.GET_ROOM(roomid)
-      )
+      const res = await privateInstance.get(ROOMS_URL.GET_ROOM(roomid))
       console.log(res)
       const response = res?.data?.data?.room
       console.log(response)
-      setValue("roomNumber", response.roomNumber);
-        setValue("price", response.price);
-        setValue("capacity", response.capacity);
-        setValue("discount", response.discount);
-        setValue("facilities", response.facilities);
-        console.log(response)
-        if (response.facilities && Array.isArray(response.facilities)) {
-      const facilityIds = response.facilities.map((facility: any) => facility._id);
-      setSelectedFacilities(facilityIds);
-      setValue("facilities", facilityIds);
-    }
-    // Handle images
-console.log(response.images)
-    if (response.images && Array.isArray(response.images)) {
-      const imagesPreviews = response.images.map((img: string) => ({
-        url: img, // Keep the full image URL/path
-        name: img.split('/').pop() || '',
-        file: null,
-        isExisting: true
-      }));
-      setImages(imagesPreviews);
-      setValue("imgs", response.images);
-    }
+      setValue('roomNumber', response.roomNumber)
+      setValue('price', response.price)
+      setValue('capacity', response.capacity)
+      setValue('discount', response.discount)
+      setValue('facilities', response.facilities)
+      console.log(response.facilities)
+      if (response.facilities) {
+        const facilityIds = response.facilities.map((facility: Facility) =>
+          typeof facility === 'string' ? facility : facility['_id'],
+        )
+        setSelectedFacilities(facilityIds)
+        setValue('facilities', facilityIds)
+      }
+      if (response.images && response.images.length > 0) {
+        const filePromises = response.images.map((url: any) =>
+          convertImageUrlToFile(url),
+        )
+        const files = await Promise.all(filePromises)
+        const validFiles = files.filter((file) => file !== null)
+        setImages(validFiles)
+        setValue('imgs', validFiles)
+      }
       console.log(images)
-
     } catch (error) {
       console.error(error || 'Failed to get data')
     }
@@ -171,326 +166,316 @@ console.log(response.images)
 
   useEffect(() => {
     if (roomid) {
-      getTaskById()
+      getRoomById()
     }
-  }, [roomid,setValue])
+  }, [roomid, setValue])
 
   const getFacility = async () => {
-      const res = await privateInstance.get(FACILITIES_URL.GET_FACILITIES);
-      setAllFacility(res.data.data.facilities);
-    };
-  useEffect(()=>{
-  getFacility();
-  },[])
-   
+    const res = await privateInstance.get(FACILITIES_URL.GET_FACILITIES)
+    setAllFacility(res.data.data.facilities)
+  }
+  useEffect(() => {
+    getFacility()
+  }, [])
 
- 
-const handleChange = (event: SelectChangeEvent<typeof selectedFacilities>) => {
-  const {
-    target: { value },
-  } = event;
-  
-  // Handle both string and array values
-  const newValue = typeof value === 'string' ? value.split(',') : value;
-  
-  // Update both states
-  setSelectedFacilities(newValue);
-  setValue("facilities", newValue);
-};
+  const handleChange = (
+    event: SelectChangeEvent<typeof selectedFacilities>,
+  ) => {
+    const {
+      target: { value },
+    } = event
+    console.log(value)
+    const newValue = typeof value === 'string' ? value.split(',') : value
+    setSelectedFacilities(newValue)
+    setValue('facilities', newValue)
+  }
 
-
-
-
-
-
-const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  const files = Array.from(event.target.files || []);
-  const newImages: ImagePreview[] = files.map((file) => ({
-    url: URL.createObjectURL(file), 
-    name: file.name,
-    file
-  }));
-// setImages(newImages)
-    setImages((prevImages) => [...prevImages, ...newImages]);
-
-};
-// Add delete handler
-const handleDeleteImage = (index: number) => {
-  setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-  setSelectedFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
-};
-
-
-console.log(selectedFacilities)
-console.log(images)
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files)
+      const updatedFiles: ImagePreview[] = [...images, ...newFiles]
+      setImages(updatedFiles)
+      setValue('imgs', updatedFiles)
+    }
+  }
+  // Add delete handler
+  const handleDeleteImage = (index: number): void => {
+    setImages((prevImages) => {
+      const newImages = prevImages.filter((_, i) => i !== index)
+      // Clean up URL object if it exists
+      if (!prevImages[index].isExisting) {
+        URL.revokeObjectURL(prevImages[index].url)
+      }
+      return newImages
+    })
+  }
   return (
     <>
       <Grid container spacing={2} mt={10}>
-        <Grid   size={{ md: 8, sm: 12 }} offset={{ md: 2, sm: 0 }}>
-        <Typography sx={{ fontWeight: "bold" , mb: 3}} variant="h5">
-         "Edit Room Data"
-        </Typography>
+        <Grid size={{ md: 8, sm: 12 }} offset={{ md: 2, sm: 0 }}>
+          <Typography sx={{ fontWeight: 'bold', mb: 3 }} variant="h5">
+            {roomid ? 'Edit Room Data' : 'Create Room Data'}
+          </Typography>
           <Box
             component="form"
             noValidate
             autoComplete="off"
             onSubmit={handleSubmit(onSubmit)}
           >
-          <InputLabel htmlFor="room-number" >
-            Room Number
-          </InputLabel>
-          <TextField
-            id="room-number"
-            fullWidth
-            variant="outlined"
-            type="text"
-            sx={{ marginBottom: "1rem", }}
-            {...register("roomNumber", { required: "Room number is required" })}
-            error={!!errors.roomNumber}
-            helperText={errors.roomNumber ? errors.roomNumber.message : ""}
-          />
-       <Grid container spacing={4}>
-  {/* Discount Field */}
-  <Grid item size={{ xs:6 , sm: 6 }} >
-    <Box>
-      <InputLabel htmlFor="Discount" sx={{ color: 'var(--gray-color)', marginBottom: 1 }}>
-        Discount
-      </InputLabel>
-      <TextField
-      fullWidth
-        id="Discount"
-        variant="outlined"
-        type="number"
-        sx={{
-          color: 'var(--primary-color)',
-        }}
-        {...register("discount", {
-          required: "Discount is required",
-        })}
-        error={!!errors.discount}
-        helperText={errors.discount ? errors.discount.message : ""}
-      />
-    </Box>
-  </Grid>
-  {/* Facility Field */}
-  <Grid item size={{ xs: 6, sm: 6 }} >
-    <InputLabel htmlFor="demo-multiple-name" >
-            Room Number
-          </InputLabel>
-        <FormControl
-         sx={{
-                  marginBottom: "1rem ",
-                  border:"0",
-                  borderRadius:"10px",
-                  width: { md: "100%", sm: "100%" },
-                }}
-              >
-  <InputLabel id="facilities-label">Facilities</InputLabel>
-                <Select
-                  labelId="demo-multiple-name-label"
-                  id="demo-multiple-name"
-                  multiple
-                  fullWidth
-                   value={selectedFacilities}
-                  {...register("facilities", {
-                    required: "facilities is required",
-                  })}
-                  error={!!errors.facilities}
-                  onChange={handleChange}
-                  input={<OutlinedInput label="facility" />}
-                  MenuProps={MenuProps}
-                >
-                  {Allfacility.map((fac) => (
-                    <MenuItem
-                      key={fac._id}
-                      value={fac._id}
-                    >
-                      {fac.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl> 
-  </Grid>
-</Grid>
-          <Box sx={{display: 'flex' ,alignItems:"center" ,gap:"20px" ,textAlign: 'left'}}>
-            <div>
-          <InputLabel htmlFor="price" sx={{ marginRight: "1rem" }}>
-            Price
-          </InputLabel>
-         <TextField
+            <InputLabel htmlFor="room-number">Room Number</InputLabel>
+            <TextField
+              id="room-number"
               fullWidth
-              id="price"
               variant="outlined"
               type="text"
-              {...register("price", {
-                  required: "price is required",
-                })}
-              error={!!errors.price}
-              helperText={errors.price ? errors.price.message : ""} // Display error message
-              />
-              </div>
-          <div>
-          <InputLabel htmlFor="Capacity" sx={{ color: '', marginRight: "1rem" }}>
-          Capacity
-          </InputLabel>
-            <TextField
-              fullWidth
-              id="Capacity"
-              variant="outlined"
-              type="number"
-              {...register("capacity", {
-                required: "capacity is required",
+              sx={{ marginBottom: '1rem', border: 0 }}
+              {...register('roomNumber', {
+                required: 'Room number is required',
               })}
-              error={!!errors.capacity}
-              helperText={errors.capacity ? errors.capacity.message : ""} // Display error message
-              />
-              </div>
-          </Box>
-         <Box>
-  <Button
-    component="label"
-    role={undefined}
-    variant="contained"
-    tabIndex={-1}
-    startIcon={<CloudUploadIcon />}
-    disabled={images.length >= MAX_IMAGES}
-    sx={{
-      fontWeight: '900',
-      color: 'var(--primary-color)',
-      width: "100%",
-      backgroundColor: "var(--light-blue)",
-      border: "1px dashed var(--primary-color)",
-      lineHeight: "10vh",
-      boxShadow: "none",
-      opacity: images.length >= MAX_IMAGES ? 0.7 : 1,
-    }}
-  >
-    {images.length >= MAX_IMAGES 
-      ? "Maximum images reached" 
-      : `Upload Images (${images.length}/${MAX_IMAGES})`}
-    <VisuallyHiddenInput
-      type="file"
-      multiple
-      accept="image/*"
-     {...register("imgs"
-)}
-      onChange={handleFileChange}
-      disabled={images.length >= MAX_IMAGES}
-    />
-  </Button>
-
-<Box 
-  sx={{
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 2,
-    mt: 2
-  }}
->
-  {images.map((image, index) => (
-    <Box
-      key={index}
-      sx={{
-        position: 'relative',
-        width: 100,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 1
-      }}
-    >
-      <Box
-        sx={{
-          position: 'relative',
-          width: 100,
-          height: 100
-        }}
-      >
-        <img
-          src={image.url}
-          alt={`uploaded-${image.name}`}
-          style={{
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            borderRadius: "4px"
-          }}
-        />
-        <IconButton
-          onClick={() => handleDeleteImage(index)}
-          sx={{
-            position: 'absolute',
-            top: -8,
-            right: -8,
-            backgroundColor: 'white',
-            '&:hover': { backgroundColor: '#f5f5f5' }
-          }}
-        >
-          <DeleteIcon fontSize="small" color="error" />
-        </IconButton>
-      </Box>
-      <Typography
-        variant="caption"
-        sx={{
-          width: '100%',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
-          whiteSpace: 'nowrap',
-          textAlign: 'center',
-          color: 'text.secondary'
-        }}
-      >
-        {image.name}
-      </Typography>
-    </Box>
-  ))}
-  {Array.from({ length: MAX_IMAGES - images.length }).map((_, index) => (
-    <Box
-      key={`empty-${index}`}
-      sx={{
-        width: 100,
-        height: 100,
-        border: '2px dashed #ccc',
-        borderRadius: '4px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-      }}
-    >
-      <Typography color="textSecondary">
-        {index + images.length + 1}
-      </Typography>
-    </Box>
-  ))}
-</Box>
-</Box>
-
+              error={!!errors.roomNumber}
+              helperText={errors.roomNumber ? errors.roomNumber.message : ''}
+            />
+            <Grid container spacing={2} sx={{ marginBottom: '20px' }}>
+              {/* Discount Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel htmlFor="Discount" sx={{ border: 0 }}>
+                    Discount
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="Discount"
+                    variant="outlined"
+                    type="number"
+                    {...register('discount', {
+                      required: 'Discount is required',
+                    })}
+                    error={!!errors.discount}
+                    helperText={errors.discount ? errors.discount.message : ''}
+                  />
+                </Box>
+              </Grid>
+              {/* Facility Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <InputLabel htmlFor="demo-multiple-name">Facilities</InputLabel>
+                <FormControl
+                  sx={{
+                    border: '0',
+                    width: { md: '100%', sm: '100%' },
+                  }}
+                >
+                  <Select
+                    labelId="demo-multiple-name-label"
+                    id="demo-multiple-name"
+                    multiple
+                    fullWidth
+                    value={selectedFacilities}
+                    {...register('facilities', {
+                      required: 'facilities is required',
+                    })}
+                    error={!!errors.facilities}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="facility" />}
+                    MenuProps={MenuProps}
+                  >
+                    {Allfacility.map((fac) => (
+                      <MenuItem key={fac._id} value={fac._id}>
+                        {fac.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+            </Grid>
+            <Grid container spacing={2}>
+              {/* Discount Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel htmlFor="price" sx={{ border: 0 }}>
+                    price
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="price"
+                    variant="outlined"
+                    type="text"
+                    {...register('price', {
+                      required: 'price is required',
+                    })}
+                    error={!!errors.price}
+                    helperText={errors.price ? errors.price.message : ''}
+                  />
+                </Box>
+              </Grid>
+              {/* Facility Field */}
+              <Grid item size={{ xs: 6, sm: 6 }}>
+                <Box>
+                  <InputLabel
+                    htmlFor="Capacity"
+                    sx={{ color: '', marginRight: '1rem' }}
+                  >
+                    Capacity
+                  </InputLabel>
+                  <TextField
+                    fullWidth
+                    id="Capacity"
+                    variant="outlined"
+                    type="number"
+                    {...register('capacity', {
+                      required: 'capacity is required',
+                    })}
+                    error={!!errors.capacity}
+                    helperText={errors.capacity ? errors.capacity.message : ''} // Display error message
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+            <Box sx={{ mx: '20' }}>
+              <Button
+                component="label"
+                role={undefined}
+                variant="contained"
+                tabIndex={-1}
+                startIcon={<CloudUploadIcon />}
+                disabled={images.length >= MAX_IMAGES}
+                sx={{
+                  fontWeight: '900',
+                  color: '#fff',
+                  width: '100%',
+                  margin: ' 20px 0 ',
+                  backgroundColor: '#1976d2',
+                  lineHeight: '10vh',
+                  boxShadow: 'none',
+                  opacity: images.length >= MAX_IMAGES ? 0.7 : 1,
+                }}
+              >
+                {images.length >= MAX_IMAGES
+                  ? 'Maximum images reached'
+                  : `Upload Images (${images.length}/${MAX_IMAGES})`}
+                <VisuallyHiddenInput
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  {...register('imgs')}
+                  onChange={handleFileChange}
+                  disabled={images.length >= MAX_IMAGES}
+                />
+              </Button>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: 2,
+                  mt: 2,
+                }}
+              >
+                {images.map((image, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      position: 'relative',
+                      width: 100,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: 1,
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        position: 'relative',
+                        width: 100,
+                        height: 100,
+                      }}
+                    >
+                      <img
+                        src={URL.createObjectURL(image)}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          borderRadius: '4px',
+                        }}
+                      />
+                      <IconButton
+                        onClick={() => handleDeleteImage(index)}
+                        sx={{
+                          position: 'absolute',
+                          top: -8,
+                          right: -8,
+                          backgroundColor: 'white',
+                          '&:hover': { backgroundColor: '#f5f5f5' },
+                        }}
+                      >
+                        <DeleteIcon fontSize="small" color="error" />
+                      </IconButton>
+                    </Box>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        width: '100%',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        textAlign: 'center',
+                        color: 'text.secondary',
+                      }}
+                    >
+                      {image.name}
+                    </Typography>
+                  </Box>
+                ))}
+                {Array.from({ length: MAX_IMAGES - images.length }).map(
+                  (_, index) => (
+                    <Box
+                      key={`empty-${index}`}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        border: '2px dashed #ccc',
+                        borderRadius: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <Typography color="textSecondary">
+                        {index + images.length + 1}
+                      </Typography>
+                    </Box>
+                  ),
+                )}
+              </Box>
+            </Box>
             <Button
               variant="outlined"
-              sx={{ mt: "1rem", mr: "1rem", padding: "0.5rem 2rem" }}
+              sx={{ mt: '1rem', mr: '1rem', padding: '0.5rem 2rem' }}
             >
               <Link
-                to="/dashboard/rooms-list"
-                style={{ color: "var(--primary-color)", textDecoration: "none" }}
+                to="/dashboard/rooms"
+                style={{
+                  color: 'var(--primary-color)',
+                  textDecoration: 'none',
+                }}
               >
                 cancel
               </Link>
             </Button>
-
             <Button
               type="submit"
+              disabled={isSubmitting}
               variant="contained"
               sx={{
-                mt: "1rem",
-                mr: "1rem",
-                padding: "0.5rem 3rem",
+                mt: '1rem',
+                mr: '1rem',
+                padding: '0.5rem 3rem',
               }}
             >
-             save 
+              {isSubmitting ? 'Loading....' : roomid ? 'Edit' : 'Create'}
             </Button>
           </Box>
         </Grid>
       </Grid>
     </>
-  );
+  )
 }
