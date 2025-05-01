@@ -11,6 +11,7 @@ import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 // import '@fontsource/poppins/400.css';
 import AuthContextProvider from './context/AuthContext'
 import Dashboard from './modules/Dashboard/Dashboard'
+import Explore from './modules/Explore/Explore'
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
 import FacilitiesList from './modules/Facilities/FacilitiesList'
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
@@ -19,7 +20,7 @@ import UsersList from './modules/Users/UsersList'
 import BookingList from './modules/Booking/BookingList'
 import UserLayout from './modules/shared/components/UserLayout/UserLayout'
 import HomePage from './modules/Home/HomePage/HomePage'
-import { ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify' 
 
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
       children: [
         {index: true, element: <HomePage/>},
         {path: 'home', element: <HomePage/>},
-        // {path: 'explore-all-rooms', element: <Explore/>},
+        {path: 'explore-all-rooms', element: <Explore/>},
         // {path: 'details-page/:roomId', element: <DetailsPage/>},
         // {path: 'favorites', element: <ProtectedRouteIsUser><Favorites/></ProtectedRouteIsUser>},
         // {path: 'payment', element: <Elements stripe={stripePromise}> <ProtectedRouteIsUser><Payment/></ProtectedRouteIsUser> </Elements>},

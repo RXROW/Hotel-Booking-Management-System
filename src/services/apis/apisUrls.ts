@@ -21,6 +21,9 @@ export const ROOMS_URL = {
   GET_ROOM: (id: string) => `/admin/rooms/${id}`,
   DELETE_ROOM: (id: number) => `/admin/rooms/${id}`,
   UPDATE_ROOM: (id: string) => `/admin/rooms/${id}`,
+  //users
+
+  GET_ALL_ROOMS_FOR_USER: `/portal/rooms/available`,
 }
 
 // Facilities Endpoints
