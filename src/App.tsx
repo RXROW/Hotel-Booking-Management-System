@@ -21,6 +21,7 @@ import BookingList from './modules/Booking/BookingList'
 import UserLayout from './modules/shared/components/UserLayout/UserLayout'
 import HomePage from './modules/Home/HomePage/HomePage'
 import { ToastContainer } from 'react-toastify' 
+import Favorites from './modules/Favorites/Favorites'
 
 
 function App() {
@@ -64,7 +65,7 @@ function App() {
         {path: 'home', element: <HomePage/>},
         {path: 'explore-all-rooms', element: <Explore/>},
         // {path: 'details-page/:roomId', element: <DetailsPage/>},
-        // {path: 'favorites', element: <ProtectedRouteIsUser><Favorites/></ProtectedRouteIsUser>},
+        {path: '/favorites', element: <Favorites/>},
         // {path: 'payment', element: <Elements stripe={stripePromise}> <ProtectedRouteIsUser><Payment/></ProtectedRouteIsUser> </Elements>},
         // {path: 'payment-done', element: <ProtectedRouteIsUser><PaymentDone/></ProtectedRouteIsUser>}
       ]
