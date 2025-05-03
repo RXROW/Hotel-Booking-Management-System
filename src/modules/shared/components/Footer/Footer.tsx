@@ -7,7 +7,10 @@ export default function Footer() {
         <Grid container spacing={4}>
           {/* Logo and Description */}
           <Grid item xs={12} md={3}>
-            <Typography variant="h6" sx={{ fontWeight: "bold", color: "primary.main" }}>
+            <Typography
+              variant="h6"
+              sx={{ fontWeight: "bold", color: "primary.main" }}
+            >
               Stay
               <Box component="span" sx={{ color: "text.primary" }}>
                 cation.
@@ -20,7 +23,11 @@ export default function Footer() {
 
           {/* For Beginners */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="subtitle1" color="#152C5B" sx={{ fontWeight: "bold", mb: 2 }}>
+            <Typography
+              variant="subtitle1"
+              color="#152C5B"
+              sx={{ fontWeight: "bold", mb: 2 }}
+            >
               For Beginners
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>
@@ -38,7 +45,11 @@ export default function Footer() {
 
           {/* Explore Us */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="subtitle1" color="#152C5B" sx={{ fontWeight: "bold", mb: 2 }}>
+            <Typography
+              variant="subtitle1"
+              color="#152C5B"
+              sx={{ fontWeight: "bold", mb: 2 }}
+            >
               Explore Us
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>
@@ -56,7 +67,11 @@ export default function Footer() {
 
           {/* Connect Us */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography variant="subtitle1" color="#152C5B" sx={{ fontWeight: "bold", mb: 2 }}>
+            <Typography
+              variant="subtitle1"
+              color="#152C5B"
+              sx={{ fontWeight: "bold", mb: 2 }}
+            >
               Connect Us
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>

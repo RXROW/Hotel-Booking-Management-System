@@ -1,99 +1,89 @@
-import { Grid, styled } from '@mui/material'
-import { Typography } from '@mui/material'
-import { Box, Stack } from '@mui/system'
-import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import BadRoom from '../../assets/icons/ic_bedroom (2).png'
-import Tv from '../../assets/icons/ic_tv.png'
-import image1 from '../../assets/imges/cabin-001.jpg'
-import image2 from '../../assets/imges/cabin-002.jpg'
-import { useAuthContext } from '../../context/AuthContext'
-import { publicInstance } from '../../services/apis/apisConfig'
-import { ROOM_URL_USER } from '../../services/apis/apisUrls'
-import BookingCard from '../shared/components/BookingCard/BookingCard'
-import CommentForm from '../shared/components/CommentForm/CommentForm'
-import Footer from '../shared/components/Footer/Footer'
-import ReviewForm from '../shared/components/ReviewForm/ReviewForm'
-interface Facilitydetails {
-  icon: string
-  number: number
-  name: string
-}
-interface ImageStyles {
-  borderRadius: string
-  width: string
-  height: string
-}
+import { Grid, styled } from "@mui/material";
+import { Typography } from "@mui/material";
+import { Box, Stack } from "@mui/system";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import BadRoom from "../../assets/icons/ic_bedroom (2).png";
+import Tv from "../../assets/icons/ic_tv.png";
+import image1 from "../../assets/imges/cabin-001.jpg";
+import image2 from "../../assets/imges/cabin-002.jpg";
+import { useAuthContext } from "../../context/AuthContext.js";
+import { publicInstance } from "../../services/apis/apisConfig.js";
+import { ROOM_URL_USER } from "../../services/apis/apisUrls.js";
+import BookingCard from "../shared/components/BookingCard/BookingCard.js";
+import CommentForm from "../shared/components/CommentForm/CommentForm.js";
+import Footer from "../shared/components/Footer/Footer.js";
+import ReviewForm from "../shared/components/ReviewForm/ReviewForm.js";
 export default function DetailsPage() {
   //   const params = useParams();
   //   const RoomId = params.roomid;
   // for test
-  const RoomId = `66f9d1246475e2d50da9d22c`
-  const [RoomDetails, setRoomDetails] = useState()
-  console.log(RoomDetails)
-  const defaultImages: string[] = [image1, image2]
-  async function GetRoomDetails(): Promise<void> {
+  const RoomId = `66f9d1246475e2d50da9d22c`;
+  const [RoomDetails, setRoomDetails] = useState();
+  console.log(RoomDetails);
+  const defaultImages = [image1, image2];
+  async function GetRoomDetails() {
     try {
-      const response = await publicInstance.get(ROOM_URL_USER.GET_ROOM(RoomId))
-      console.log(response)
-      setRoomDetails(response.data.data.room)
+      const response = await publicInstance.get(ROOM_URL_USER.GET_ROOM(RoomId));
+      console.log(response);
+      setRoomDetails(response.data.data.room);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
   useEffect(() => {
-    GetRoomDetails()
-  }, [RoomId])
-  const facilitiesData: Facilitydetails[] = [
-    { icon: BadRoom, number: 5, name: 'bed room' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-    { icon: Tv, number: 4, name: 'television' },
-  ]
-  const getDisplayImages = (urls?: string[]): string[] => {
-    if (!urls || urls.length < 3) {
-      return [...(urls || []), ...defaultImages].slice(0, 3)
+    GetRoomDetails();
+  }, [RoomId]);
+  const facilitiesData = [
+    { icon: BadRoom, number: 5, name: "bed room" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+    { icon: Tv, number: 4, name: "television" },
+  ];
+  const getDisplayImages = (urls) => {
+    if (urls?.length < 3) {
+      return [...urls, ...defaultImages].slice(0, 3);
     }
-    return urls.slice(-3)
-  }
-  const ImgsStyles: ImageStyles[] = {
-    borderRadius: '1rem',
-    width: '100%',
-    height: '100%',
-  }
+    return urls?.slice(-3);
+  };
+  const ImgsStyles = {
+    borderRadius: "1rem",
+    width: "100%",
+    height: "100%",
+  };
   const VerticalLine = styled(Box)(({ theme }) => ({
-    width: '3px',
-    backgroundColor: '#203FC7',
-    margin: '0 30px',
-    display: 'block',
-    height: '350px',
-    [theme.breakpoints.down('lg')]: {
-      height: '3px',
-      width: '100%',
+    width: "3px",
+    backgroundColor: "#203FC7",
+    margin: "0 30px",
+    display: "block",
+    height: "350px",
+    [theme.breakpoints.down("lg")]: {
+      height: "3px",
+      width: "100%",
     },
-  }))
-  const displayImages = getDisplayImages(RoomDetails?.images)
+  }));
+  const displayImages = getDisplayImages(RoomDetails?.images);
   return (
     <div>
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '20px 0',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "20px 0",
         }}
       >
         <Box
           sx={{
-            width: '80%',
+            width: "80%",
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography variant="h6" component="h6">
               Home / Room Details
             </Typography>
@@ -101,14 +91,14 @@ export default function DetailsPage() {
               <Typography
                 variant="h4"
                 component="h1"
-                sx={{ color: '#152C5B', fontWeight: 'bold' }}
+                sx={{ color: "#152C5B", fontWeight: "bold" }}
               >
                 Village Angga
               </Typography>
               <Typography
                 variant="body1"
                 component="h3"
-                sx={{ color: '#B0B0B0', fontWeight: '500' }}
+                sx={{ color: "#B0B0B0", fontWeight: "500" }}
               >
                 Bogor, Indonesia
               </Typography>
@@ -117,12 +107,12 @@ export default function DetailsPage() {
           <Grid
             container
             spacing={3}
-            sx={{ marginBlock: '3.125rem', minHeight: '500px' }}
+            sx={{ marginBlock: "3.125rem", minHeight: "500px" }}
           >
             <Grid
               size={{ sm: 12, md: 6 }}
               sx={{
-                gridRow: 'span 2',
+                gridRow: "span 2",
               }}
             >
               {displayImages?.[0] && (
@@ -144,7 +134,7 @@ export default function DetailsPage() {
           </Grid>
           <Grid container spacing={2}>
             <Grid size={{ sm: 12, md: 6 }}>
-              <Typography sx={{ textAlign: 'start', color: '#B0B0B0' }}>
+              <Typography sx={{ textAlign: "start", color: "#B0B0B0" }}>
                 Minimal techno is a minimalist subgenre of techno music. It is
                 characterized by a stripped-down aesthetic that exploits the use
                 of repetition and understated development. Minimal techno is
@@ -167,7 +157,7 @@ export default function DetailsPage() {
                 display="flex"
                 gap="3.125rem"
                 flexWrap="wrap"
-                sx={{ marginBlockStart: '1.875rem' }}
+                sx={{ marginBlockStart: "1.875rem" }}
               >
                 {facilitiesData.map((facility) => (
                   <Stack alignItems=" flex-start" key={facility.name}>
@@ -177,7 +167,7 @@ export default function DetailsPage() {
                     <Box component="div">
                       <Typography
                         component="span"
-                        sx={{ paddingRight: '8px', color: '#152C5B' }}
+                        sx={{ paddingRight: "8px", color: "#152C5B" }}
                       >
                         {facility.number}
                       </Typography>
@@ -199,19 +189,19 @@ export default function DetailsPage() {
         </Box>
         <Box
           sx={{
-            width: 'max-Content',
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            padding: ' 2rem 4rem',
-            gap: '2rem',
-            margin: '30px 0 ',
-            display: 'flex',
-            justifyContent: 'space-evenly',
+            width: "max-Content",
+            border: "1px solid #ddd",
+            borderRadius: "8px",
+            padding: " 2rem 4rem",
+            gap: "2rem",
+            margin: "30px 0 ",
+            display: "flex",
+            justifyContent: "space-evenly",
             flexDirection: {
-              xs: 'column',
-              lg: 'row',
+              xs: "column",
+              lg: "row",
             },
-            alignItems: 'end',
+            alignItems: "end",
           }}
         >
           <ReviewForm roomId={RoomId} />
@@ -221,5 +211,5 @@ export default function DetailsPage() {
       </Box>
       <Footer />
     </div>
-  )
+  );
 }

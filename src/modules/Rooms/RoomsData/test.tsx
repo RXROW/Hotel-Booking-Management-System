@@ -2,7 +2,6 @@ import {
   Box,
   Checkbox,
   Chip,
-  CircularProgress,
   colors,
   FormControlLabel,
   FormGroup,
@@ -85,6 +84,7 @@ interface IFormRoom {
 export default function RoomsData() {
   const params = useParams();
   const roomid = params.roomid;
+  console.log(roomid);
   const [images, setImages] = useState<ImagePreview[]>([]);
   const [selectedFacilities, setSelectedFacilities] = useState<string[]>([]);
   const MAX_IMAGES = 2;
@@ -94,31 +94,25 @@ export default function RoomsData() {
     register,
     handleSubmit,
     setValue,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<IFormRoom>();
-  const convertImageUrlToFile = async (url) => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      const filename = url.split("/").pop() || `image-${Date.now()}.jpg`;
-      return new File([blob], filename, { type: blob.type || "image/jpeg" });
-    } catch (error) {
-      console.error("Error converting image URL to File:", error);
-      return null;
-    }
-  };
+
   const onSubmit: SubmitHandler<IFormRoom> = async (data) => {
     const formata = new FormData();
     formata.append("roomNumber", data.roomNumber);
     formata.append("capacity", data.capacity.toString());
     formata.append("discount", data.discount.toString());
-    if (selectedFacilities) {
-      selectedFacilities.forEach((facilityId) =>
-        formata.append("facilities[]", facilityId)
-      );
+
+    if (data.facilities && Array.isArray(data.facilities)) {
+      data.facilities.forEach((facility) => {
+        formata.append("facilities", facility);
+      });
     }
-    data.imgs.forEach((file) => {
-      formata.append("imgs", file);
+
+    images.forEach((image) => {
+      if (image.file) {
+        formata.append("imgs", image.file);
+      }
     });
     formata.append("price", data.price.toString());
     try {
@@ -141,7 +135,7 @@ export default function RoomsData() {
       console.log(error.message);
     }
   };
-  const getRoomById = async (): Promise<void> => {
+  const getTaskById = async (): Promise<void> => {
     try {
       if (!roomid) return;
       const res = await privateInstance.get(ROOMS_URL.GET_ROOM(roomid));
@@ -153,22 +147,25 @@ export default function RoomsData() {
       setValue("capacity", response.capacity);
       setValue("discount", response.discount);
       setValue("facilities", response.facilities);
-      console.log(response.facilities);
-      if (response.facilities) {
-        const facilityIds = response.facilities.map((facility: any | string) =>
-          typeof facility === "string" ? facility : facility["_id"]
+      console.log(response);
+      if (response.facilities && Array.isArray(response.facilities)) {
+        const facilityIds = response.facilities.map(
+          (facility: any) => facility._id
         );
         setSelectedFacilities(facilityIds);
         setValue("facilities", facilityIds);
       }
-      if (response.images && response.images.length > 0) {
-        const filePromises = response.images.map((url) =>
-          convertImageUrlToFile(url)
-        );
-        const files = await Promise.all(filePromises);
-        const validFiles = files.filter((file) => file !== null);
-        setImages(validFiles);
-        setValue("imgs", validFiles);
+      // Handle images
+      console.log(response.images);
+      if (response.images && Array.isArray(response.images)) {
+        const imagesPreviews = response.images.map((img: string) => ({
+          url: img, // Keep the full image URL/path
+          name: img.split("/").pop() || "",
+          file: null,
+          isExisting: true,
+        }));
+        setImages(imagesPreviews);
+        setValue("imgs", response.images);
       }
       console.log(images);
     } catch (error) {
@@ -178,7 +175,7 @@ export default function RoomsData() {
 
   useEffect(() => {
     if (roomid) {
-      getRoomById();
+      getTaskById();
     }
   }, [roomid, setValue]);
 
@@ -196,19 +193,21 @@ export default function RoomsData() {
     const {
       target: { value },
     } = event;
-    console.log(value);
+    // Handle both string and array values
     const newValue = typeof value === "string" ? value.split(",") : value;
+    // Update both states
     setSelectedFacilities(newValue);
     setValue("facilities", newValue);
   };
-
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      const newFiles = Array.from(e.target.files);
-      const updatedFiles = [...images, ...newFiles];
-      setImages(updatedFiles);
-      setValue("imgs", updatedFiles);
-    }
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files || []);
+    const newImages: ImagePreview[] = files.map((file) => ({
+      url: URL.createObjectURL(file),
+      name: file.name,
+      file,
+    }));
+    // setImages(newImages)
+    setImages((prevImages) => [...prevImages, ...newImages]);
   };
   // Add delete handler
   const handleDeleteImage = (index: number) => {
@@ -394,10 +393,8 @@ export default function RoomsData() {
                       }}
                     >
                       <img
-                        // src={image}
-                        // src={getImageSrc(image)}
-                        src={URL.createObjectURL(image)}
-                        // alt={`uploaded-${image.name}`}
+                        src={image.url}
+                        alt={`uploaded-${image.name}`}
                         style={{
                           width: "100%",
                           height: "100%",
@@ -471,7 +468,6 @@ export default function RoomsData() {
             </Button>
             <Button
               type="submit"
-              disabled={isSubmitting}
               variant="contained"
               sx={{
                 mt: "1rem",
@@ -479,7 +475,7 @@ export default function RoomsData() {
                 padding: "0.5rem 3rem",
               }}
             >
-              {isSubmitting ? "Loading...." : roomid ? "Edit" : "Create"}
+              save
             </Button>
           </Box>
         </Grid>

@@ -1,18 +1,21 @@
 import { Box } from "@mui/material";
 import Grid from "@mui/material/Grid";
 
- 
- import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
-
-import Commonheader from "../../../shared/components/commonheader/Commonheader";
+import TitleAuth from "../../../shared/components/TitleAuth/TitleAuth";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormInput } from "../../../shared/components/FormInput/FormInput";
 import { ChangeData } from "../../../../interfaces/authInterfaces";
-import { passwordValidation } from "../../../../services/vaildation/validation";
 import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
 import { useEffect } from "react";
+import { getValidationRules } from "../../../../services/vaildation/validations";
+import { publicInstance } from "../../../../services/apis/apisConfig";
+import { USERS_URL } from "../../../../services/apis/apisUrls.js";
+import useSnackbar from "../../../../hooks/useSnackbar.js";
+import { useNavigate } from "react-router-dom";
+import CustomSnackbar from "../../../shared/components/Snackbar/Snackbar";
+import { useTranslation } from "react-i18next";
 const ChangePassword = () => {
   const methods = useForm<any>({
     defaultValues: {
@@ -22,10 +25,31 @@ const ChangePassword = () => {
     },
   });
   const { showPasswords, getPasswordAdornment } = usePasswordToggle();
+  const { snackbarState, showSnackbar, hideSnackbar } = useSnackbar();
+  const navigate = useNavigate();
+  const { t } = useTranslation();
   const { trigger, watch } = methods;
   const newPassword = watch("newPassword");
   const confirmNewPassword = watch("confirmNewPassword");
+  const validationRules = getValidationRules(watch);
   const handleSubmit = async (data: ChangeData) => {
+    try {
+      const response = await publicInstance.post(
+        USERS_URL.CHANGE_PASSWORD,
+        data
+      );
+      showSnackbar(
+        response?.data?.message || "Change Password successfully!",
+        "success"
+      );
+      navigate("/login");
+    } catch (error: any) {
+      showSnackbar(
+        error?.response?.data?.message ||
+          "Something went wrong please try again",
+        "error"
+      );
+    }
     console.log(data);
   };
   useEffect(() => {
@@ -35,48 +59,49 @@ const ChangePassword = () => {
   }, [confirmNewPassword, trigger, newPassword]);
 
   return (
-    <Grid container spacing={2} sx={{ height: "100vh", px: 1 }}>
-      <Grid item size={{ xs: 6, md: 6 }}>
-        {/* <Commonheader /> */}
-        <Box component="div" sx={{ p: 3 }}>
-          <TitleAuth title="Change Password" />
-          <FormProvider {...methods}>
-            <ReusableForm onSubmit={methods.handleSubmit(handleSubmit)}>
-              <FormInput
-                label="old Password"
-                name="oldPassword"
-                type="password"
-                showpassword={showPasswords.currentPassword}
-                rules={passwordValidation}
-                placeholder="Enter your Current  password"
-                iconeye={getPasswordAdornment("currentPassword")}
-              />
-              <FormInput
-                label="New Password"
-                name="newPassword"
-                type="password"
-                showpassword={showPasswords.password}
-                rules={passwordValidation}
-                placeholder="Enter your New password"
-                iconeye={getPasswordAdornment("password")}
-              />
-              <FormInput
-                label=" Confirm New Password"
-                name=" confirmNewPassword"
-                type="password"
-                showpassword={showPasswords.confirmPassword}
-                rules={passwordValidation}
-                placeholder="Confirm New  password"
-                iconeye={getPasswordAdornment("confirmPassword")}
-              />
-              <ButtonForm isSubmitting={methods.formState.isSubmitting}>
-                Change Password
-              </ButtonForm>
-            </ReusableForm>
-          </FormProvider>
-        </Box>
-      </Grid>
-    </Grid>
+    <>
+      <TitleAuth title={t("Authentication.title.changePassword")} />
+      <FormProvider {...methods}>
+        <ReusableForm onSubmit={methods.handleSubmit(handleSubmit)}>
+          <FormInput
+            label={t("Authentication.form.oldpasswordLabel")}
+            name="oldPassword"
+            type="password"
+            showpassword={showPasswords.currentPassword}
+            rules={validationRules.password}
+            placeholder={t("Authentication.form.oldpasswordPlaceholder")}
+            iconeye={getPasswordAdornment("currentPassword")}
+          />
+          <FormInput
+            label={t("Authentication.form.newpasswordLabel")}
+            name="newPassword"
+            type="password"
+            showpassword={showPasswords.password}
+            rules={validationRules.password}
+            placeholder={t("Authentication.form.newconfirmpasswordPlaceholder")}
+            iconeye={getPasswordAdornment("password")}
+          />
+          <FormInput
+            label={t("Authentication.form.newconfirmpasswordLabel")}
+            name=" confirmNewPassword"
+            type="password"
+            showpassword={showPasswords.confirmPassword}
+            rules={validationRules.confirmPassword}
+            placeholder={t("Authentication.form.newpasswordPlaceholder")}
+            iconeye={getPasswordAdornment("confirmPassword")}
+          />
+          <ButtonForm isSubmitting={methods.formState.isSubmitting}>
+            {t("Authentication.button.changepassword")}
+          </ButtonForm>
+        </ReusableForm>
+      </FormProvider>
+      <CustomSnackbar
+        open={snackbarState.open}
+        message={snackbarState.message}
+        severity={snackbarState.severity}
+        onClose={hideSnackbar}
+      />
+    </>
   );
 };
 

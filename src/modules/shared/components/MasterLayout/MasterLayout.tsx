@@ -9,7 +9,7 @@ import {
   AppBar,
   Toolbar,
   Fade,
-  Backdrop
+  Backdrop,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SidebarComponent from "../Sidebar/Sidebar";
@@ -19,7 +19,7 @@ export default function MasterLayout() {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const location = useLocation();
 
   // Close mobile drawer when route changes
@@ -71,10 +71,10 @@ export default function MasterLayout() {
             },
           }}
           sx={{
-            '& .MuiDrawer-paper': {
+            "& .MuiDrawer-paper": {
               width: drawerWidth,
-              boxSizing: 'border-box',
-              border: 'none',
+              boxSizing: "border-box",
+              border: "none",
             },
             zIndex: theme.zIndex.appBar + 1,
           }}
@@ -88,7 +88,7 @@ export default function MasterLayout() {
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            transition: theme.transitions.create('width', {
+            transition: theme.transitions.create("width", {
               easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.enteringScreen,
             }),
@@ -97,16 +97,16 @@ export default function MasterLayout() {
           <Drawer
             variant="permanent"
             sx={{
-              display: { xs: 'none', md: 'block' },
-              '& .MuiDrawer-paper': {
-                boxSizing: 'border-box',
+              display: { xs: "none", md: "block" },
+              "& .MuiDrawer-paper": {
+                boxSizing: "border-box",
                 width: drawerWidth,
-                border: 'none',
-                transition: theme.transitions.create('width', {
+                border: "none",
+                transition: theme.transitions.create("width", {
                   easing: theme.transitions.easing.sharp,
                   duration: theme.transitions.duration.enteringScreen,
                 }),
-                overflowX: 'hidden',
+                overflowX: "hidden",
               },
             }}
             open
@@ -125,7 +125,7 @@ export default function MasterLayout() {
           display: "flex",
           flexDirection: "column",
           overflow: "hidden",
-          transition: theme.transitions.create('margin', {
+          transition: theme.transitions.create("margin", {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
@@ -138,7 +138,7 @@ export default function MasterLayout() {
             color="inherit"
             elevation={0}
             sx={{
-              display: { xs: 'block', md: 'none' },
+              display: { xs: "block", md: "none" },
               borderBottom: `1px solid ${theme.palette.divider}`,
             }}
           >
@@ -151,7 +151,7 @@ export default function MasterLayout() {
               >
                 <MenuIcon />
               </IconButton>
-              <Box sx={{ width: '100%' }}>
+              <Box sx={{ width: "100%" }}>
                 <Navbar />
               </Box>
             </Toolbar>
@@ -161,8 +161,8 @@ export default function MasterLayout() {
         {/* Desktop Navbar */}
         <Box
           sx={{
-            display: { xs: 'none', md: 'block' },
-            width: '100%',
+            display: { xs: "none", md: "block" },
+            width: "100%",
             zIndex: theme.zIndex.appBar,
             padding: theme.spacing(2, 2, 0, 2),
           }}
@@ -179,7 +179,7 @@ export default function MasterLayout() {
             padding: theme.spacing(isMobile ? 2 : 3),
             paddingTop: isMobile ? theme.spacing(2) : theme.spacing(2),
             backgroundColor: theme.palette.background.default,
-            transition: theme.transitions.create(['padding'], {
+            transition: theme.transitions.create(["padding"], {
               easing: theme.transitions.easing.easeOut,
               duration: theme.transitions.duration.enteringScreen,
             }),

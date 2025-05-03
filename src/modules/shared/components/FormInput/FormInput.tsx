@@ -61,6 +61,7 @@ export const FormInput = ({
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
               borderColor: "#E5E5E5",
+              border: "none",
             },
             "&:hover fieldset": {
               borderColor: "#3252DF",

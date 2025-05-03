@@ -33,8 +33,8 @@ const Overlay = {
 // }
 
 const ReusableModal = ({ open, onClose, details }) => {
-  console.log(details);
-  const { capacity, discount, images, price, roomNumber, createdBy } = details;
+  // console.log(details);
+  // const { capacity, discount, images, price, roomNumber, createdBy } = ?.details;
   // MuiBox - root
   return (
     <Modal
@@ -57,23 +57,23 @@ const ReusableModal = ({ open, onClose, details }) => {
             component="img"
             alt="green iguana"
             height="140"
-            image={images?.[0]}
+            image={details?.images?.[0]}
           />
           <CardContent>
             <Typography variant="h6" color="textSecondary">
-              RoomNumber: {roomNumber}
+              RoomNumber: {details?.roomNumber}
             </Typography>
             <Typography variant="h6" color="textSecondary">
-              capacity: {capacity} Person
+              capacity: {details?.capacity} Person
             </Typography>
             <Typography variant="h6" color="textSecondary">
-              discount: {discount} %
+              discount: {details?.discount} %
             </Typography>
             <Typography variant="h6" color="textSecondary">
-              price: {price} $
+              price: {details?.price} $
             </Typography>
             <Typography variant="h6" color="textSecondary">
-              createdBy: {createdBy?.userName}
+              createdBy: {details?.createdBy?.userName}
             </Typography>
           </CardContent>
           <CardActions>

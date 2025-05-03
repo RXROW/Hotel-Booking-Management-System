@@ -1,5 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { Box, IconButton } from "@mui/material";
+import { privateInstance } from "../../services/apis/apisConfig";
+import { FACILITIES_URL } from "../../services/apis/apisUrls";
 import {
+  facility,
+  getFacilitesResponse,
+} from "../../interfaces/FacilitiesInterfaces";
+import SharedTable from "../shared/components/SharedTable/SharedTable";
+import TablePaginationActions from "../shared/components/TablePaginationActions/TablePaginationActions";
+import DeleteConfirmation from "../shared/components/DeleteConfirmation/DeleteConfirmation";
+import FacilityForm from "./FacilitiesForm/FacilitesForm";
+import ViewModal from "../shared/components/ViewModal/ViewModal";
+import TableHeader from "../shared/components/TableHeader/TableHeader";
+import DropdownMenu from "../shared/components/DropdownMenu/DropdownMenu";
   Box,
   IconButton,
 } from '@mui/material';
@@ -26,20 +39,25 @@ const FacilitiesList = () => {
   const [count, setCount] = useState<number>(0);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(5);
-
-  const [selectedFacility, setSelectedFacility] = useState<facility | null>(null);
-
+  const [selectedFacility, setSelectedFacility] = useState<facility | null>(
+    null
+  );
   const [formModalOpen, setFormModalOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [facilityName, setFacilityName] = useState('');
+  const [facilityName, setFacilityName] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
-
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [facilityToDeleteId, setFacilityToDeleteId] = useState<string | null>(null);
-
+  const [facilityToDeleteId, setFacilityToDeleteId] = useState<string | null>(
+    null
+  );
   const [openViewModal, setOpenViewModal] = useState(false);
-
-  const getFacilities = async ({ size, page }: { size: number; page: number }) => {
+  const getFacilities = async ({
+    size,
+    page,
+  }: {
+    size: number;
+    page: number;
+  }) => {
     setLoading(true);
     try {
       const response = await privateInstance.get<getFacilitesResponse>(
@@ -62,7 +80,9 @@ const FacilitiesList = () => {
     getFacilities({ size, page: newPage });
   };
 
-  const handleRowsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRowsPerPageChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const newSize = parseInt(event.target.value, 10);
     setSize(newSize);
     setPage(0);
@@ -76,9 +96,8 @@ const FacilitiesList = () => {
   const handleViewClick = () => {
     if (!selectedFacility) return;
     setOpenViewModal(false);
-    
-      setOpenViewModal(true);
-    
+
+    setOpenViewModal(true);
   };
 
   const handleOpenEditModal = () => {
@@ -105,7 +124,7 @@ const FacilitiesList = () => {
       toast.success(res?.data?.message || 'Operation successful');
   
       setFormModalOpen(false);
-      setFacilityName('');
+      setFacilityName("");
       setEditingId(null);
       getFacilities({ size, page });
     } catch (error) {
@@ -118,7 +137,9 @@ const FacilitiesList = () => {
   const handleDeleteFacility = async () => {
     if (!facilityToDeleteId) return;
     try {
-      await privateInstance.delete(FACILITIES_URL.DELETE_FACILITY(facilityToDeleteId));
+      await privateInstance.delete(
+        FACILITIES_URL.DELETE_FACILITY(facilityToDeleteId)
+      );
       setOpenDeleteModal(false);
       setFacilityToDeleteId(null);
       toast.success('Facility deleted successfully');
@@ -130,44 +151,43 @@ const FacilitiesList = () => {
   };
 
   const handleAction = (action: string, facility: facility) => {
-    setSelectedFacility(facility); 
-    if (action === 'view') {
+    setSelectedFacility(facility);
+    if (action === "view") {
       setOpenViewModal(true);
-    } else if (action === 'edit') {
+    } else if (action === "edit") {
       setFacilityName(facility.name);
       setEditingId(facility._id);
       setIsEditing(true);
       setFormModalOpen(true);
-    } else if (action === 'delete') {
+    } else if (action === "delete") {
       setFacilityToDeleteId(facility._id);
       setOpenDeleteModal(true);
     }
   };
-  
 
   const columns = [
-    { id: 'name', label: 'Name' },
+    { id: "name", label: "Name" },
     {
-      id: 'createdAt',
-      label: 'Created At',
+      id: "createdAt",
+      label: "Created At",
       render: (row: facility) => formatDate(row.createdAt),
     },
     {
-      id: 'createdBy',
-      label: 'Created By',
-      render: (row: facility) => row.createdBy?.userName ?? 'N/A',
+      id: "createdBy",
+      label: "Created By",
+      render: (row: facility) => row.createdBy?.userName ?? "N/A",
     },
     {
-      id: 'updatedAt',
-      label: 'Updated At',
+      id: "updatedAt",
+      label: "Updated At",
       render: (row: facility) => formatDate(row.updatedAt),
     },
     {
-      id: 'actions',
-      label: '',
+      id: "actions",
+      label: "",
       render: (row: facility) => (
         <DropdownMenu
-        facility={row}
+          facility={row}
           onAction={(action: string) => handleAction(action, row)}
         />
       ),
@@ -177,11 +197,11 @@ const FacilitiesList = () => {
   return (
     <Box>
       <TableHeader
-        HeaderText='Facilities'
-        TextButton='Facility'
+        HeaderText="Facilities"
+        TextButton="Facility"
         onClick={() => {
           setIsEditing(false);
-          setFacilityName('');
+          setFacilityName("");
           setFormModalOpen(true);
         }}
       />
@@ -210,7 +230,7 @@ const FacilitiesList = () => {
         open={formModalOpen}
         onClose={() => {
           setFormModalOpen(false);
-          setFacilityName('');
+          setFacilityName("");
           setEditingId(null);
         }}
         onSubmit={handleSubmitFacility}
@@ -218,7 +238,6 @@ const FacilitiesList = () => {
         setFacilityName={setFacilityName}
         isEditing={isEditing}
       />
-
       {/* DeleteConfirmation Modal */}
       <DeleteConfirmation
         open={openDeleteModal}
@@ -230,15 +249,14 @@ const FacilitiesList = () => {
         title="Delete Facility"
         message="Are you sure you want to delete this facility?"
       />
-
       {/* View Modal */}
       <ViewModal
         open={openViewModal}
         onClose={() => setOpenViewModal(false)}
         title="View Facility"
         data={{
-          Name: selectedFacility?.name ?? 'No Name',
-          CreatedBy: selectedFacility?.createdBy?.userName ?? 'Unknown',
+          Name: selectedFacility?.name ?? "No Name",
+          CreatedBy: selectedFacility?.createdBy?.userName ?? "Unknown",
         }}
       />
     </Box>
