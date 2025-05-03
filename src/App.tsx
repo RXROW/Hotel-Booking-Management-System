@@ -9,13 +9,16 @@ import ChangePassword from './modules/authentication/components/ChangePassword/C
 import AuthLayout from './modules/shared/components/AuthLayout/AuthLayout'
 
 // import '@fontsource/poppins/400.css';
-import AuthContextProvider from './context/AuthContext'
+
 import Dashboard from './modules/Dashboard/Dashboard'
 import Explore from './modules/Explore/Explore'
 import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
+import RoomsList from './modules/Rooms/RoomsList/RoomsList'
+import RoomsData from './modules/Rooms/RoomsData/RoomsData'
 import FacilitiesList from './modules/Facilities/FacilitiesList'
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
 import Advertisements from './modules/Advertisements/Advertisements'
+import AuthContextProvider from './context/AuthContext'
 import UsersList from './modules/Users/UsersList'
 import BookingList from './modules/Booking/BookingList'
 import UserLayout from './modules/shared/components/UserLayout/UserLayout'
@@ -24,8 +27,9 @@ import { ToastContainer } from 'react-toastify'
 import Favorites from './modules/Favorites/Favorites'
 
 
+
 function App() {
-  let routes = createBrowserRouter([
+  const routes = createBrowserRouter([
     {
       path: '/auth',
       element: <AuthLayout />,
@@ -48,8 +52,11 @@ function App() {
       ),
       errorElement: <NotFound />,
       children: [
-        { index: true, element: <Dashboard /> },
-        { path: 'dashboard', element: <Dashboard /> },
+        {index: true, element: <Dashboard/>},
+        {path: 'dashboard', element: <Dashboard/>},
+        {path: 'rooms', element: <RoomsList/>},
+        {path: 'rooms/rooms-Data', element: <RoomsData/>},
+        {path: 'rooms/:roomid', element: <RoomsData/>},
         { path: 'facilities', element: <FacilitiesList /> },
         { path: 'advertisements', element: <Advertisements /> },
         { path: 'users', element: <UsersList /> },
@@ -71,7 +78,7 @@ function App() {
       ]
     }
   ])
-
+        
   return (
     <AuthContextProvider>
       <ToastContainer/>

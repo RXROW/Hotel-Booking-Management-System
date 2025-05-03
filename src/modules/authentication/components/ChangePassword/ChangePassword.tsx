@@ -8,7 +8,7 @@ import Commonheader from "../../../shared/components/commonheader/Commonheader";
 import ReusableForm from "../../../shared/components/Resuableform/ReusableForm";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormInput } from "../../../shared/components/FormInput/FormInput";
-import { LoginData } from "../../../../interfaces/authInterfaces";
+import { ChangeData } from "../../../../interfaces/authInterfaces";
 import { passwordValidation } from "../../../../services/vaildation/validation";
 import ButtonForm from "../../../shared/components/ButtonForm/ButtonForm";
 import usePasswordToggle from "../../../../hooks/PasswordToggle";
@@ -25,7 +25,7 @@ const ChangePassword = () => {
   const { trigger, watch } = methods;
   const newPassword = watch("newPassword");
   const confirmNewPassword = watch("confirmNewPassword");
-  const handleSubmit = async (data: LoginData) => {
+  const handleSubmit = async (data: ChangeData) => {
     console.log(data);
   };
   useEffect(() => {

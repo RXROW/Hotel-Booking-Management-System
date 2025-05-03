@@ -46,13 +46,13 @@ const Login = () => {
     try {
       const response = await publicInstance.post(USERS_URL.LOGIN, data);
       localStorage.setItem('token', response?.data?.data?.token.split(' ')[1]);
+      console.log(response?.data?.data?.token.split(' ')[1])
       saveLoginData();
       const token = response?.data?.data?.token
       const isUser = response?.data?.data?.user?.role
       setSnackbarMessage("Login successful");
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
-      // navigate('/dashboard');
       navigate(isUser === 'user' ? '/' : '/dashboard')
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
