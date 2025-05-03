@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
   };
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/auth");
   };
 
   const [searchParams, setSearchParams] = useSearchParams();

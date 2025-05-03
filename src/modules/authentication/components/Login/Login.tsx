@@ -48,11 +48,12 @@ const Login = () => {
       localStorage.setItem('token', response?.data?.data?.token.split(' ')[1]);
       console.log(response?.data?.data?.token.split(' ')[1])
       saveLoginData();
+      const token = response?.data?.data?.token
+      const isUser = response?.data?.data?.user?.role
       setSnackbarMessage("Login successful");
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
-      navigate('/dashboard');
-      // navigate('/dashboard');
+      navigate(isUser === 'user' ? '/' : '/dashboard')
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         setSnackbarMessage(error.response?.data?.message || 'Cannot Log in');
@@ -93,7 +94,7 @@ const Login = () => {
 
               <Box sx={{ textAlign: 'right', mb: 2 }}>
                 <Link
-                to={"/forget-password"}
+                to={"forget-password"}
                 style={{ textDecoration: "none", color: "#000" }}
                 >
                   Forgot Password?
