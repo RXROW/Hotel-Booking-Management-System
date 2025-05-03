@@ -13,6 +13,20 @@ import FacilityForm from "./FacilitiesForm/FacilitesForm";
 import ViewModal from "../shared/components/ViewModal/ViewModal";
 import TableHeader from "../shared/components/TableHeader/TableHeader";
 import DropdownMenu from "../shared/components/DropdownMenu/DropdownMenu";
+  Box,
+  IconButton,
+} from '@mui/material';
+import { privateInstance } from '../../services/apis/apisConfig';
+import { FACILITIES_URL } from '../../services/apis/apisUrls';
+import { facility, getFacilitesResponse } from '../../interfaces/FacilitiesInterfaces';
+import SharedTable from '../shared/components/SharedTable/SharedTable';
+import TablePaginationActions from '../shared/components/TablePaginationActions/TablePaginationActions';
+import DeleteConfirmation from '../shared/components/DeleteConfirmation/DeleteConfirmation';
+import FacilityForm from './FacilitiesForm/FacilitesForm';
+import ViewModal from '../shared/components/ViewModal/ViewModal';
+import TableHeader from '../shared/components/TableHeader/TableHeader';
+import DropdownMenu from '../shared/components/DropdownMenu/DropdownMenu';
+import { toast } from 'react-toastify';
 
 const formatDate = (date: string) => {
   const d = new Date(date);
@@ -96,24 +110,29 @@ const FacilitiesList = () => {
 
   const handleSubmitFacility = async () => {
     try {
+      let res;
       if (isEditing && editingId) {
-        await privateInstance.put(FACILITIES_URL.UPDATE_FACILITY(editingId), {
+        res = await privateInstance.put(FACILITIES_URL.UPDATE_FACILITY(editingId), {
           name: facilityName,
         });
       } else {
-        await privateInstance.post(FACILITIES_URL.CREATE_FACILITY, {
+        res = await privateInstance.post(FACILITIES_URL.CREATE_FACILITY, {
           name: facilityName,
         });
       }
-
+  
+      toast.success(res?.data?.message || 'Operation successful');
+  
       setFormModalOpen(false);
       setFacilityName("");
       setEditingId(null);
       getFacilities({ size, page });
     } catch (error) {
+      toast.error(error?.response?.data?.message || 'An error occurred');
       console.log(error);
     }
   };
+  
 
   const handleDeleteFacility = async () => {
     if (!facilityToDeleteId) return;
@@ -123,9 +142,11 @@ const FacilitiesList = () => {
       );
       setOpenDeleteModal(false);
       setFacilityToDeleteId(null);
+      toast.success('Facility deleted successfully');
       getFacilities({ size, page });
     } catch (error) {
       console.log(error);
+      toast.error('Failed to delete facility');
     }
   };
 

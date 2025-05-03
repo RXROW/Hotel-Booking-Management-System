@@ -19,8 +19,8 @@ const TitleAuth = ({ title }: TitleAuthProps) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const handleClick = () => {
-    if (compara) navigate("/register");
-    else navigate("/login");
+    if (compara) navigate("register");
+    else navigate("login");
   };
   console.log(compara);
   return (

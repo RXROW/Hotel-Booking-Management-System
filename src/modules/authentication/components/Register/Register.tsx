@@ -102,11 +102,9 @@ export default function Register() {
         formData
       );
       if (response.status === 201) {
-        showSnackbar(
-          response?.data?.message || "User created successfully",
-          "success"
-        );
         navigate("/login");
+        showSnackbar(response?.data?.message || "User created successfully", "success");
+        navigate("login");
       }
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

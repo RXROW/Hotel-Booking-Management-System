@@ -37,8 +37,11 @@ const Login = () => {
       const response = await publicInstance.post(USERS_URL.LOGIN, data);
       localStorage.setItem("token", response?.data?.data?.token.split(" ")[1]);
       saveLoginData();
+
       showSnackbar(response?.data?.message || "Login successful", "success");
-      navigate("/dashboard");
+      const token = response?.data?.data?.token
+      const isUser = response?.data?.data?.user?.role
+      navigate(isUser === 'user' ? '/' : '/dashboard')
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         showSnackbar(error.response?.data?.message || "Cannot Log in", "error");
@@ -87,6 +90,7 @@ const Login = () => {
         onClose={hideSnackbar}
       />
     </>
+
   );
 };
 

@@ -13,7 +13,6 @@ import axios from "axios";
 import CustomSnackbar from "../../../shared/components/Snackbar/Snackbar";
 import { getValidationRules } from "../../../../services/vaildation/validations";
 import { useTranslation } from "react-i18next";
-
 const ForgetPassword = () => {
   const { t } = useTranslation();
   const { snackbarState, showSnackbar, hideSnackbar } = useSnackbar();

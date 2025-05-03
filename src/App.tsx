@@ -15,22 +15,36 @@ import MasterLayout from "./modules/shared/components/MasterLayout/MasterLayout"
 import FacilitiesList from "./modules/Facilities/FacilitiesList";
 import ProtectedRoute from "./modules/shared/components/ProtectedRoute/ProtectedRoute";
 import Advertisements from "./modules/Advertisements/Advertisements";
+import Dashboard from './modules/Dashboard/Dashboard'
+import Explore from './modules/Explore/Explore'
+import MasterLayout from './modules/shared/components/MasterLayout/MasterLayout'
+import RoomsList from './modules/Rooms/RoomsList/RoomsList'
+import RoomsData from './modules/Rooms/RoomsData/RoomsData'
+import FacilitiesList from './modules/Facilities/FacilitiesList'
+import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
+import Advertisements from './modules/Advertisements/Advertisements'
+import AuthContextProvider from './context/AuthContext'
+import UsersList from './modules/Users/UsersList'
+import BookingList from './modules/Booking/BookingList'
+import UserLayout from './modules/shared/components/UserLayout/UserLayout'
+import HomePage from './modules/Home/HomePage/HomePage'
+import { ToastContainer } from 'react-toastify' 
+import Favorites from './modules/Favorites/Favorites'
 import AuthContextProvider from "./context/AuthContext.js";
-// import DetailsPage from "./modules/DetailsPage/DetailsPage";
+ import DetailsPage from "./modules/DetailsPage/DetailsPage";
 function App() {
   const routes = createBrowserRouter([
     {
-      path: "/",
-      // element: <DetailsPage />,
+      path: '/auth',
       element: <AuthLayout />,
       errorElement: <NotFound />,
       children: [
         { index: true, element: <Login /> },
-        { path: "login", element: <Login /> },
-        { path: "register", element: <Register /> },
-        { path: "forget-password", element: <ForgetPassword /> },
-        { path: "reset-password", element: <ResetPassword /> },
-        { path: "change-password", element: <ChangePassword /> },
+        { path: '/auth/login', element: <Login /> },
+        { path: '/auth/register', element: <Register /> },
+        { path: '/auth/forget-password', element: <ForgetPassword /> },
+        { path: '/auth/reset-password', element: <ResetPassword /> },
+        { path: '/auth/change-password', element: <ChangePassword /> },
       ],
     },
     {
@@ -49,16 +63,27 @@ function App() {
         { path: "advertisements", element: <Advertisements /> },
         { path: "rooms/rooms-Data", element: <RoomsData /> },
         { path: "rooms/:roomid", element: <RoomsData /> },
+          { path: 'users', element: <UsersList /> },
+        { path: 'booking', element: <BookingList /> },
       ],
-    },
-    // {
-    //   path: "/",
-    //   element: <DetailsPage />,
-    //   errorElement: <NotFound />,
-    // },
-  ]);
+    },{
+      path: '/',
+      element: <UserLayout/>,
+      errorElement: <NotFound/>,
+      children: [
+        {index: true, element: <HomePage/>},
+        {path: 'home', element: <HomePage/>},
+        {path: 'explore-all-rooms', element: <Explore/>},
+        // {path: 'details-page/:roomId', element: <DetailsPage/>},
+        {path: '/favorites', element: <Favorites/>},
+        // {path: 'payment', element: <Elements stripe={stripePromise}> <ProtectedRouteIsUser><Payment/></ProtectedRouteIsUser> </Elements>},
+        // {path: 'payment-done', element: <ProtectedRouteIsUser><PaymentDone/></ProtectedRouteIsUser>}
+      ]
+    }
+  ])
   return (
     <AuthContextProvider>
+      <ToastContainer/>
       <RouterProvider router={routes} />
     </AuthContextProvider>
   );

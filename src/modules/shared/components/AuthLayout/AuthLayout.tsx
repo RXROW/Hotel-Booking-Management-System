@@ -10,31 +10,19 @@ import { useTranslation } from "react-i18next";
 const AuthLayout = () => {
   const location = useLocation();
   const { t } = useTranslation();
-  const getBackgroundImage = () => {
-    switch (location.pathname) {
-      case "/register":
-        return `url(${registerBg})`;
-      case "/login":
-        return `url(${loginBg})`;
-      case "/":
-        return `url(${loginBg})`;
-      default:
-        return `url(${forgetResetBg})`;
-    }
-  };
   const rightSectionText = () => {
     switch (location.pathname) {
-      case "/register":
+      case "/auth/register":
         return `${t("Authentication.text.headingimage")}`;
-      case "/login":
+      case "/auth/login":
         return `${t("Authentication.text.headingimage")}`;
-      case "/":
+      case "/auth":
         return `${t("Authentication.text.headingimage")}`;
-      case "/forget-password":
+      case "/auth/forget-password":
         return `${t("Authentication.title.forgetPassword")}`;
-      case "/reset-password":
+      case "/auth/reset-password":
         return `${t("Authentication.title.resetPassword")}`;
-      case "/change-password":
+      case "/auth/change-password":
         return `${t("Authentication.title.changePassword")}`;
     }
   };
