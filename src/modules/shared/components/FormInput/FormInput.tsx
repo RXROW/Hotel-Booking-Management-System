@@ -1,21 +1,21 @@
-import { TextField, Typography, InputAdornment } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { TextField, Typography, InputAdornment } from '@mui/material'
+import { useFormContext } from 'react-hook-form'
 
 interface FormInputProps {
-  name: string;
-  label: string;
-  type?: string;
-  rules?: object;
-  iconeye?: React.ReactNode;
-  showpassword?: boolean;
-  placeholder?: string;
-  disabled?: boolean;
+  name: string
+  label: string
+  type?: string
+  rules?: object
+  iconeye?: React.ReactNode
+  showpassword?: boolean
+  placeholder?: string
+  disabled?: boolean
 }
 
 export const FormInput = ({
   name,
   label,
-  type = "text",
+  type = 'text',
   rules,
   iconeye,
   showpassword,
@@ -25,18 +25,18 @@ export const FormInput = ({
   const {
     register,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext()
 
   const inputType =
-    showpassword !== undefined ? (showpassword ? "text" : "password") : type;
+    showpassword !== undefined ? (showpassword ? 'text' : 'password') : type
 
   return (
     <div className="position-relative mt-4 form-field">
       <Typography
         variant="h6"
         fontWeight="bold"
-        component={"label"}
-        sx={{ color: "#152C5B", marginLeft: "5px" }}
+        component={'label'}
+        sx={{ color: '#152C5B', marginLeft: '5px' }}
       >
         {label}
       </Typography>
@@ -50,33 +50,33 @@ export const FormInput = ({
         variant="outlined"
         InputProps={{
           endAdornment:
-            type === "password" && iconeye ? (
+            type === 'password' && iconeye ? (
               <InputAdornment position="end">{iconeye}</InputAdornment>
             ) : null,
         }}
         sx={{
           my: 1,
-          backgroundColor: "#f5f5f5",
-          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: "#E5E5E5",
-              border: "none",
+          backgroundColor: '#f5f5f5',
+          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: '#E5E5E5',
+              border: 'none',
             },
-            "&:hover fieldset": {
-              borderColor: "#3252DF",
+            '&:hover fieldset': {
+              borderColor: '#3252DF',
             },
-            "&.Mui-focused fieldset": {
-              borderColor: "#3252DF",
+            '&.Mui-focused fieldset': {
+              borderColor: '#3252DF',
             },
-            "&:hover": {
-              backgroundColor: "transparent",
+            '&:hover': {
+              backgroundColor: 'transparent',
             },
           },
-          "& .MuiOutlinedInput-input": {
-            backgroundColor: "#f5f5f5",
-            "&:hover": {
-              backgroundColor: "transparent",
+          '& .MuiOutlinedInput-input': {
+            backgroundColor: '#f5f5f5',
+            '&:hover': {
+              backgroundColor: 'transparent',
             },
           },
           borderRadius: 2,
@@ -86,11 +86,11 @@ export const FormInput = ({
         <Typography
           variant="subtitle2"
           fontWeight="bold"
-          sx={{ color: "red", my: "5px" }}
+          sx={{ color: 'red', my: '5px' }}
         >
           {errors[name]?.message as string}
         </Typography>
       )}
     </div>
-  );
-};
+  )
+}

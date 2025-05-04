@@ -37,7 +37,7 @@ function RoomList() {
       console.log(error || 'Failed to delete rooom')
     }
   }
-  const handleAction = ({ action, room }: HandleActionProps) => {
+  const handleAction = (action: string, room: Room) => {
     setselectedRoom(room)
     if (action === 'view') {
       setOpenViewModal(true)
@@ -124,7 +124,7 @@ function RoomList() {
   ]
   return (
     <Box>
-      <TableHeader HeaderText="Rooms Table Details" TextButton="Room" />
+      <TableHeader HeaderText="Rooms" TextButton="Room" />
       <SharedTable
         columns={columns}
         rows={Rooms}
