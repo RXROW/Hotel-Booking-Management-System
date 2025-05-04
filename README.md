@@ -1,54 +1,112 @@
-# React + TypeScript + Vite
+# Booking Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive room booking and management platform built with React, TypeScript, and Material UI.
 
-Currently, two official plugins are available:
+## 🏨 Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Booking Management System is a full-featured application that allows users to browse, book, and review rooms while providing administrators with tools to manage rooms, facilities, advertisements, and bookings.
 
-## Expanding the ESLint configuration
+## ✨ Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### For Users
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+*   **Room Browsing:** View available rooms with detailed information
+*   **Room Details:** Comprehensive view of room information, amenities, and images
+*   **Booking System:** Book rooms with date selection and payment processing
+*   **Reviews & Ratings:** Leave ratings and reviews for rooms
+*   **Comments:** Add comments about rooms
+*   **User Dashboard:** Manage bookings and profile information
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### For Administrators
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+*   **Dashboard:** Overview of system statistics and metrics
+*   **Room Management:** Create, update, and delete rooms
+*   **Facility Management:** Manage room facilities and amenities
+*   **Advertisement Management:** Create and manage promotional advertisements
+*   **Booking Management:** View and manage user bookings
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🛠️ Technology Stack
+
+*   **Frontend:** React with TypeScript
+*   **UI Framework:** Material UI (MUI)
+*   **State Management:** React Context API
+*   **Form Handling:** React Hook Form
+*   **API Communication:** Axios
+*   **Routing:** React Router
+*   **Date Handling:** Day.js
+*   **Charts:** Recharts
+*   **Styling:** Emotion/Styled Components
+*   **Build Tool:** Vite (`package.json`:12-17)
+
+
+## 🖼️ Room Details System
+
+The Room Details page provides comprehensive information about rooms, including:
+
+*   Image gallery with responsive layout
+*   Room description and pricing information
+*   Facility icons and details
+*   Booking card for date selection and reservation
+*   Review and rating system
+*   Comment section (`ReviewForm.tsx`:1-30)
+
+## 📊 Admin Dashboard
+
+The admin dashboard provides an overview of system statistics and management tools:
+
+*   Room count and management
+*   Facility management
+*   Advertisement management
+*   Booking statistics (`Dashboard.tsx`:188-241)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+*   Node.js (v16 or higher)
+*   npm or yarn
+
+### Installation
+
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/ahmedh997/Booking-Management-System.git
+    ```
+2.  Navigate to the project directory:
+    ```bash
+    cd Booking-Management-System
+    ```
+3.  Install dependencies:
+    ```bash
+    npm install
+    # or
+    yarn
+    ```
+4.  Start the development server (`vite.config.ts`:1-7) :
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+
+### Scripts (`package.json`:6-11)
+
+*   `npm run dev` - Start development server
+*   `npm run build` - Build for production
+*   `npm run lint` - Run ESLint
+*   `npm run preview` - Preview production build
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📝 License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+## 🙏 Acknowledgements
+
+*   React
+*   TypeScript
+*   Material UI
+*   Vite
