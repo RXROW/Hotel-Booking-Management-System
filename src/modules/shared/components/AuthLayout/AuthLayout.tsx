@@ -10,6 +10,7 @@ import { useTranslation } from 'react-i18next'
 const AuthLayout = () => {
   const location = useLocation()
   const { t } = useTranslation()
+
   const getBackgroundImage = () => {
     switch (location.pathname) {
       case '/auth/register':
@@ -22,6 +23,7 @@ const AuthLayout = () => {
         return `url(${forgetResetBg})`
     }
   }
+
   const rightSectionText = () => {
     switch (location.pathname) {
       case '/auth/register':
@@ -40,79 +42,85 @@ const AuthLayout = () => {
   }
 
   return (
-    <>
+    <Box
+      sx={{
+        display: 'flex',
+        minHeight: '100dvh',
+        flexDirection: { xs: 'column', md: 'row' }, 
+      }}
+    >
       <Box
         sx={{
+          flex: 1,
           display: 'flex',
-          minHeight: '100dvh',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: { xs: '20px', md: '0' }, 
         }}
       >
-        <Box
+        {/* Logo */}
+        <Typography
+          variant="h5"
           sx={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
+            position: 'absolute',
+            top: '30px',
+            left: '30px',
+            color: '#3252DF',
+            fontWeight: 500,
           }}
         >
-          {/* Logo */}
-          <Typography
-            variant="h5"
-            sx={{
-              position: 'absolute',
-              top: '30px',
-              left: '30px',
-              color: '#3252DF',
-              fontWeight: 500,
-            }}
-          >
-            Stay<span style={{ color: 'black' }}>cation.</span>
-          </Typography>
-          <LanguageSwitcher />
-          <Box sx={{ width: '80%', padding: '10px', marginTop: '50px' }}>
-            <Outlet />
-          </Box>
+          Stay<span style={{ color: 'black' }}>cation.</span>
+        </Typography>
+        <Box sx={{marginTop : {xs: "80px"}}}>
+
+        <LanguageSwitcher  />
         </Box>
-        <Grid
-          container
+        <Box sx={{ width: '80%', padding: '10px', marginTop: '50px' }}>
+          <Outlet />
+        </Box>
+      </Box>
+
+      <Grid
+        container
+        sx={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          alignItems: 'flex-start',
+          backgroundImage: getBackgroundImage(),
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundColor: '#ccc', //fallback color
+          borderRadius: '16px',
+          color: '#fff',
+          textAlign: 'left',
+          paddingLeft: { xs: '40px', md: '80px' }, 
+          paddingBottom: { xs: '20px', md: '80px' }, 
+        }}
+      >
+        <Typography
+          variant="h4"
           sx={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            alignItems: 'flex-start',
-            backgroundImage: getBackgroundImage(),
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundColor: '#ccc', //fallback color
-            borderRadius: '16px',
-            color: '#fff',
-            textAlign: 'left',
-            paddingLeft: '80px',
-            paddingBottom: '80px',
+            fontWeight: 600,
+            marginBottom: '10px',
+            fontSize: { xs: '1.8rem', md: '2.5rem' }, 
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 600,
-              marginBottom: '10px',
-            }}
-          >
-            {rightSectionText()}
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 400,
-            }}
-          >
-            {t('Authentication.text.image')}
-          </Typography>
-        </Grid>
-      </Box>
-    </>
+          {rightSectionText()}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 400,
+            fontSize: { xs: '1rem', md: '1.2rem' }, 
+          }}
+        >
+          {t('Authentication.text.image')}
+        </Typography>
+      </Grid>
+    </Box>
   )
 }
 

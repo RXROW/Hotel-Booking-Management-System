@@ -181,26 +181,25 @@ const ViewModal: React.FC<ViewModalProps> = ({ open, onClose, title, data }) => 
       </DialogTitle>
 
       <DialogContent dividers sx={{ px: 4, py: 4 }}>
-        {/* عرض الصورة لو موجودة */}
         {data?.Image && (
           <Box display="flex" justifyContent="center" mb={4}>
             <Avatar
               src={data.Image}
               alt="Image"
-              variant={isRoom ? 'square' : 'circular'} // مربعة إذا Room، دائرية غير ذلك
+              variant={isRoom ? 'square' : 'circular'} 
               sx={{
                 width: isRoom ? 160 : 120,
                 height: isRoom ? 160 : 120,
-                borderRadius: isRoom ? 2 : '50%', // زيادة التدوير لو مش غرفة
+                borderRadius: isRoom ? 2 : '50%', 
               }}
             />
           </Box>
         )}
 
-        {/* عرض باقي البيانات */}
+       
         <Grid container spacing={3}>
           {Object.entries(data).map(([label, value]) => {
-            if (label === 'Image') return null; // تجاهل عرض الصورة ضمن الحقول
+            if (label === 'Image') return null; 
             return (
               <Grid item xs={6} key={label}>
                 <Typography variant="subtitle2" color="textSecondary" fontWeight="bold">
