@@ -16,6 +16,7 @@ import {
   Room,
   HandleActionProps,
 } from '../../../interfaces/Roomsinterface'
+import ViewModal from '../../shared/components/ViewModal/ViewModal'
 function RoomList() {
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false)
   const [selectedRoom, setselectedRoom] = useState<Room | null>(null)
@@ -37,7 +38,7 @@ function RoomList() {
       console.log(error || 'Failed to delete rooom')
     }
   }
-  const handleAction = ({ action, room }: HandleActionProps) => {
+  const handleAction = (action: string, room: Room) => {
     setselectedRoom(room)
     if (action === 'view') {
       setOpenViewModal(true)
@@ -124,7 +125,7 @@ function RoomList() {
   ]
   return (
     <Box>
-      <TableHeader HeaderText="Rooms Table Details" TextButton="Room" />
+      <TableHeader HeaderText="Rooms" TextButton="Room" />
       <SharedTable
         columns={columns}
         rows={Rooms}
@@ -150,14 +151,28 @@ function RoomList() {
           setRoomDeleteId(null)
         }}
         onConfirm={handleDeletetRoom}
-        title="Delete Facility"
-        message="Are you sure you want to delete this facility?"
+        title="Delete Room"
+        message="Are you sure you want to delete this Room?"
       />
       <ReusableModal
         open={openViewModal}
         onClose={handleCloseModal}
         details={selectedRoom}
       />
+     {/* <ViewModal
+  open={openViewModal}
+  onClose={() => setOpenViewModal(false)}
+  title="Room Details"
+  data={{
+    Image: selectedRoom?.images?.[0] || '',
+    'Room Number': selectedRoom?.roomNumber || 'N/A',
+    Price: selectedRoom?.price?.toString() || 'N/A',
+    Discount: selectedRoom?.discount?.toString() || 'N/A',
+    Capacity: selectedRoom?.capacity?.toString() || 'N/A',
+    'Created By': selectedRoom?.createdBy?.userName || 'N/A',
+  }}
+/> */}
+
     </Box>
   )
 }

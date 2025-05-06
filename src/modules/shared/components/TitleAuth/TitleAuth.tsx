@@ -1,28 +1,28 @@
-import { Box, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { Box, Typography } from '@mui/material'
+import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 
 interface TitleAuthProps {
-  title: string;
+  title: string
 }
 const TitleAuth = ({ title }: TitleAuthProps) => {
-  console.log(title);
-  const [compara, setCompara] = useState(null);
+  console.log(title)
+  const [compara, setCompara] = useState(null)
   useEffect(() => {
-    if (title === "Sign In" || title === "تسجيل الدخول") {
-      setCompara(true);
+    if (title === 'Sign In' || title === 'تسجيل الدخول') {
+      setCompara(true)
     } else {
-      setCompara(false);
+      setCompara(false)
     }
-  }, [title]);
-  const { t } = useTranslation();
-  const navigate = useNavigate();
+  }, [title])
+  const { t } = useTranslation()
+  const navigate = useNavigate()
   const handleClick = () => {
-    if (compara) navigate("register");
-    else navigate("login");
-  };
-  console.log(compara);
+    if (compara) navigate('/auth/register')
+    else navigate('/auth/login')
+  }
+  console.log(compara)
   return (
     <>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
@@ -30,28 +30,28 @@ const TitleAuth = ({ title }: TitleAuthProps) => {
       </Typography>
       <Typography variant="body1" sx={{ mb: 2 }}>
         {compara
-          ? t("Authentication.description.register")
-          : title === "Change Password"
-          ? t("Authentication.description.changePassword")
-          : t("Authentication.description.login")}
+          ? t('Authentication.description.register')
+          : title === 'Change Password'
+            ? t('Authentication.description.changePassword')
+            : t('Authentication.description.login')}
         <br />
-        {t("Authentication.text.youCan")}
+        {t('Authentication.text.youCan')}
         <Box
           component="a"
           onClick={handleClick}
           sx={{
-            color: compara ? "#152C5B" : "red",
-            fontWeight: "bold",
-            cursor: "pointer",
-            paddingLeft: "10px",
+            color: compara ? '#152C5B' : 'red',
+            fontWeight: 'bold',
+            cursor: 'pointer',
+            paddingLeft: '10px',
           }}
         >
           {compara
-            ? t("Authentication.link.register")
-            : t("Authentication.link.login")}
+            ? t('Authentication.link.register')
+            : t('Authentication.link.login')}
         </Box>
       </Typography>
     </>
-  );
-};
-export default TitleAuth;
+  )
+}
+export default TitleAuth
