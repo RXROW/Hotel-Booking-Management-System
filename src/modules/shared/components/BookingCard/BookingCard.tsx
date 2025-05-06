@@ -2,7 +2,10 @@ import {
   Box,
   Button,
   CircularProgress,
+  IconButton,
   Modal,
+  Popover,
+  TextField,
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
@@ -14,8 +17,14 @@ import axios from "axios";
 import { AuthContext } from "../../../../context/AuthContext.js";
 import { privateInstance } from "../../../../services/apis/apisConfig.js";
 import { BOOKING_URL_USER } from "../../../../services/apis/apisUrls.js";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs, { Dayjs } from "dayjs";
+import Calendar from "../../../../assets/imges/ic_calendar.png";
+import { Add, Remove } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import AuthModal from "../AuthModal/AuthModal.js";
 
-const CustomizedBox = styled(Box)(({ theme }) => ({
+const CustomizedBox = styled(Box)(({  }) => ({
   display: "flex",
   flexDirection: "column",
   color: "rgb(176, 176, 176)",
@@ -25,6 +34,7 @@ const CustomizedBox = styled(Box)(({ theme }) => ({
   border: "2px solid rgb(226, 229, 235)",
   textAlign: "start",
 }));
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -52,49 +62,57 @@ export default function BookingCard({
   let navigate = useNavigate();
   const { loginData } = useContext(AuthContext);
 
+  const [startDate, setStartDate] = useState<Dayjs | null>(null);
+  const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [dateRange, setDateRange] = useState<{
-    startDate: Date | null;
-    endDate: Date | null;
-  }>({
-    startDate: null,
-    endDate: null,
-  });
   const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [currentCapacity, setCurrentCapacity] = useState<number>(1);
 
-  const handlePopoverClose = () => {
+
+  const handleIncrease = () => {
+    setCurrentCapacity((prev) => prev + 1);
+  };
+  
+  const handleDecrease = () => {
+    setCurrentCapacity((prev) => (prev > 1 ? prev - 1 : 1));
+  };
+
+  const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
     setAnchorEl(null);
   };
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  const handleModalOpen = () => setOpen(true);
+  const handleModalClose = () => setOpen(false);
 
   const handleButtonClick = async () => {
     try {
-      if (!dateRange.startDate || !dateRange.endDate) {
+      if (!startDate || !endDate) {
         setError("Please pick a start and end date.");
+        toast.error("Please pick a start and end date.");
         return;
       }
       setIsSubmitting(true);
       if (loginData?.role === "user") {
         const response = await privateInstance.post(
-          BOOKING_URL_USER.createBooking,
+          BOOKING_URL_USER.CREATE_BOOKING,
           {
             room: roomId,
-            startDate: dateRange.startDate,
-            endDate: dateRange.endDate,
+            startDate,
+            endDate,
             totalPrice,
           }
         );
-        console.log(response);
         if (response.status === 201) {
-          navigate(`/booking/${roomId}/user-info`, {
-            state: { bookingId: response?.data?.data?.booking._id },
-          });
+          navigate(`/payment`, {state: { bookingId: response?.data?.data?.booking._id }});
+          toast.success("Booking successful!");
         }
       } else {
-        handleOpen();
+        handleModalOpen();
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -104,6 +122,12 @@ export default function BookingCard({
       setIsSubmitting(false);
     }
   };
+
+  const isPopoverOpen = Boolean(anchorEl);
+
+  const numberOfDays =
+  startDate && endDate ? endDate.diff(startDate, "day") || 1 : 0;
+
 
   return (
     <>
@@ -121,24 +145,153 @@ export default function BookingCard({
         <Typography sx={{ marginBlockEnd: "0.5rem", color: "rgb(21, 44, 91)" }}>
           Pick a Date
         </Typography>
-        {/* <DatePicker /> */}
+
+        <Box display="flex" alignItems="center" mb={2} gap={1}>
+          <Box
+            component="img"
+            src={Calendar}
+            alt="calendar"
+            onClick={handleOpen}
+            sx={{
+              width: 70,
+              height: 46,
+              cursor: "pointer",
+            }}
+          />
+
+          <TextField
+            value={
+              startDate && endDate
+                ? `${startDate.format("DD MMM")} - ${endDate.format("DD MMM")}`
+                : "Pick your dates"
+            }
+            size="small"
+            fullWidth
+            variant="standard"
+            InputProps={{
+              readOnly: true,
+              disableUnderline: true,
+              required: true,
+              sx: {
+                textAlign: "center",
+                height: 46,
+                fontWeight: "bold",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+                backgroundColor: "#f9f9f9",
+                borderRadius: 1,
+              },
+            }}
+            inputProps={{
+              style: { textAlign: "center" },
+            }}
+          />
+
+          <Popover
+            open={isPopoverOpen}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left",
+            }}
+          >
+            <Box display="flex" gap={2} p={2}>
+              <DatePicker
+                label="Start Date"
+                value={startDate}
+                onChange={(newValue) => setStartDate(newValue)}
+              />
+              <DatePicker
+                label="End Date"
+                value={endDate}
+                minDate={startDate}
+                onChange={(newValue) => setEndDate(newValue)}
+              />
+            </Box>
+          </Popover>
+        </Box>
+
         <Typography
-          sx={{
-            marginBlockStart: "1rem",
-            marginInline: "auto",
-            letterSpacing: "1px",
-          }}
-        >
-          You will pay
-          <Box sx={{ fontWeight: "bold", color: "#152C5B" }} component="span">
-            ${0} USD
-            {/* ${totalPrice * numBookingDays || 0} */}
-          </Box>
-          per
-          <Box sx={{ fontWeight: "bold", color: "#152C5B" }} component="span">
-            {capacity} Person
-          </Box>
-        </Typography>
+  sx={{ marginBlock: "1rem", color: "rgb(21, 44, 91)", fontWeight: "bold" }}
+>
+  Capacity
+</Typography>
+
+<Box display="flex" alignItems="center" mb={2} gap={1}>
+  <IconButton
+    onClick={handleDecrease}
+    sx={{
+      bgcolor: "#E74C3C",
+      color: "white",
+      width: 46,
+      height: 46,
+      borderRadius: 1,
+      "&:hover": { bgcolor: "#c0392b" },
+    }}
+  >
+    <Remove />
+  </IconButton>
+
+  <TextField
+    value={`${currentCapacity} Person`}
+    size="small"
+    fullWidth
+    variant="standard"
+    InputProps={{
+      readOnly: true,
+      disableUnderline: true,
+      sx: {
+        textAlign: "center",
+        height: 46,
+        fontWeight: "bold",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 0,
+        backgroundColor: "#f9f9f9",
+        borderRadius: 1,
+      },
+    }}
+    inputProps={{
+      style: { textAlign: "center" },
+    }}
+  />
+
+  <IconButton
+    onClick={handleIncrease}
+    sx={{
+      bgcolor: "#2ECC71",
+      color: "white",
+      width: 46,
+      height: 46,
+      borderRadius: 1,
+      "&:hover": { bgcolor: "#27ae60" },
+    }}
+  >
+    <Add />
+  </IconButton>
+</Box>
+
+
+<Typography>
+  You will pay
+  <Box sx={{ fontWeight: "bold", color: "#152C5B" }} component="span">
+    ${totalPrice * currentCapacity * numberOfDays} USD
+  </Box>
+  for
+  <Box sx={{ fontWeight: "bold", color: "#152C5B" }} component="span">
+    {currentCapacity} {currentCapacity === 1 ? "Person" : "People"}
+  </Box>
+  for
+  <Box sx={{ fontWeight: "bold", color: "#152C5B" }} component="span">
+    {numberOfDays} {numberOfDays === 1 ? "Day" : "Days"}
+  </Box>
+</Typography>
+
+
         <Button
           onClick={handleButtonClick}
           sx={{
@@ -161,13 +314,14 @@ export default function BookingCard({
           {isSubmitting ? (
             <CircularProgress sx={{ color: "white" }} size={"1rem"} />
           ) : (
-            " Continue Book"
+            "Continue Book"
           )}
         </Button>
       </CustomizedBox>
-      <Modal
+
+      {/* <Modal
         open={open}
-        onClose={handleClose}
+        onClose={handleModalClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -178,34 +332,33 @@ export default function BookingCard({
             </Typography>
             <Button
               sx={{ ":hover": { backgroundColor: "unset" } }}
-              onClick={handleClose}
+              onClick={handleModalClose}
             >
               <HighlightOffIcon sx={{ color: red[600] }} />
             </Button>
           </Box>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             You need to log in to continue with your booking. Please log in or
-            sign up for prooceed.
-            <Typography></Typography>
-            <Box
-              sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}
-            >
-              <Link
-                to="/login"
-                style={{ textDecoration: "none", color: "#3252DF" }}
-              >
-                Login?
-              </Link>
-              <Link
-                to="/register"
-                style={{ textDecoration: "none", color: "#3252DF" }}
-              >
-                Sign Up?
-              </Link>
-            </Box>
+            sign up for proceed.
           </Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", color: "#3252DF" }}
+            >
+              Login?
+            </Link>
+            <Link
+              to="/register"
+              style={{ textDecoration: "none", color: "#3252DF" }}
+            >
+              Sign Up?
+            </Link>
+          </Box>
         </Box>
-      </Modal>
+      </Modal> */}
+
+<AuthModal open={open} onClose={handleModalClose} />
     </>
   );
 }

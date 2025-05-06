@@ -18,6 +18,8 @@ import { ROOM_URL_USER } from '../../services/apis/apisUrls'
 import BookingCard from '../shared/components/BookingCard/BookingCard'
 import CommentForm from '../shared/components/CommentForm/CommentForm'
 import ReviewForm from '../shared/components/ReviewForm/ReviewForm'
+import { LocalizationProvider } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 export default function DetailsPage() {
   //   const params = useParams();
   //   const RoomId = params.roomid;
@@ -204,12 +206,14 @@ export default function DetailsPage() {
               </Stack>
             </Stack>
             <Stack flex={1}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <BookingCard
                 roomId={RoomDetails?._id}
                 totalPrice={RoomDetails?.price}
                 discount={RoomDetails?.discount}
                 capacity={RoomDetails?.capacity}
-              />
+                />
+                </LocalizationProvider>
             </Stack>
           </Stack>
         </Box>

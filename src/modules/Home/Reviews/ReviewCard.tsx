@@ -1,35 +1,3 @@
-// // ReviewCard.tsx
-// import { Box } from "@mui/material";
-// import ReviewImage from "./ReviewImage";
-// import ReviewContent from "./ReviewContent";
-
-// type ReviewCardProps = {
-//   img: string;
-//   title: string;
-//   rate: JSX.Element;
-//   comment: string;
-//   person: string;
-// };
-
-// const ReviewCard = ({ img, title, rate, comment, person }: ReviewCardProps) => (
-//   <Box
-//     sx={{
-//       display: "flex",
-//       flexDirection: { xs: "column", md: "row" },
-//       gap: { xs: "0px", sm: "80px" },
-//       alignItems: { xs: "center" },
-//       paddingInline: { xs: "10px", sm: "0px" },
-//     }}
-//   >
-//     <ReviewImage img={img} />
-//     <ReviewContent title={title} rate={rate} comment={comment} person={person} />
-//   </Box>
-// );
-
-// export default ReviewCard;
-
-/**//////////////////////////// */
-
 import { Box, Rating, Typography } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import ArrowCircleRightOutlinedIcon from "@mui/icons-material/ArrowCircleRightOutlined";
