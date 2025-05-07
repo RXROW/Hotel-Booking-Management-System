@@ -66,18 +66,18 @@ export default function Explore() {
           >
             Home
           </Link>
-          <Typography color="#152C5B" fontWeight={600}>
+          <Typography variant="h6" fontWeight={600}>
             Explore
           </Typography>
         </Breadcrumbs>
       </Box>
 
       <Typography
-        variant="h4"
+        variant="h6"
         sx={{
-          color: '#152C5B',
           textAlign: 'center',
           fontWeight: '600',
+          fontSize: '32px',
           mt: '20px',
           mb: '20px',
         }}
@@ -87,9 +87,7 @@ export default function Explore() {
 
       <Grid container alignItems="center" spacing={2} sx={{ mb: 4 }}>
         <Grid item xs={12} sm={6}>
-          <Typography variant="h6" color="primary">
-            Find Your Perfect Stay
-          </Typography>
+          <Typography variant="h6">Find Your Perfect Stay</Typography>
         </Grid>
         <Grid item xs={12} sm={6} sx={{ textAlign: 'right' }}>
           {startDate && endDate && (
@@ -103,8 +101,8 @@ export default function Explore() {
       </Grid>
 
       <Typography
+        variant="h6"
         sx={{
-          color: '#152C5B',
           fontWeight: '500',
           fontSize: '24px',
           mb: '20px',

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography, Button } from '@mui/material'
+import { Box, Grid, Typography, Button, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
 export default function TableHeader({
   TextButton = '',
@@ -8,6 +8,7 @@ export default function TableHeader({
 }) {
   const isFacility = TextButton.toLowerCase() === 'facility'
   const isAds = TextButton === 'Ads'
+  const theme = useTheme()
   return (
     <Grid
       style={{
@@ -19,10 +20,10 @@ export default function TableHeader({
       }}
     >
       <Box>
-        <Typography variant="h5" color="initial">
+        <Typography variant="h5" color={theme.palette.text.primary}>
           {HeaderText} Table Details
         </Typography>
-        <Typography variant="body2" color="initial">
+        <Typography variant="body2" color={theme.palette.text.primary}>
           You can check all details
         </Typography>
       </Box>

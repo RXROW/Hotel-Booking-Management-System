@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { styled } from '@mui/system'
+import { styled, useTheme } from '@mui/system'
 import { Link, useNavigate } from 'react-router-dom'
 import { useContext, useState } from 'react'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
@@ -61,7 +61,7 @@ export default function BookingCard({
 }) {
   let navigate = useNavigate()
   const { loginData } = useContext(AuthContext)
-
+  const theme = useTheme()
   const [startDate, setStartDate] = useState<Dayjs | null>(null)
   const [endDate, setEndDate] = useState<Dayjs | null>(null)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -142,7 +142,7 @@ export default function BookingCard({
         <Typography sx={{ marginBlockEnd: '7.875rem', color: '#FF1612' }}>
           Discount {discount}% off
         </Typography>
-        <Typography sx={{ marginBlockEnd: '0.5rem', color: 'rgb(21, 44, 91)' }}>
+        <Typography variant="h6" sx={{ marginBlockEnd: '0.5rem' }}>
           Pick a Date
         </Typography>
 
@@ -180,8 +180,20 @@ export default function BookingCard({
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: 0,
-                backgroundColor: '#f9f9f9',
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
                 borderRadius: 1,
+                boxShadow:
+                  theme.palette.mode === 'light'
+                    ? '0px 2px 8px rgba(50, 82, 223, 0.07), 0px 4px 12px rgba(50, 82, 223, 0.05)'
+                    : '0px 2px 8px rgba(0, 0, 0, 0.15), 0px 4px 12px rgba(0, 0, 0, 0.1)',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  boxShadow:
+                    theme.palette.mode === 'light'
+                      ? '0px 4px 12px rgba(50, 82, 223, 0.1), 0px 6px 16px rgba(50, 82, 223, 0.08)'
+                      : '0px 4px 12px rgba(0, 0, 0, 0.2), 0px 6px 16px rgba(0, 0, 0, 0.14)',
+                },
               },
             }}
             inputProps={{
@@ -215,9 +227,9 @@ export default function BookingCard({
         </Box>
 
         <Typography
+          variant="h6"
           sx={{
             marginBlock: '1rem',
-            color: 'rgb(21, 44, 91)',
             fontWeight: 'bold',
           }}
         >
@@ -255,7 +267,8 @@ export default function BookingCard({
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: 0,
-                backgroundColor: '#f9f9f9',
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
                 borderRadius: 1,
               },
             }}
@@ -263,7 +276,6 @@ export default function BookingCard({
               style: { textAlign: 'center' },
             }}
           />
-
           <IconButton
             onClick={handleIncrease}
             sx={{
@@ -320,46 +332,6 @@ export default function BookingCard({
           )}
         </Button>
       </CustomizedBox>
-
-      {/* <Modal
-        open={open}
-        onClose={handleModalClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              Continue Booking
-            </Typography>
-            <Button
-              sx={{ ":hover": { backgroundColor: "unset" } }}
-              onClick={handleModalClose}
-            >
-              <HighlightOffIcon sx={{ color: red[600] }} />
-            </Button>
-          </Box>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            You need to log in to continue with your booking. Please log in or
-            sign up for proceed.
-          </Typography>
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none", color: "#3252DF" }}
-            >
-              Login?
-            </Link>
-            <Link
-              to="/register"
-              style={{ textDecoration: "none", color: "#3252DF" }}
-            >
-              Sign Up?
-            </Link>
-          </Box>
-        </Box>
-      </Modal> */}
-
       <AuthModal open={open} onClose={handleModalClose} />
     </>
   )

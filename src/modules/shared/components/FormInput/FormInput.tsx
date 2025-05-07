@@ -1,4 +1,4 @@
-import { TextField, Typography, InputAdornment } from '@mui/material'
+import { TextField, Typography, InputAdornment, useTheme } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 
 interface FormInputProps {
@@ -26,7 +26,7 @@ export const FormInput = ({
     register,
     formState: { errors },
   } = useFormContext()
-
+  const theme = useTheme()
   const inputType =
     showpassword !== undefined ? (showpassword ? 'text' : 'password') : type
 
@@ -36,7 +36,10 @@ export const FormInput = ({
         variant="h6"
         fontWeight="bold"
         component={'label'}
-        sx={{ color: '#152C5B', marginLeft: '5px' }}
+        sx={{
+          color: theme.palette.mode === 'light' ? '#152C5B' : '#1976d2',
+          marginLeft: '5px',
+        }}
       >
         {label}
       </Typography>
@@ -56,25 +59,40 @@ export const FormInput = ({
         }}
         sx={{
           my: 1,
-          backgroundColor: '#f5f5f5',
-          boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+          backgroundColor:
+            theme.palette.mode === 'light' ? '#f5f5f5' : '#1e1e1e',
+          boxShadow:
+            theme.palette.mode === 'light'
+              ? '0px 2px 4px rgba(0, 0, 0, 0.1)'
+              : '0px 2px 4px rgba(255, 255, 255, 0.05)',
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
               borderColor: '#E5E5E5',
               border: 'none',
             },
             '&:hover fieldset': {
-              borderColor: '#3252DF',
+              borderColor: theme.palette.primary.main,
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#3252DF',
+              borderColor: theme.palette.primary.main,
             },
             '&:hover': {
               backgroundColor: 'transparent',
             },
+            '& .MuiOutlinedInput-input': {
+              '&::placeholder': {
+                color:
+                  theme.palette.mode === 'light'
+                    ? 'rgba(0, 0, 0, 0.6)'
+                    : 'rgba(255, 255, 255, 0.5)',
+                opacity: 1,
+              },
+            },
           },
           '& .MuiOutlinedInput-input': {
-            backgroundColor: '#f5f5f5',
+            backgroundColor:
+              theme.palette.mode === 'light' ? '#f5f5f5' : '#1e1e1e',
+            color: theme.palette.text.primary,
             '&:hover': {
               backgroundColor: 'transparent',
             },

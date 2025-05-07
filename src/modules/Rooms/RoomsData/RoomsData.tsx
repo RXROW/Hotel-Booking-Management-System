@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import CloseIcon from '@mui/icons-material/Close'
 import React, { useEffect, useRef, useState } from 'react'
 import { styled } from '@mui/material/styles'
 import Paper from '@mui/material/Paper'
@@ -84,6 +85,27 @@ export default function RoomsData() {
   const MAX_IMAGES = 2
   const [Allfacility, setAllFacility] = React.useState<facility[]>([])
   const navigate = useNavigate()
+  const theme = useTheme()
+  const commonTextFieldStyles = {
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        border: 'none',
+      },
+    },
+    backgroundColor: theme.palette.mode === 'light' ? '#f5f5f5' : '#1e1e1e',
+    boxShadow:
+      theme.palette.mode === 'light'
+        ? '0px 2px 4px rgba(0, 0, 0, 0.1)'
+        : '0px 2px 4px rgba(255, 255, 255, 0.05)',
+    borderRadius: 2,
+    transition: 'all 0.3s linear',
+    '&:hover': {
+      boxShadow:
+        theme.palette.mode === 'light'
+          ? '0px 4px 8px rgba(0, 0, 0, 0.15)'
+          : '0px 4px 8px rgba(255, 255, 255, 0.08)',
+    },
+  }
   const {
     register,
     handleSubmit,
@@ -220,14 +242,7 @@ export default function RoomsData() {
         >
           <InputLabel htmlFor="room-number">Room Number</InputLabel>
           <TextField
-            sx={{
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': {
-                  border: 'none',
-                },
-              },
-              borderRadius: 2,
-            }}
+            sx={commonTextFieldStyles}
             id="room-number"
             fullWidth
             variant="outlined"
@@ -245,14 +260,7 @@ export default function RoomsData() {
                 Discount
               </InputLabel>
               <TextField
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      border: 'none',
-                    },
-                  },
-                  borderRadius: 2,
-                }}
+                sx={commonTextFieldStyles}
                 fullWidth
                 id="Discount"
                 variant="outlined"
@@ -275,8 +283,20 @@ export default function RoomsData() {
               <FormControl
                 sx={{
                   width: '100%',
-                  '& .MuiOutlinedInput-notchedOutline': {
-                    border: '1px solid #e0e0e0',
+                  '& .MuiOutlinedInput-root': {
+                    backgroundColor:
+                      theme.palette.mode === 'light' ? '#f5f5f5' : '#1e1e1e',
+                    boxShadow:
+                      theme.palette.mode === 'light'
+                        ? '0px 2px 4px rgba(0, 0, 0, 0.1)'
+                        : '0px 2px 4px rgba(255, 255, 255, 0.05)',
+                    transition: 'all 0.3s linear',
+                    '&:hover': {
+                      boxShadow:
+                        theme.palette.mode === 'light'
+                          ? '0px 4px 8px rgba(0, 0, 0, 0.15)'
+                          : '0px 4px 8px rgba(255, 255, 255, 0.08)',
+                    },
                   },
                 }}
               >
@@ -314,14 +334,7 @@ export default function RoomsData() {
                 price
               </InputLabel>
               <TextField
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      border: 'none',
-                    },
-                  },
-                  borderRadius: 2,
-                }}
+                sx={commonTextFieldStyles}
                 fullWidth
                 id="price"
                 variant="outlined"
@@ -339,14 +352,7 @@ export default function RoomsData() {
                 Capacity
               </InputLabel>
               <TextField
-                sx={{
-                  '& .MuiOutlinedInput-root': {
-                    '& fieldset': {
-                      border: 'none',
-                    },
-                  },
-                  borderRadius: 2,
-                }}
+                sx={commonTextFieldStyles}
                 fullWidth
                 id="Capacity"
                 variant="outlined"
@@ -433,11 +439,10 @@ export default function RoomsData() {
                         position: 'absolute',
                         top: -8,
                         right: -8,
-                        backgroundColor: 'white',
                         '&:hover': { backgroundColor: '#f5f5f5' },
                       }}
                     >
-                      <DeleteIcon fontSize="small" color="error" />
+                      <CloseIcon fontSize="small" color="error" />
                     </IconButton>
                   </Box>
                   <Typography

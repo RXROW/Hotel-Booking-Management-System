@@ -159,20 +159,6 @@ function RoomList() {
         onClose={handleCloseModal}
         details={selectedRoom}
       />
-     {/* <ViewModal
-  open={openViewModal}
-  onClose={() => setOpenViewModal(false)}
-  title="Room Details"
-  data={{
-    Image: selectedRoom?.images?.[0] || '',
-    'Room Number': selectedRoom?.roomNumber || 'N/A',
-    Price: selectedRoom?.price?.toString() || 'N/A',
-    Discount: selectedRoom?.discount?.toString() || 'N/A',
-    Capacity: selectedRoom?.capacity?.toString() || 'N/A',
-    'Created By': selectedRoom?.createdBy?.userName || 'N/A',
-  }}
-/> */}
-
     </Box>
   )
 }

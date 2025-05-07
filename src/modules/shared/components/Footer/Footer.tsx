@@ -1,21 +1,14 @@
-import { Box, Container, Grid, Typography, Link } from "@mui/material";
+import { Box, Container, Grid, Typography, Link } from '@mui/material'
+import Commonheader from '../commonheader/Commonheader'
 
 export default function Footer() {
   return (
-    <Box sx={{paddingY:10}}>
+    <Box sx={{ paddingY: 10 }}>
       <Container maxWidth="lg">
         <Grid container spacing={4}>
           {/* Logo and Description */}
           <Grid item xs={12} md={3}>
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: "bold", color: "primary.main" }}
-            >
-              Stay
-              <Box component="span" sx={{ color: "text.primary" }}>
-                cation.
-              </Box>
-            </Typography>
+            <Commonheader />
             <Typography variant="body2" color="#B0B0B0" mt={2}>
               We kaboom your beauty holiday instantly and memorable.
             </Typography>
@@ -23,11 +16,7 @@ export default function Footer() {
 
           {/* For Beginners */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography
-              variant="subtitle1"
-              color="#152C5B"
-              sx={{ fontWeight: "bold", mb: 2 }}
-            >
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
               For Beginners
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>
@@ -45,11 +34,7 @@ export default function Footer() {
 
           {/* Explore Us */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography
-              variant="subtitle1"
-              color="#152C5B"
-              sx={{ fontWeight: "bold", mb: 2 }}
-            >
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
               Explore Us
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>
@@ -67,11 +52,7 @@ export default function Footer() {
 
           {/* Connect Us */}
           <Grid item xs={12} sm={4} md={3}>
-            <Typography
-              variant="subtitle1"
-              color="#152C5B"
-              sx={{ fontWeight: "bold", mb: 2 }}
-            >
+            <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 2 }}>
               Connect Us
             </Typography>
             <Box display="flex" flexDirection="column" gap={1}>
@@ -96,5 +77,5 @@ export default function Footer() {
         </Box>
       </Container>
     </Box>
-  );
+  )
 }

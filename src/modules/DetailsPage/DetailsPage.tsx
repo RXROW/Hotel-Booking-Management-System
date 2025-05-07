@@ -1,7 +1,7 @@
 import { styled } from '@mui/material'
 import { Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import BadRoom from '../../assets/icons/ic_bedroom (2).png'
 import Tv from '../../assets/icons/ic_tv.png'
@@ -20,14 +20,14 @@ import CommentForm from '../shared/components/CommentForm/CommentForm'
 import ReviewForm from '../shared/components/ReviewForm/ReviewForm'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { AuthContext } from '../../context/AuthContext'
 export default function DetailsPage() {
-  //   const params = useParams();
-  //   const RoomId = params.roomid;
-  // for test
-  const RoomId = `66f9d1246475e2d50da9d22c`
+  const params = useParams()
+  const RoomId = params.roomId
   const [RoomDetails, setRoomDetails] = useState()
-  console.log(RoomDetails)
   const defaultImages = [image1, image2]
+  const { loginData } = useContext(AuthContext)
+  console.log(loginData)
   async function GetRoomDetails() {
     try {
       const response = await publicInstance.get(ROOM_URL_USER.GET_ROOM(RoomId))
@@ -101,16 +101,16 @@ export default function DetailsPage() {
             </Typography>
             <Stack>
               <Typography
-                variant="h4"
+                variant="h6"
                 component="h1"
-                sx={{ color: '#152C5B', fontWeight: 'bold' }}
+                sx={{ fontSize: '32px', fontWeight: 'bold' }}
               >
                 Village Angga
               </Typography>
               <Typography
                 variant="body1"
                 component="h3"
-                sx={{ color: '#B0B0B0', fontWeight: '500' }}
+                sx={{ fontWeight: '500' }}
               >
                 Bogor, Indonesia
               </Typography>
@@ -195,10 +195,8 @@ export default function DetailsPage() {
                     <Box>
                       <img src={facility.icon} alt={facility.name} />
                     </Box>
-                    <Stack direction="row" spacing={1}>
-                      <Typography sx={{ color: '#152C5B' }}>
-                        {facility.number}
-                      </Typography>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                      <Typography variant="h6">{facility.number}</Typography>
                       <Typography>{facility.name}</Typography>
                     </Stack>
                   </Stack>
@@ -206,38 +204,40 @@ export default function DetailsPage() {
               </Stack>
             </Stack>
             <Stack flex={1}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <BookingCard
-                roomId={RoomDetails?._id}
-                totalPrice={RoomDetails?.price}
-                discount={RoomDetails?.discount}
-                capacity={RoomDetails?.capacity}
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <BookingCard
+                  roomId={RoomDetails?._id}
+                  totalPrice={RoomDetails?.price}
+                  discount={RoomDetails?.discount}
+                  capacity={RoomDetails?.capacity}
                 />
-                </LocalizationProvider>
+              </LocalizationProvider>
             </Stack>
           </Stack>
         </Box>
-        <Box
-          sx={{
-            width: 'max-Content',
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            padding: ' 2rem 4rem',
-            gap: '2rem',
-            margin: '30px 0 ',
-            display: 'flex',
-            justifyContent: 'space-evenly',
-            flexDirection: {
-              xs: 'column',
-              lg: 'row',
-            },
-            alignItems: 'end',
-          }}
-        >
-          <ReviewForm roomId={RoomId} />
-          <VerticalLine />
-          <CommentForm roomId={RoomId} />
-        </Box>
+        {loginData?.role === 'user' && (
+          <Box
+            sx={{
+              width: 'max-Content',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+              padding: ' 2rem 4rem',
+              gap: '2rem',
+              margin: '30px 0 ',
+              display: 'flex',
+              justifyContent: 'space-evenly',
+              flexDirection: {
+                xs: 'column',
+                lg: 'row',
+              },
+              alignItems: 'end',
+            }}
+          >
+            <ReviewForm roomId={RoomId} />
+            <VerticalLine />
+            <CommentForm roomId={RoomId} />
+          </Box>
+        )}
       </Box>
     </div>
   )

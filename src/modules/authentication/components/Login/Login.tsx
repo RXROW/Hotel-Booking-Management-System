@@ -1,4 +1,4 @@
-import { Box } from '@mui/material'
+import { Box, useTheme } from '@mui/material'
 import Grid from '@mui/material/Grid'
 
 import TitleAuth from '../../../shared/components/TitleAuth/TitleAuth'
@@ -21,6 +21,7 @@ import { useTranslation } from 'react-i18next'
 const Login = () => {
   const { t } = useTranslation()
   const { saveLoginData } = useContext(AuthContext)
+  const theme = useTheme()
   const navigate = useNavigate()
   const validationRules = getValidationRules()
   const methods = useForm({
@@ -69,10 +70,13 @@ const Login = () => {
             placeholder={t('Authentication.form.passwordPlaceholder')}
             iconeye={getPasswordAdornment('password')}
           />
-          <Box sx={{ textAlign: 'right', mb: 2 }}>
+          <Box sx={{ textAlign: 'right', my: 2 }}>
             <Link
               to={'/auth/forget-password'}
-              style={{ textDecoration: 'none', color: '#000' }}
+              style={{
+                textDecoration: 'none',
+                color: theme.palette.text.primary,
+              }}
             >
               {t('Authentication.form.forgotPasswordLink')}
             </Link>
