@@ -43,6 +43,7 @@ export default function Payment() {
               : 'rgba(255, 255, 255, 0.5)',
         },
         backgroundColor: 'transparent',
+        BoxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
       },
       invalid: {
         color: '#fa755a',
@@ -51,41 +52,6 @@ export default function Payment() {
     },
   }
 
-  const addressElementOptions: { mode: 'billing'; appearance: any } = {
-    mode: 'billing',
-    appearance: {
-      theme: theme.palette.mode === 'light' ? 'stripe' : 'night',
-      variables: {
-        colorPrimary: theme.palette.primary.main,
-        colorBackground: theme.palette.mode === 'light' ? '#f5f5f5' : '#1e1e1e',
-        colorText: theme.palette.mode === 'light' ? '#152C5B' : '#fff',
-        colorTextSecondary:
-          theme.palette.mode === 'light' ? '#666666' : '#cccccc',
-        colorTextPlaceholder:
-          theme.palette.mode === 'light' ? '#888888' : '#999999',
-        colorBackgroundText:
-          theme.palette.mode === 'light' ? '#ffffff' : '#2d2d2d',
-        borderRadius: '4px',
-        spacingUnit: '4px',
-      },
-      rules: {
-        '.Input': {
-          backgroundColor:
-            theme.palette.mode === 'light' ? '#ffffff' : '#2d2d2d',
-          border: `1px solid ${theme.palette.mode === 'light' ? '#e0e0e0' : '#404040'}`,
-        },
-        '.Input:focus': {
-          border: `2px solid ${theme.palette.primary.main}`,
-        },
-        '.Label': {
-          color: theme.palette.mode === 'light' ? '#152C5B' : '#ffffff',
-        },
-        '.Error': {
-          color: theme.palette.error.main,
-        },
-      },
-    },
-  }
   const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null)
   const { bookingId } = location.state || {}
 
@@ -134,7 +100,6 @@ export default function Payment() {
   return (
     <Box component="section" sx={{ px: { xs: 2, md: 8 }, py: 4 }}>
       <Commonheader />
-
       <Paper elevation={1} sx={{ p: { xs: 2, md: 4 } }}>
         <Grid container spacing={4} alignItems="center">
           <Grid item xs={12} md={6}>
@@ -156,7 +121,7 @@ export default function Payment() {
           <Grid item xs={12} md={6}>
             <form onSubmit={paymentHandler}>
               <Box mb={3}>
-                <AddressElement options={addressElementOptions} />
+                <AddressElement options={{ mode: 'billing' }} />
               </Box>
               <Box mb={3}>
                 <CardElement options={cardElementOptions} />

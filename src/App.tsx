@@ -22,13 +22,8 @@ import HomePage from './modules/Home/HomePage/HomePage'
 import { ToastContainer } from 'react-toastify'
 import Favorites from './modules/Favorites/Favorites'
 import DetailsPage from './modules/DetailsPage/DetailsPage'
-import Payment from './modules/Payment/Payment'
-import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
 import PaymentDone from './modules/PaymentDone/PaymentDone'
-const stripePromise = loadStripe(
-  'pk_test_51OTjURBQWp069pqTmqhKZHNNd3kMf9TTynJtLJQIJDOSYcGM7xz3DabzCzE7bTxvuYMY0IX96OHBjsysHEKIrwCK006Mu7mKw8',
-)
+import StripeElement from './modules/Payment/StripeElement'
 function App() {
   const routes = createBrowserRouter([
     {
@@ -76,11 +71,7 @@ function App() {
         { path: '/favorites', element: <Favorites /> },
         {
           path: 'payment',
-          element: (
-            <Elements stripe={stripePromise}>
-              <Payment />
-            </Elements>
-          ),
+          element: <StripeElement />,
         },
         { path: 'payment-done', element: <PaymentDone /> },
       ],
