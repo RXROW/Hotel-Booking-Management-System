@@ -11,7 +11,7 @@ const LanguageSwitcher: React.FC = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
+    <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
       <LanguageIcon color="primary" />
       <Typography variant="body1">{t("common.selectLanguage")}:</Typography>
       <ButtonGroup variant="outlined" size="small">
