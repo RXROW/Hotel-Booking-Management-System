@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import SharedTable from '../../shared/components/SharedTable/SharedTable'
 import TableHeader from '../../shared/components/TableHeader/TableHeader'
 import DropdownMenu from '../../shared/components/DropdownMenu/DropdownMenu'
-import { useAuthContext } from '../../../context/AuthContext'
+import { useAuthContext } from '../../../Context/AuthContext'
 import TablePaginationActions from '../../shared/components/TablePaginationActions/TablePaginationActions'
 import DeleteConfirmation from '../../shared/components/DeleteConfirmation/DeleteConfirmation'
 import {
