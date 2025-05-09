@@ -5,29 +5,13 @@ import { privateInstance } from '../services/apis/apisConfig'
 import { USERS_URL } from '../services/apis/apisUrls.js'
 import { ROOMS_URL } from '../services/apis/apisUrls'
 
-interface AuthContextType {
-  loginData: any | null;
-  saveLoginData: () => void;
-  logout: () => void;
-  userName: string | null;
-  profileImage: string | null;
-  Rooms: Room[];
-  setRooms: React.Dispatch<React.SetStateAction<Room[]>>;
-  fetchRooms: (params: { size: number; page: number }) => Promise<void>;
-  count: number;
-  setCount: React.Dispatch<React.SetStateAction<number>>;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  size: number;
-  setSize: React.Dispatch<React.SetStateAction<number>>;
-  loading: boolean;
-}
+ 
 
 interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export const AuthContext = createContext<AuthContextType | null>(null)
+export const AuthContext = createContext<any>(null)
 
 export default function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [loginData, setLoginData] = useState<any>(null)

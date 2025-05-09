@@ -1,8 +1,8 @@
 import IconButton from '@mui/material/IconButton';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useTheme } from '@mui/material/styles';
-import { useColorMode } from '../context/ThemeContext'; // تأكد من المسار
+import { useTheme } from '@mui/material/styles';  
+import { useColorMode } from '../Context/ThemeContext';
 
 export default function ToggleThemeButton() {
   const theme = useTheme();
