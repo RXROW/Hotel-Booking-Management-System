@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Typography, useTheme } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -7,8 +7,8 @@ interface TitleAuthProps {
   title: string
 }
 const TitleAuth = ({ title }: TitleAuthProps) => {
-  console.log(title)
   const [compara, setCompara] = useState(null)
+  const theme = useTheme()
   useEffect(() => {
     if (title === 'Sign In' || title === 'تسجيل الدخول') {
       setCompara(true)
@@ -40,7 +40,11 @@ const TitleAuth = ({ title }: TitleAuthProps) => {
           component="a"
           onClick={handleClick}
           sx={{
-            color: compara ? '#152C5B' : 'red',
+            color: compara
+              ? theme.palette.mode === 'light'
+                ? '#152C5B'
+                : '#1976d2'
+              : 'red',
             fontWeight: 'bold',
             cursor: 'pointer',
             paddingLeft: '10px',

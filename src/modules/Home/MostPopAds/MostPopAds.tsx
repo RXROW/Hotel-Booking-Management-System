@@ -66,12 +66,18 @@ export default function MostPopAds() {
       component="section"
       sx={{
         margin: '0 auto',
-        color: '#152C5B',
+        color: '#3252DF',
         padding: { xs: '0', md: '20px' },
       }}
     >
       <Typography
-        sx={{ fontFamily: 'Poppins', fontWeight: 500, fontSize: '24px', mb: 2 }}
+        variant="h6"
+        sx={{
+          fontFamily: 'Poppins',
+          fontWeight: 500,
+          fontSize: '24px',
+          mb: 2,
+        }}
       >
         Most popular ads
       </Typography>

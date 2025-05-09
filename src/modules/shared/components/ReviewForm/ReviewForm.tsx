@@ -7,26 +7,25 @@ import {
   Rating,
   TextField,
   Typography,
-} from "@mui/material";
-import styled from "@emotion/styled";
-import { Controller, useForm } from "react-hook-form";
-import axios from "axios";
-import { publicInstance } from "../../../../services/apis/apisConfig.js";
-import { ROOM_URL_USER } from "../../../../services/apis/apisUrls.js";
+} from '@mui/material'
+import styled from '@emotion/styled'
+import { Controller, useForm } from 'react-hook-form'
+import axios from 'axios'
+import { publicInstance } from '../../../../services/apis/apisConfig.js'
+import { ROOM_URL_USER } from '../../../../services/apis/apisUrls.js'
 
 const StyledButton = styled(Button)(() => ({
-  height: "50px",
-  fontSize: "18px",
-  display: "flex",
-  backgroundColor: "#3252DF",
-  width: "210px",
-  boxShadow: "0px 4px 10px rgba(50, 82, 223, 0.3)",
-  marginTop: "1.7rem",
-  "&.Mui-disabled": {
-    background: "#949fcf",
-    color: "#c0c0c0",
+  height: '50px',
+  fontSize: '18px',
+  display: 'flex',
+  backgroundColor: '#3252DF',
+  width: '210px',
+  marginTop: '1.7rem',
+  '&.Mui-disabled': {
+    background: '#949fcf',
+    color: '#c0c0c0',
   },
-}));
+}))
 const ReviewForm = ({ roomId }: { roomId: string }) => {
   const {
     formState: { isSubmitting },
@@ -37,41 +36,41 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
     defaultValues: {
       roomId: roomId,
       rating: 1,
-      review: "",
+      review: '',
     },
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
   const onSubmit = async (data: Review) => {
     try {
-      const Editdata = { ...data, roomId: roomId };
+      const Editdata = { ...data, roomId: roomId }
       const response = await publicInstance.post(
         ROOM_URL_USER.RATE_ROOM,
-        Editdata
-      );
+        Editdata,
+      )
 
-      console.log(response);
+      console.log(response)
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        console.log(error);
+        console.log(error)
       }
     }
-  };
+  }
 
   return (
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
+        display: 'flex',
+        flexDirection: 'column',
       }}
     >
       <Box
-        sx={{ display: "flex", flexDirection: "column" }}
-        component={"form"}
+        sx={{ display: 'flex', flexDirection: 'column' }}
+        component={'form'}
         onSubmit={handleSubmit(onSubmit)}
       >
         <Typography
           variant="subtitle2"
-          sx={{ fontWeight: "500", fontSize: "20px" }}
+          sx={{ fontWeight: '500', fontSize: '20px' }}
         >
           Rate
         </Typography>
@@ -79,8 +78,8 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
           name="rating"
           control={control}
           rules={{
-            required: "Please select a rating",
-            min: { value: 1, message: "Rating must be at least 1 star" },
+            required: 'Please select a rating',
+            min: { value: 1, message: 'Rating must be at least 1 star' },
           }}
           render={({ field, fieldState }) => (
             <FormControl>
@@ -93,7 +92,7 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
               />
               {fieldState?.error && (
                 <FormHelperText
-                  sx={{ color: "#EB5148", fontWeight: 600, fontSize: 16 }}
+                  sx={{ color: '#EB5148', fontWeight: 600, fontSize: 16 }}
                 >
                   {fieldState.error.message}
                 </FormHelperText>
@@ -102,11 +101,11 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
           )}
         />
         <Typography
-          variant="subtitle2"
+          variant="h6"
           sx={{
-            fontWeight: "500",
-            fontSize: "20px",
-            marginBlockStart: "1.15rem",
+            fontWeight: '500',
+            fontSize: '20px',
+            marginBlockStart: '1.15rem',
           }}
         >
           Message
@@ -121,25 +120,24 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
                 multiline
                 rows={3}
                 sx={{
-                  boxShadow: "0px 4px 10px rgba(50, 82, 223, 0.3)",
-                  borderRadius: "12px",
-                  marginTop: "0.8rem",
-                  width: "32.25rem",
-                  height: "150px",
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "#E5E5E5",
-                      height: "150px",
-                      border: "0",
+                  borderRadius: '12px',
+                  marginTop: '0.8rem',
+                  width: '32.25rem',
+                  height: '150px',
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderColor: '#E5E5E5',
+                      height: '150px',
+                      border: '0',
                     },
-                    "&:hover fieldset": {
-                      borderColor: "#3252DF",
+                    '&:hover fieldset': {
+                      borderColor: '#3252DF',
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#3252DF",
+                    '&.Mui-focused fieldset': {
+                      borderColor: '#3252DF',
                     },
-                    "&:hover": {
-                      backgroundColor: "transparent",
+                    '&:hover': {
+                      backgroundColor: 'transparent',
                     },
                   },
                 }}
@@ -147,7 +145,7 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
               />
               {fieldState?.error && (
                 <FormHelperText
-                  sx={{ color: "#EB5148", fontWeight: 600, fontSize: 16 }}
+                  sx={{ color: '#EB5148', fontWeight: 600, fontSize: 16 }}
                 >
                   {fieldState.error.message}
                 </FormHelperText>
@@ -160,21 +158,21 @@ const ReviewForm = ({ roomId }: { roomId: string }) => {
           type="submit"
           disabled={isSubmitting}
           sx={{
-            textTransform: "none",
+            textTransform: 'none',
             alignSelf: {
-              sm: "flex-end",
+              sm: 'flex-end',
             },
           }}
         >
           {isSubmitting ? (
-            <CircularProgress sx={{ color: "white" }} size={"1rem"} />
+            <CircularProgress sx={{ color: 'white' }} size={'1rem'} />
           ) : (
-            "Rate"
+            'Rate'
           )}
         </StyledButton>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default ReviewForm;
+export default ReviewForm

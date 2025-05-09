@@ -56,16 +56,12 @@ export default function Favorites() {
     try {
       const response = await privateInstance.delete(
         FAVORITE_ROOMS.REMOVE_FAVORITE(id),
-        {data: { roomId: id }},
+        { data: { roomId: id } },
       )
       toast.success(response?.data?.message)
       getFavoriteRooms()
     } catch (error: any) {
-      if (error?.response?.status === 401) {
-        
-      } else {
-        toast.error(error?.response?.data?.message || 'An error occurred')
-      }
+      toast.error(error?.response?.data?.message || 'An error occurred')
     }
   }
 
@@ -92,16 +88,16 @@ export default function Favorites() {
           >
             Home
           </Link>
-          <Typography color="#152C5B" fontWeight={600}>
+          <Typography variant="h6" fontWeight={600}>
             Favorites
           </Typography>
         </Breadcrumbs>
       </Box>
 
       <Typography
-        variant="h4"
+        variant="h6"
         sx={{
-          color: '#152C5B',
+          fontSize: '32px',
           textAlign: 'center',
           fontWeight: '600',
           mt: '20px',
@@ -112,8 +108,8 @@ export default function Favorites() {
       </Typography>
 
       <Typography
+        variant="h6"
         sx={{
-          color: '#152C5B',
           fontWeight: '500',
           fontSize: '24px',
           mb: '20px',

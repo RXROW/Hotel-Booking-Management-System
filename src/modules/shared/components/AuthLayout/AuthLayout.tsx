@@ -1,16 +1,18 @@
 import { Outlet, useLocation } from 'react-router-dom'
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography, useTheme } from '@mui/material'
 import loginBg from '../../../../assets/imges/login-bg.png'
 import registerBg from '../../../../assets/imges/register-bg.png'
 import forgetResetBg from '../../../../assets/imges/forget-reset-bg.png'
 import Navbar from '../Navbar/Navbar'
 import LanguageSwitcher from '../Lan/LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
+import { ThemeToggle } from '../ThemeToggle/ThemeToggle'
+import Commonheader from '../commonheader/Commonheader'
 
 const AuthLayout = () => {
   const location = useLocation()
   const { t } = useTranslation()
-
+  const theme = useTheme()
   const getBackgroundImage = () => {
     switch (location.pathname) {
       case '/auth/register':
@@ -46,7 +48,7 @@ const AuthLayout = () => {
       sx={{
         display: 'flex',
         minHeight: '100dvh',
-        flexDirection: { xs: 'column', md: 'row' }, 
+        flexDirection: { xs: 'column', md: 'row' },
       }}
     >
       <Box
@@ -56,25 +58,24 @@ const AuthLayout = () => {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: { xs: '20px', md: '0' }, 
+          padding: { xs: '20px', md: '0' },
         }}
       >
         {/* Logo */}
-        <Typography
-          variant="h5"
+        <Box
           sx={{
             position: 'absolute',
             top: '30px',
             left: '30px',
-            color: '#3252DF',
+            color: theme.palette.primary.main,
             fontWeight: 500,
           }}
         >
-          Stay<span style={{ color: 'black' }}>cation.</span>
-        </Typography>
-        <Box sx={{marginTop : {xs: "80px"}}}>
-
-        <LanguageSwitcher  />
+          <Commonheader />
+        </Box>
+        <Box sx={{ marginTop: { xs: '80px' } }}>
+          <ThemeToggle />
+          <LanguageSwitcher />
         </Box>
         <Box sx={{ width: '80%', padding: '10px', marginTop: '50px' }}>
           <Outlet />
@@ -96,8 +97,8 @@ const AuthLayout = () => {
           borderRadius: '16px',
           color: '#fff',
           textAlign: 'left',
-          paddingLeft: { xs: '40px', md: '80px' }, 
-          paddingBottom: { xs: '20px', md: '80px' }, 
+          paddingLeft: { xs: '40px', md: '80px' },
+          paddingBottom: { xs: '20px', md: '80px' },
         }}
       >
         <Typography
@@ -105,16 +106,16 @@ const AuthLayout = () => {
           sx={{
             fontWeight: 600,
             marginBottom: '10px',
-            fontSize: { xs: '1.8rem', md: '2.5rem' }, 
+            fontSize: { xs: '1.8rem', md: '2.5rem' },
           }}
         >
           {rightSectionText()}
         </Typography>
         <Typography
-          variant="h6"
+          variant="h5"
           sx={{
             fontWeight: 400,
-            fontSize: { xs: '1rem', md: '1.2rem' }, 
+            fontSize: { xs: '1rem', md: '1.2rem' },
           }}
         >
           {t('Authentication.text.image')}
