@@ -18,7 +18,7 @@ import ViewModal from '../ViewModal/ViewModal'
 import { useTheme } from '@mui/material/styles' 
 import { ThemeToggle } from '../ThemeToggle/ThemeToggle'
 import Commonheader from '../commonheader/Commonheader'
-import { useAuthContext } from '../../../../context/AuthContext'
+import { useAuthContext } from '../../../../Context/AuthContext'
 
 export default function NavbarUser() {
   const { profileImage, userName, email, phoneNumber, country } =

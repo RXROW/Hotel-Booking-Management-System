@@ -24,7 +24,7 @@ import Favorites from './modules/Favorites/Favorites'
 import DetailsPage from './modules/DetailsPage/DetailsPage'
 import PaymentDone from './modules/PaymentDone/PaymentDone'
 import StripeElement from './modules/Payment/StripeElement'
-import AuthContextProvider from './context/AuthContext'
+import AuthContextProvider from './Context/AuthContext'
 
  
 function App() {
