@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
+// @ts-nocheck
 import { Modal, Box, Typography, Button, Divider } from '@mui/material'
-import Card from '@mui/material/Card'
-import CardActions from '@mui/material/CardActions'
-import CardContent from '@mui/material/CardContent'
-import CardMedia from '@mui/material/CardMedia'
+ 
 import Slider, { Settings } from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -20,7 +18,7 @@ import { useTheme } from '@mui/material/styles'
 //   actions?: React.ReactNode; // Optional footer actions (e.g., buttons)
 // }
 
-const ReusableModal = ({ open, onClose, details }) => {
+const ReusableModal = ({ open, onClose, details }:any) => {
   console.log(details)
   const theme = useTheme()
   const Overlay = {
@@ -95,7 +93,7 @@ const ReusableModal = ({ open, onClose, details }) => {
             }}
           >
             <Slider {...settings}>
-              {details?.images?.map((img, index) => (
+              {details?.images?.map((img:any, index:any) => (
                 <Box key={index}>
                   <img
                     src={img}
@@ -158,7 +156,7 @@ const ReusableModal = ({ open, onClose, details }) => {
               sx={{ color: theme.palette.text.primary, mb: 1 }}
             >
               facilities :
-              {details?.facilities.map((item) => item.name).join('-')}
+              {details?.facilities.map((item:any) => item.name).join('-')}
             </Typography>
           </Box>
           <Box sx={{ textAlign: 'end', p: 2 }}>

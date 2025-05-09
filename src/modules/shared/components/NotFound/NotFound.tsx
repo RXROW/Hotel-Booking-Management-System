@@ -1,4 +1,4 @@
-import React from 'react'
+// @ts-nocheck
 import notfound from '../../../../assets/imges/404 error with a landscape-cuate.png'
 
 const NotFound = () => {

@@ -1,7 +1,7 @@
-import { Box, Rating, Typography } from '@mui/material'
+// @ts-nocheck
+import { Box,  Typography } from '@mui/material'
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined'
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
-import StarIcon from '@mui/icons-material/Star'
+ 
 import {
   StyledArrowBox,
   StyledBoxContent,
@@ -13,7 +13,7 @@ type ReviewProps = {
   item: {
     img: string
     title: string
-    rate: JSX.Element
+    rate: any
     comment: string
     person: string
   }

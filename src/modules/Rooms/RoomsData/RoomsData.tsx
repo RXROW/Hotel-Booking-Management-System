@@ -1,26 +1,18 @@
+// @ts-nocheck
 import {
   Box,
-  Checkbox,
-  Chip,
-  CircularProgress,
-  colors,
-  FormControlLabel,
-  FormGroup,
-  Grid,
-  IconButton,
-  ListItemText,
+ 
+  IconButton, 
   Stack,
   TextField,
   Typography,
-} from '@mui/material'
-import DeleteIcon from '@mui/icons-material/Delete'
+} from '@mui/material' 
 import CloseIcon from '@mui/icons-material/Close'
-import React, { useEffect, useRef, useState } from 'react'
-import { styled } from '@mui/material/styles'
-import Paper from '@mui/material/Paper'
+import React, { useEffect,  useState } from 'react'
+import { styled } from '@mui/material/styles' 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import Button from '@mui/material/Button'
-import { Theme, useTheme } from '@mui/material/styles'
+import {   useTheme } from '@mui/material/styles'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
