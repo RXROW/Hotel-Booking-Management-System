@@ -1,7 +1,8 @@
 // @ts-nocheck
-import { Box,  Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined'
- 
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
+
 import {
   StyledArrowBox,
   StyledBoxContent,
