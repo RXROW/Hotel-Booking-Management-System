@@ -21,7 +21,7 @@ import CommentForm from '../shared/components/CommentForm/CommentForm'
 import ReviewForm from '../shared/components/ReviewForm/ReviewForm'
 import { LocalizationProvider } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { AuthContext } from '../../context/AuthContext'
+import { AuthContext } from '../../Context/AuthContext'
 export default function DetailsPage() {
   const params = useParams()
   const RoomId = params.roomId
