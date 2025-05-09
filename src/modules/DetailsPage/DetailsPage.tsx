@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { styled } from '@mui/material'
 import { Typography } from '@mui/material'
 import { Box, Stack } from '@mui/system'

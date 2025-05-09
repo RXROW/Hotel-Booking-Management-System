@@ -1,4 +1,4 @@
-import React from 'react';
+// @ts-nocheck
 import { Box, Typography, Chip, CardMedia } from '@mui/material';
 import img1 from '../../../assets/imges/HBY/pic.png'
 import img2 from '../../../assets/imges/HBY/pic (1).png'

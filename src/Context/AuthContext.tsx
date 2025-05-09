@@ -1,19 +1,43 @@
 import { jwtDecode } from 'jwt-decode'
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
 import { Room } from '../interfaces/Roomsinterface.js'
 import { privateInstance } from '../services/apis/apisConfig'
 import { USERS_URL } from '../services/apis/apisUrls.js'
 import { ROOMS_URL } from '../services/apis/apisUrls'
-export const AuthContext = createContext<any>(null)
-export default function AuthContextProvider(props: any) {
+
+interface AuthContextType {
+  loginData: any | null;
+  saveLoginData: () => void;
+  logout: () => void;
+  userName: string | null;
+  profileImage: string | null;
+  Rooms: Room[];
+  setRooms: React.Dispatch<React.SetStateAction<Room[]>>;
+  fetchRooms: (params: { size: number; page: number }) => Promise<void>;
+  count: number;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  size: number;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
+  loading: boolean;
+}
+
+interface AuthContextProviderProps {
+  children: ReactNode;
+}
+
+export const AuthContext = createContext<AuthContextType | null>(null)
+
+export default function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [loginData, setLoginData] = useState<any>(null)
-  const [Rooms, setRooms] = useState<Room>([])
+  const [Rooms, setRooms] = useState<Room[]>([])
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(0)
   const [size, setSize] = useState(5)
   const [loading, setLoading] = useState(false)
-  const [userName, setUserName] = useState<any>(null)
-  const [profileImage, setProfileImage] = useState<any>(null)
+  const [userName, setUserName] = useState<string | null>(null)
+  const [profileImage, setProfileImage] = useState<string | null>(null)
   console.log(size, page)
   const saveLoginData = () => {
     const encodedToken: any = localStorage.getItem('token')
@@ -82,10 +106,11 @@ export default function AuthContextProvider(props: any) {
         loading,
       }}
     >
-      {props.children}
+      {children}
     </AuthContext.Provider>
   )
 }
+
 export function useAuthContext() {
   const context = useContext(AuthContext)
   if (!context) {

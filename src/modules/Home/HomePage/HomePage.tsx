@@ -1,4 +1,3 @@
-import React from 'react'
 import BookingSection from '../BookingSection/BookingSection'
 import { Box } from '@mui/material'
 import MostPopAds from '../MostPopAds/MostPopAds'

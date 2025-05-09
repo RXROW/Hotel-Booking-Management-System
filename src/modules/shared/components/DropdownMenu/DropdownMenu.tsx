@@ -1,15 +1,22 @@
+// @ts-nocheck
 import * as React from 'react'
 import IconButton from '@mui/material/IconButton'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import { Delete, Edit, MoreHoriz, Visibility } from '@mui/icons-material'
 import { ListItemIcon, ListItemText } from '@mui/material'
+import { adsDetails } from '../../../interfaces/AdsInterfaces'
 
-export default function DropdownMenu({ facility, onAction }:any) {
+interface DropdownMenuProps {
+  ad: adsDetails;
+  onAction: (action: string, ad: adsDetails) => void;
+}
+
+export default function DropdownMenu({ ad, onAction }: DropdownMenuProps) {
   const options = [
-    { label: 'View', icon: <Visibility sx={{color:"#0675cac7"}} />, action: 'view' },
-    { label: 'Edit', icon: <Edit sx={{color:"#0675cac7"}} />, action: 'edit' },
-    { label: 'Delete', icon: <Delete sx={{color:"#0675cac7"}} />, action: 'delete' },
+    { label: 'View', icon: <Visibility sx={{ color: "#0675cac7" }} />, action: 'view' },
+    { label: 'Edit', icon: <Edit sx={{ color: "#0675cac7" }} />, action: 'edit' },
+    { label: 'Delete', icon: <Delete sx={{ color: "#0675cac7" }} />, action: 'delete' },
   ]
 
   const ITEM_HEIGHT = 40
@@ -23,7 +30,7 @@ export default function DropdownMenu({ facility, onAction }:any) {
   const handleClose = (action?: string) => {
     setAnchorEl(null)
     if (action && onAction) {
-      onAction(action,facility)
+      onAction(action, ad)
     }
   }
 

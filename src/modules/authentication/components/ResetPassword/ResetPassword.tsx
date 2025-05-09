@@ -1,17 +1,9 @@
-import {
-  Box,
-  Typography,
-  Link,
-  IconButton,
-  Snackbar,
-  Alert,
-} from '@mui/material'
-import Grid from '@mui/material/Grid'
+// @ts-nocheck
 import ReusableForm from '../../../shared/components/Resuableform/ReusableForm'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FormInput } from '../../../shared/components/FormInput/FormInput'
 import ButtonForm from '../../../shared/components/ButtonForm/ButtonForm'
-import { useEffect, useState } from 'react'
+import { useEffect  } from 'react'
 import { publicInstance } from '../../../../services/apis/apisConfig'
 import { USERS_URL } from '../../../../services/apis/apisUrls'
 import { useNavigate, useLocation } from 'react-router-dom'

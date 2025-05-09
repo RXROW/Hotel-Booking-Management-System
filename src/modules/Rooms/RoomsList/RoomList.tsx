@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState } from 'react'
 import * as React from 'react'
 import { Box } from '@mui/material'

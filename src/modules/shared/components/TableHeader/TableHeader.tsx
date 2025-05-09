@@ -1,11 +1,19 @@
 import { Box, Grid, Typography, Button, useTheme } from '@mui/material'
 import { Link } from 'react-router-dom'
+
+interface TableHeaderProps {
+  TextButton?: string;
+  HeaderText?: string;
+  onClick?: () => void;
+  hideButton?: boolean;
+}
+
 export default function TableHeader({
   TextButton = '',
   HeaderText = '',
   onClick,
   hideButton = false,
-}) {
+}: TableHeaderProps) {
   const isFacility = TextButton.toLowerCase() === 'facility'
   const isAds = TextButton === 'Ads'
   const theme = useTheme()

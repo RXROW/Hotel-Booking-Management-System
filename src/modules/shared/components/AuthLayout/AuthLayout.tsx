@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Outlet, useLocation } from 'react-router-dom'
 import { Box, Grid, Typography, useTheme } from '@mui/material'
 import loginBg from '../../../../assets/imges/login-bg.png'

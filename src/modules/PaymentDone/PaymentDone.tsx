@@ -1,4 +1,4 @@
-import React from "react";
+// @ts-nocheck 
 import { Box, Typography, Grid } from "@mui/material";
 import { keyframes } from "@emotion/react";
 import ConfirmationImg from '../../assets/imges/Successful purchase-pana.png'

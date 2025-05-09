@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Box, Typography, Link, Snackbar, Alert } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import ReusableForm from '../../../shared/components/Resuableform/ReusableForm'

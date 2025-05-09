@@ -7,7 +7,7 @@ interface TitleAuthProps {
   title: string
 }
 const TitleAuth = ({ title }: TitleAuthProps) => {
-  const [compara, setCompara] = useState(null)
+  const [compara, setCompara] = useState<boolean>()
   const theme = useTheme()
   useEffect(() => {
     if (title === 'Sign In' || title === 'تسجيل الدخول') {

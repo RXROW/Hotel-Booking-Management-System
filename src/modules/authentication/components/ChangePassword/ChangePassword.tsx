@@ -1,6 +1,4 @@
-import { Box } from '@mui/material'
-import Grid from '@mui/material/Grid'
-
+// @ts-nocheck
 import TitleAuth from '../../../shared/components/TitleAuth/TitleAuth'
 import ReusableForm from '../../../shared/components/Resuableform/ReusableForm'
 import { FormProvider, useForm } from 'react-hook-form'

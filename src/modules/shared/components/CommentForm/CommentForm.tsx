@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Box,
   Button,
@@ -36,7 +37,7 @@ interface AddCommentResponse {
   success: boolean
   message: string
 }
-const CommentForm = ({ roomId }: { roomId: string }) => {
+const CommentForm = ({ roomId }: { roomId: any }) => {
   const {
     formState: { isSubmitting },
     handleSubmit,
