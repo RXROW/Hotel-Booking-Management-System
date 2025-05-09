@@ -14,7 +14,7 @@ import RoomsData from './modules/Rooms/RoomsData/RoomsData'
 import FacilitiesList from './modules/Facilities/FacilitiesList'
 import ProtectedRoute from './modules/shared/components/ProtectedRoute/ProtectedRoute'
 import Advertisements from './modules/Advertisements/Advertisements'
-import AuthContextProvider from './context/AuthContext'
+ 
 import UsersList from './modules/Users/UsersList'
 import BookingList from './modules/Booking/BookingList'
 import UserLayout from './modules/shared/components/UserLayout/UserLayout'
@@ -24,6 +24,9 @@ import Favorites from './modules/Favorites/Favorites'
 import DetailsPage from './modules/DetailsPage/DetailsPage'
 import PaymentDone from './modules/PaymentDone/PaymentDone'
 import StripeElement from './modules/Payment/StripeElement'
+import AuthContextProvider from './context/AuthContext'
+
+ 
 function App() {
   const routes = createHashRouter([
     {
