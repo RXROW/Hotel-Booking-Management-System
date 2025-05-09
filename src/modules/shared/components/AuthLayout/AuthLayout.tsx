@@ -73,11 +73,22 @@ const AuthLayout = () => {
         >
           <Commonheader />
         </Box>
-        <Box sx={{ marginTop: { xs: '80px' } }}>
-          <ThemeToggle />
-          <LanguageSwitcher />
-        </Box>
         <Box sx={{ width: '80%', padding: '10px', marginTop: '50px' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 5,
+              position: 'absolute',
+              top: '30px',
+              left: '240px',
+            }}
+          >
+            <ThemeToggle />
+
+            <LanguageSwitcher />
+          </Box>
           <Outlet />
         </Box>
       </Box>

@@ -103,7 +103,7 @@ export default function SidebarComponent({
     { label: 'Facilities', path: 'facilities', icon: <FacilitiesIcon /> },
     {
       label: 'Change Password',
-      path: '/change-password',
+      path: '/auth/change-password',
       icon: <ChangePasswordIcon />,
     },
   ]

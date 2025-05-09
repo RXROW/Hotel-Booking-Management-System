@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createHashRouter, RouterProvider } from 'react-router-dom'
 import NotFound from './modules/shared/components/NotFound/NotFound'
 import Login from './modules/authentication/components/Login/Login'
 import Register from './modules/authentication/components/Register/Register'
@@ -25,7 +25,7 @@ import DetailsPage from './modules/DetailsPage/DetailsPage'
 import PaymentDone from './modules/PaymentDone/PaymentDone'
 import StripeElement from './modules/Payment/StripeElement'
 function App() {
-  const routes = createBrowserRouter([
+  const routes = createHashRouter([
     {
       path: '/auth',
       element: <AuthLayout />,
